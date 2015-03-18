@@ -301,7 +301,7 @@ namespace NSGameNarrator{
         {
             return "Introduction region";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -326,7 +326,7 @@ namespace NSGameNarrator{
         {
             return "Starring Region";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -351,7 +351,7 @@ namespace NSGameNarrator{
         {
             return "As Constructor";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -376,7 +376,7 @@ namespace NSGameNarrator{
         {
             return "With Constructor";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -401,7 +401,7 @@ namespace NSGameNarrator{
         {
             return "Of Allocator";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -426,7 +426,7 @@ namespace NSGameNarrator{
         {
             return "Is Comparator";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -451,7 +451,7 @@ namespace NSGameNarrator{
         {
             return "Active Modifier";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -476,7 +476,7 @@ namespace NSGameNarrator{
         {
             return "Passive Modifier";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -501,7 +501,7 @@ namespace NSGameNarrator{
         {
             return "Consumable Modifier";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -526,7 +526,7 @@ namespace NSGameNarrator{
         {
             return "Ability Object";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -551,7 +551,7 @@ namespace NSGameNarrator{
         {
             return "Cost Object";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
 
@@ -564,7 +564,7 @@ namespace NSGameNarrator{
         }
         public override string GetExpressionPattern()
         {
-            return @"^ +equipment +".+" +$";
+            return @"^ +equipment +"".+"" +$";
         }
         public override int GetPriority()
         {
@@ -576,9 +576,7 @@ namespace NSGameNarrator{
         {
             return "Equipment Object";
         }
-        public override void Interpret(GameNarratorContext context);
+        public override void Interpret(GameNarratorContext context) { }
     }
     #endregion
-
-
 }
