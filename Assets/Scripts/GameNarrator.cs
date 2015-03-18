@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 
 //using NSFSM;
-// >9000
+
 namespace NSGameNarrator{
 
 	enum InterpretationPhase
