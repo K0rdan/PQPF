@@ -63,7 +63,6 @@ namespace NSGameNarrator{
 		}
 	}
 
-
 	public class GameNarratorContext{
 		public Stack<GameNarratorAbstractExpression> ObjectConstructionStack = new Stack<GameNarratorAbstractExpression> ();
 		public int CurrentIndentation = 0;
@@ -78,8 +77,7 @@ namespace NSGameNarrator{
 
 		private Regex NarrationCommentRE = new Regex("^#.*$");
 		private Regex NarrationObjectRE = new Regex("^[a-zA-Z][a-zA-Z0-9]* +\"[\\w\\s]+\" *:$");
-		private Regex TaggedNarrationObjectRE = new Regex("^[a-zA-Z][a-zA-Z0-9]* +\"[\\w\\s]+\" *, *[a-zA-Z][a-zA-Z0-9]* *:$");
-		// ^[a-zA-Z][a-zA-Z0-9\u00C0-\u017F]* +"[a-zA-Z0-9\u00c0-\u017F\s]+" *, *[a-zA-Z][a-zA-Z0-9\u00C0-\u017F]* *:$ // Regex avec caractères accentués
+		private Regex TaggedNarrationObjectRE = new Regex("^[a-zA-Z][a-zA-Z0-9\\u00C0-\\u017F]* +\"[a-zA-Z0-9\\u00c0-\\u017F\\s]+\" *, *[a-zA-Z][a-zA-Z0-9\\u00C0-\\u017F]* *:$");
 
 		public GameNarratorContext(){
 			Debug.Log ("Reflection");
@@ -162,11 +160,6 @@ namespace NSGameNarrator{
 		}
 	}
 
-	public class ExpressionFactory
-	{
-
-	}
-	
 	public abstract class GameNarratorAbstractExpression
 	{ 
 		public virtual string GetKeyword()
@@ -181,8 +174,6 @@ namespace NSGameNarrator{
 		public virtual int GetPriority () {
 			return 10;
 		}
-
-
 
 		public bool MatchKeyword(string cmd){
 			string keyword = GetKeyword ();
@@ -218,39 +209,13 @@ namespace NSGameNarrator{
 		public List<GameNarratorAbstractExpression> children;
 	}
 
-	public class ScenarioExpression : GameNarratorNonTerminalExpression
-	{
-		public override string GetKeyword()
-		{
-			return "Scenario";
-		}
-		public override string GetExpressionPattern() 
-		{
-			return @"^Scenario +[0-9]+ *, ""[\w\s]"" *:$";
-			// return @"^Scenario +[0-9]+ *, *"[a-zA-Z0-9\u00c0-\u017F\s]+" *:$";
-		}
-		public override string GetName()
-		{
-			return "Scenario";
-		}
-		public override int GetPriority () {
-			return 1;
-		}
-		public override void Interpret(GameNarratorContext context)  
-		{
-			// TODO
-			//context.Expressions.Find (ex => ex.GetName () == "Scenario").MatchKeyword(cmd);
-		}
-	}
-
 	public class NarrationObjectExpression : GameNarratorNonTerminalExpression
 	{
 		/* No Keyword */
 		/**************/
 		public override string GetExpressionPattern()
 		{
-			return @"^[a-zA-Z][a-zA-Z0-9]* +""[\w\s]+"" *:$";
-			//return @"^Scenario +[0-9]+ *, *"[a-zA-Z0-9\u00c0-\u017F\s]+" *:";
+            return @"^[a-zA-Z][a-zA-Z0-9]* +"".+"" *:$";
 		}
 		public override string GetName()
 		{
@@ -272,11 +237,11 @@ namespace NSGameNarrator{
 		/**************/
 		public override string GetExpressionPattern()
 		{
-			return @"^[a-zA-Z][a-zA-Z0-9]* +""[\w\s]+"" *, *[a-zA-Z][a-zA-Z0-9]* *:$";
+            return @"^[a-zA-Z][a-zA-Z0-9]* +"".+"" *, *[a-zA-Z][a-zA-Z0-9\u00c0-\u017F]* *:$";
 		}
 		public override string GetName()
 		{
-			return "TaggedNarrationObject";
+			return "TaggedNarration Object";
 		}
 		public override int GetPriority () {
 			return 1;
@@ -287,5 +252,333 @@ namespace NSGameNarrator{
 			
 		}  
 	}
+
+    #region "Scenario"
+    public class ScenarioExpression : GameNarratorNonTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "Scenario";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^Scenario +[0-9]+ *, *""[a-zA-Z0-9\\u00c0-\\u017F-\\s]+"" *:$";
+        }
+        public override string GetName()
+        {
+            return "Scenario Region";
+        }
+        public override int GetPriority()
+        {
+            return 1;
+        }
+        public override void Interpret(GameNarratorContext context)
+        {
+            // TODO
+            //context.Expressions.Find (ex => ex.GetName () == "Scenario").MatchKeyword(cmd);
+        }
+    }
+    #endregion
+
+    #region "Introduction"
+    public class IntroductionExpression : GameNarratorNonTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "Introduction";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^Introduction *:$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Introduction region";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Starring"
+    public class StarringExpression : GameNarratorNonTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "Starring";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^Starring *:$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Starring Region";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "As"
+    public class AsExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "as";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^as +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "As Constructor";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "With"
+    public class WithExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "with";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^with +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "With Constructor";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Of"
+    public class OfExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "of";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +of +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Of Allocator";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Is"
+    public class IsExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "is";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +is +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Is Comparator";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Active"
+    public class ActiveExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "active";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +active +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Active Modifier";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Passive"
+    public class PassiveExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "passive";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +passive +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Passive Modifier";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Consumable"
+    public class ConsumableExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "consumable";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +consumable +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Consumable Modifier";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Ability"
+    public class AbilityExpression : GameNarratorNonTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "ability";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +ability +""\[a-zA-Z0-9\\u00c0-\\u017F-\\s\]+"" *:$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Ability Object";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Cost"
+    public class CostExpression : GameNarratorTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "cost";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +cost +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Cost Object";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
+    #region "Equipment"
+    public class EquipmentExpression : GameNarratorNonTerminalExpression
+    {
+        public override string GetKeyword()
+        {
+            return "equipment";
+        }
+        public override string GetExpressionPattern()
+        {
+            return @"^ +equipment +".+" +$";
+        }
+        public override int GetPriority()
+        {
+            return 10;
+        }
+
+        //
+        public override string GetName()
+        {
+            return "Equipment Object";
+        }
+        public override void Interpret(GameNarratorContext context);
+    }
+    #endregion
+
 
 }
