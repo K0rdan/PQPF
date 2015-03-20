@@ -1,12 +1,106 @@
-Scenario 1, "La Grande Evasion" :
-	Exposition :
-		Starring :
-			Tirette "Filou", Souris :
-				as Player :
-					
-	   				rtrt   fail...
-			Piquette    "Medic",Souris:
-				as Player :
-	   				rtrt   fail...
-			
-   hey
+Scenario 1, "Scenario de La grande évasion" :
+
+Exposition : / Introduction : # Définition des variables utiles (personnages, objets, prefabs, décors, lieux…
+
+   Starring :
+
+      Jazz "Jazz le Sous-Rat", Bâtard :
+         as Character
+
+      Fidel "Fidel Chastro", Chat :
+         as Character
+
+      Favio "Favio Estocar", Taupe :
+         as Character
+
+      LambdaRat "Rat en fuite", Rat :
+         as Character
+
+      Eddie "Eddie la Pipe", Chien :
+         as Character
+
+      Tirette "Filou", Souris : # nomVariable "Nom affiché", Tag
+         as Player : # < Character
+            with craftiness of 4 # astuce
+            with liveliness of 4 # vivacité
+            with active ability "Camouflage" :
+               with cost of liveliness of 2 : # ou liveliness(2) -> [of … === (...)] 
+                                              # et [of ... , … === (... , ...])], etc.
+                  now : # implicite, mais empile un time event à dépiler de suite
+                     set self in State of invisibility of 1 # ref. a l’état "invisibility" avec le paramètre 1
+            with consumable equipment "Super glue" times 2 :
+               at endPhase : # empile un time event déclenché à la fin du tour de ce joueur
+                  set currentSquare in State of stickyness of 3 # currentSquare ou self.where ?
+
+      Niles "Chasseur de Trésors", Taupe :
+         as Player :
+            with craftiness of 4
+            with liveliness of 3
+            with passive ability "Loot" :
+               when self.digUp # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif)
+                  deus ex machina $LootBonus of 1 # appel d’une fonction externe (unity C#)
+                  # try without deus ex
+            with equipment "Fouet" :
+               with bonusDamage of 2
+
+      Piquette "Medic", Souris :
+         as Player :
+            with craftiness of 4
+            with liveliness of 4
+            with active ability "Soin" :
+               with cost of liveliness of 2
+               now :
+                  Choose Player from [Players with Player.where is self.where] # UI et filtre
+                  Chosen Player.liveliness.heal # methode heal de la propriété liveliness
+	      # Choose <Type> mémorise le choix dans Chosen <Type>
+               with equipment "Anesthésiant" :
+                  when self.dealDamage :
+                     with active ability "Anesthésier" :
+                        with cost of liveliness of 1
+                        now :
+                           set self.target in State of anesthesia of 3
+
+      Volotom "Pyromancien", Rat :
+         as Player :
+            with craftiness of 2
+            with liveliness of 3
+            with active ability "Let it burn!" :
+               with cost of liveliness of 2
+               at endPhase :
+                  set currentSquare in State of ablaze of 1 # avec persitance possible ou 4 avec extinction, et en plus propagation.
+            with passive equipment "Ceinture à pétards" :
+               with range of 1
+               with bonusCraftiness of 1
+
+      Kitten "Chaton", Chat :
+         as Enemy : # < Character
+            with threat of 5 # menace
+            with speed of 2 # déplacement du début de tour
+
+      Messenger "Messager", Chat :
+         as Enemy :
+            with threat of 7
+            with speed of 3 # or 2 ?
+
+   Stage #, "" :
+      Direction :
+      Setup :
+         ////
+   Stage #, "" :
+   Stage #, "" :
+   …
+
+Act #, "" :
+   Scene #, "":
+      set Stage
+      Offstage / Wings :
+
+Cutscene #, "" :
+
+Denouement / Conclusion
+
+To be continued in Scenario 2
+***
+To be continued in Scenario 3
+***
+The End
