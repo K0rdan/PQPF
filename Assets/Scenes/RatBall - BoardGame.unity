@@ -5169,6 +5169,7 @@ MonoBehaviour:
   Narrator: {fileID: 1261666366}
   DM:
     DisplayCanvas: {fileID: 473146382}
+    CanvasUI: {fileID: 0}
 --- !u!1 &1953198343
 GameObject:
   m_ObjectHideFlags: 0
