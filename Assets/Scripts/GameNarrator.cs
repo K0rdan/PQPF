@@ -10,16 +10,8 @@ using System.Reflection;
 //using NSFSM;
 
 namespace NSGameNarrator{
-	
-	enum InterpretationPhase
-	{
-		WaitingForScriptTypePhase,
-		DeclarationPhase,
-		ObjectPhase,
-		SetupPhase,
-		EventPhase
-	}
-	
+
+	#region "GameNarrator"
 	public class GameNarrator : MonoBehaviour {
 		public string Scenario;
 		private GameNarratorContext Context;// = new GameNarratorContext();
@@ -34,6 +26,7 @@ namespace NSGameNarrator{
 			
 			foreach (string line in lines)
 			{
+				Context.CurrentLine++;
 				Interpret(line);
 			}
 			
@@ -47,10 +40,12 @@ namespace NSGameNarrator{
 		void Interpret(string line)
 		{
 			//Context.
-			
+
+			// Trim Left
 			string cmd = IndentationReplaceRE.Replace(line, "");
+
+			// Count indentation
 			string indentation = IndentationReplaceRE.Match(line).ToString();
-			
 			Match m = IndentationRE.Match (indentation);
 			int indentationCount = 0;
 			while (m.Success) {
@@ -63,25 +58,25 @@ namespace NSGameNarrator{
 			Context.Interpret (indentationCount, cmd);
 		}
 	}
-	
+	#endregion
+
+	#region "GameNarratorContext"
 	public class GameNarratorContext{
-		public Stack<GameNarratorAbstractExpression> ObjectConstructionStack = new Stack<GameNarratorAbstractExpression> ();
+		public Stack<GameNarratorNonTerminalExpression> ObjectConstructionStack = new Stack<GameNarratorNonTerminalExpression> ();
 		public Stack<GameNarratorAbstractExpression> ExpressionConstructionStack = new Stack<GameNarratorAbstractExpression> ();
 		//TODO ObjectConstructionStack.Peek()
 
 		private int CurrentIndentation = 0;
-		private int CurrentLine = 0;
+		public int CurrentLine = 0;
 
-		public Dictionary<string, GameNarratorAbstractExpression> NarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
+		//public Dictionary<string, GameNarratorAbstractExpression> NarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
 		// A sub list of NarrationObjects
-		public Dictionary<string, GameNarratorAbstractExpression> TaggedNarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
+		//public Dictionary<string, GameNarratorAbstractExpression> TaggedNarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
 
 		public List<GameNarratorAbstractExpression> Expressions = new List<GameNarratorAbstractExpression> ();
 		public List<GameNarratorAbstractExpression> VariableExpressions = new List<GameNarratorAbstractExpression> ();
 		
 		private Regex NarrationCommentRE = new Regex(@"#(?!""(?:(?:[^""#]*""){2})*[^""]*)");
-		//"^(?:((""[^""]*"")?[^""]*)*)#.*");
-		//private Regex NarrationCommentRE = new Regex(@"^#.*$");
 		private Regex NarrationObjectRE = new Regex(@"^[:word:]+ +"".+"" *:$");
 		private Regex TaggedNarrationObjectRE = new Regex(@"^[:word:]+ +"".+"" *, *[:word:]* *:$");
 
@@ -144,18 +139,18 @@ namespace NSGameNarrator{
 			}
 		}
 		
-		public GameNarratorAbstractExpression Interpret (int indentationCount, string cmd)
+		public void Interpret (int indentationCount, string cmd)
 		{
-			CurrentLine ++;
+			//CurrentLine ++;
 
 			if (indentationCount < 0)
 			{
 				// end
-				//TODO Resolve all expression in stacks
+				//TODO Resolve all non terminal expression in stacks (Object construction)
 
 				//
 				Debug.Log ("End of Script");
-				return null;
+				return;// null;
 			}
 
 			// Detect comment
@@ -167,7 +162,7 @@ namespace NSGameNarrator{
 
 				if(cmd == ""){
 					Debug.Log("Line " + CurrentLine.ToString() + " Full comment line");
-					return null;
+					return;// null;
 				}
 			}
 
@@ -178,30 +173,65 @@ namespace NSGameNarrator{
 				// Unindentation, resolve deltaIndentation objects
 
 			} else if (deltaIndentation > 0) {
-				// New indentation, begin object contruction
+				// New indentation, begin object construction
 				// Check deltaIndentation == 1
 
 				//
-
 			} else {
 				// Same indentation, same object in construction
 
 			}
 			CurrentIndentation = indentationCount;
 
-			// TODO Factorize this
-			// Detect expression cmd using the keyword
-			GameNarratorAbstractExpression gnabex = DetectKeyword(cmd);
 
-			if (gnabex != null || cmd == "") {
+			GameNarratorAbstractExpression gnabex;
+			int test = 0;
+			do {
+				gnabex = InterpretWords(ref cmd);
+				// TODO stack gnabex?
+				ExpressionConstructionStack.Push(gnabex);
+				//
+				test ++;
+			} while(gnabex != null && cmd != "" && test < 100);
+
+			return;// gnabex;
+		}
+
+		public GameNarratorAbstractExpression InterpretWords(ref string cmd){
+			// No command to be interpreted
+			if (cmd == ""){
+				// TODO 
+				//Resolve expression (evaluate subexpression currently in stack)
+				Debug.Log("cmd == \"\", resolving expression");
+				
+				//
+				return null;
+			}
+
+			// Detect expression cmd using the keyword
+			GameNarratorAbstractExpression gnabex = DetectKeyword(ref cmd);
+			if (gnabex != null){
+				return gnabex;
+			}
+			
+			// No keywords were detected, try detecting a variable expression
+			gnabex = DetectVariableExpression (ref cmd);
+			if (gnabex != null){
+				cmd = "";
 				return gnabex;
 			}
 
-			// No keywords were detected, try detecting variable
-			return DetectVariableExpression (cmd);
+			// TODO
+			// No variable expressions were detected, try detecting variable
+			gnabex = DetectVariable (ref cmd);
+			if (gnabex != null){
+				return gnabex;
+			}
+
+			return null;
 		}
 
-		public GameNarratorAbstractExpression DetectKeyword(string cmd)
+		public GameNarratorAbstractExpression DetectKeyword(ref string cmd)
 		{
 			foreach (GameNarratorAbstractExpression gnabex in Expressions) {
 				// Match keyword
@@ -212,27 +242,62 @@ namespace NSGameNarrator{
 					cmd = re.Replace (cmd, "", 1);
 					
 					// TODO return this line below
-					return gnabex.Interpret(this, cmd);
+					return gnabex.Interpret(this, ref cmd);
 				}
 			}
 			return null;
 		}
 			
-		public GameNarratorAbstractExpression DetectVariableExpression(string cmd)
+		public GameNarratorAbstractExpression DetectVariableExpression(ref string cmd)
 		{
 			foreach (GameNarratorAbstractExpression gnabex in VariableExpressions) {
 				// Match keyword
 				if (gnabex.MatchPattern(cmd)) {					
 					//Debug.Log ("Line " + CurrentLine.ToString () + ", " + gnabex.GetName () + " Expression detected : " + cmd);
 
-					return gnabex.Interpret(this, cmd);	
+					return gnabex.Interpret(this, ref cmd);	
 				}
 			}
 			return null;
 		}
 
+		public GameNarratorAbstractExpression DetectVariable(ref string cmd)
+		{
+			GameNarratorObject gno = null;
+
+			Regex cmdCutter = new Regex (@"^[^ ]*"); // TODO CmdCutterRE
+			Match m = cmdCutter.Match (cmd);
+
+			if (!m.Success) {
+				Debug.LogError("NotifyFilters word detected");
+				return null;
+			}
+
+			string word = m.Value.Trim ();
+			cmd = cmdCutter.Replace (cmd, "", 1);
+
+			/*char[] splitters = new char[1]{' '};
+			string[] cmds = cmd.Split(splitters, 1);
+
+			Debug.LogError (cmd);
+			if (cmds.Length > 1) {
+				cmd = cmds [1];
+			}
+			word = cmds [0].Trim ();
+			*/
+			if(GameNarratorObject.Vars.TryGetValue(word, out gno))
+			{
+				return gno.ParentExpression;
+			}
+
+			Debug.LogError ("Variable \"" + word+ "\" doesn't exist");
+			return null;
+		}
 	}
-	
+	#endregion
+
+	#region "Expressions"
+	#region "GnabexAbstractClasses"
 	public abstract class GameNarratorAbstractExpression
 	{ 
 		public string[] args;
@@ -283,7 +348,7 @@ namespace NSGameNarrator{
 			}
 		}
 		
-		public abstract GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd);
+		public abstract GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd);
 	}
 	
 	// "TerminalExpression" 
@@ -295,17 +360,21 @@ namespace NSGameNarrator{
 	// "NonterminalExpression" 
 	public abstract class GameNarratorNonTerminalExpression : GameNarratorAbstractExpression
 	{
-		public override sealed GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd){
+		public GameNarratorObject GNO;
+
+		public override sealed GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd){
 			GameNarratorNonTerminalExpression gnnte = this.MemberwiseClone() as GameNarratorNonTerminalExpression;
-			context.ExpressionConstructionStack.Push (gnnte);
-			return gnnte.Interpret2 (context, cmd);
+			context.ObjectConstructionStack.Push (gnnte);
+			return gnnte.Interpret2 (context, ref cmd);
 		}
-		public abstract GameNarratorAbstractExpression Interpret2 (GameNarratorContext context, string cmd);
+		public abstract GameNarratorAbstractExpression Interpret2 (GameNarratorContext context, ref string cmd);
 
 		public abstract void Resolve (GameNarratorContext context);
 	}
+	#endregion
 
 	//TODO remove...
+	/*#region "Comment"
 	public class CommentExpression : GameNarratorTerminalExpression
 	{
 		public override string GetKeyword()
@@ -323,14 +392,15 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 1;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
 		}  
 	}
+	#endregion*/
 
-
+	#region "NarrationObject"
 	public class NarrationObjectExpression : GameNarratorNonTerminalExpression
 	{
 		/* No Keyword */
@@ -346,14 +416,16 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 1;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
 		}
 		public override void Resolve (GameNarratorContext context) {}
 	}
-	
+	#endregion
+
+	#region "TaggedNarrationObject"
 	public class TaggedNarrationObjectExpression : GameNarratorNonTerminalExpression
 	{
 		/* No Keyword */
@@ -369,21 +441,20 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 1;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			Debug.Log ("Creating TaggedNarrationObject : " + cmd);
-			// TODO
-			Regex re = new Regex (GetExpressionPattern ());
-			Match m = re.Match (cmd);
 
+			GNO = new GameNarratorObject (args[1], args[2], args[3]);
+			GNO.ParentExpression = this;
 			//
 
-
 			//
-			return null;
+			return this;
 		}
 		public override void Resolve (GameNarratorContext context) {}
 	}
+	#endregion
 	
 	#region "Scenario"
 	public class ScenarioExpression : GameNarratorNonTerminalExpression
@@ -404,7 +475,7 @@ namespace NSGameNarrator{
 		{
 			return 1;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -434,7 +505,7 @@ namespace NSGameNarrator{
 		{
 			return "Exposition Region";
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -464,7 +535,7 @@ namespace NSGameNarrator{
 		{
 			return "Starring Region";
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -482,7 +553,7 @@ namespace NSGameNarrator{
 		}
 		public override string GetExpressionPattern()
 		{
-			return @"^as +$";
+			return @"^as +";
 		}
 		public override int GetPriority()
 		{
@@ -494,9 +565,14 @@ namespace NSGameNarrator{
 		{
 			return "As Constructor";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			GameNarratorNonTerminalExpression gnnte = context.ObjectConstructionStack.Peek ();
+			//TODO make something with gnnte
+			//gnnte.GNO 
+			Debug.Log (gnnte.GNO.VarName + " As ...");
+			//gnabex.
+
 			return null;
 		}
 	}
@@ -523,7 +599,7 @@ namespace NSGameNarrator{
 		{
 			return "With Constructor";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -552,7 +628,7 @@ namespace NSGameNarrator{
 		{
 			return "Of Allocator";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -581,7 +657,7 @@ namespace NSGameNarrator{
 		{
 			return "Is Comparator";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -610,9 +686,10 @@ namespace NSGameNarrator{
 		{
 			return "Active Modifier";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
+			//context.ObjectConstructionStack.
 			return null;
 		}
 	}
@@ -639,7 +716,7 @@ namespace NSGameNarrator{
 		{
 			return "Passive Modifier";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -668,7 +745,7 @@ namespace NSGameNarrator{
 		{
 			return "Consumable Modifier";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -697,7 +774,7 @@ namespace NSGameNarrator{
 		{
 			return "Ability Object";
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -727,7 +804,7 @@ namespace NSGameNarrator{
 		{
 			return "Cost Object";
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			return null;
@@ -756,7 +833,7 @@ namespace NSGameNarrator{
 		{
 			return "Equipment Object";
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
 			Debug.Log ("Creating Equipment");
@@ -784,7 +861,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -810,7 +887,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -836,7 +913,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -862,7 +939,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -888,7 +965,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -915,7 +992,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -942,7 +1019,7 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
@@ -969,11 +1046,145 @@ namespace NSGameNarrator{
 		public override int GetPriority () {
 			return 10;
 		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, string cmd)
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
 			return null;
 		}
+	}
+	#endregion
+
+	#region "Choose"
+	public class ChooseExpression : GameNarratorTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Choose";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^Choose +[\w] +from +.+$";
+		}
+		public override string GetName()
+		{
+			return "Choose UI";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			return null;
+		}
+	}
+	#endregion
+
+	#region "Chosen"
+	public class ChosenExpression : GameNarratorTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Chosen";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^Chosen +[\w] +.+$";
+		}
+		public override string GetName()
+		{
+			return "Chosen UI";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			return null;
+		}
+	}
+	#endregion
+
+	#region "Player"
+	public class PlayerExpression : GameNarratorTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Player";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^Player +:\s*$";
+		}
+		public override string GetName()
+		{
+			return "Player Object";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			return null;
+		}
+	}
+	#endregion
+
+	#endregion
+
+	#region "GameClasses"
+	public class GameNarratorObject
+	{
+		public string VarName;
+		public string DisplayedName;
+		public string Tag;
+		public GameNarratorAbstractExpression ParentExpression;
+		//TODO
+		//public GameNarratorType GNType;
+
+		// All instances
+		public static Dictionary<string, GameNarratorObject> Vars = new Dictionary<string, GameNarratorObject> ();
+		// A subset of vars
+		public static Dictionary<string, List<GameNarratorObject>> Tags = new Dictionary<string, List<GameNarratorObject>> ();
+
+		public GameNarratorObject(string varName, string displayedName, string tag) {
+			VarName = varName;
+			DisplayedName = displayedName;
+			Tag = tag;
+			ParentExpression = null;
+
+			// Register instances
+			if (!Vars.ContainsKey (VarName)) {
+				Vars.Add (VarName, this);
+			} else {
+				Debug.LogError("Variable \"" + Vars + "\" already exists");
+				//TODO Error crash
+			}
+
+			// Register Tagged instances
+			if (Tag != "") {
+				List<GameNarratorObject> l;
+				if (Tags.TryGetValue (Tag, out l)) {
+					l.Add (this);
+				} else {
+					l = new List<GameNarratorObject> ();
+					l.Add (this);
+					Tags.Add (Tag, new List<GameNarratorObject> ());
+				}
+			}
+		}
+	}
+
+	public class GamePlayer
+	{
+		public GameNarratorObject GNO;
+	
+		public GamePlayer(){
+
+		}
+
 	}
 	#endregion
 }
