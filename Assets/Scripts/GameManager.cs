@@ -143,6 +143,7 @@ public class EventManager
 public class DisplayManager
 {
 	public Canvas DisplayCanvas;
+    public Canvas CanvasUI;
 
 	/*DisplayManager ()
 	{
@@ -228,10 +229,14 @@ public class NextTurnState : FSMState
 	public TurnManager TM;
 	public bool Done;
 
+    private Defilement defilement;
+
 	public NextTurnState(TurnManager tm) : base("NextTurn")
 	{
 		TM = tm;
 		Done = false;
+
+        defilement = GameObject.Find("Defilement_Text").AddComponent<Defilement>();
 	}
 
 	public override void DoBeforeEntering ()
@@ -242,7 +247,11 @@ public class NextTurnState : FSMState
 	
 	public override void DoBeforeLeaving ()
 	{
+<<<<<<< HEAD
 		Debug.Log ("Leave NT");	
+=======
+        GameObject.Destroy(defilement);
+>>>>>>> master
 	}
 	
 	public override void Do ()
@@ -251,13 +260,14 @@ public class NextTurnState : FSMState
 		// TODO Add stuff here
 		Debug.Log("NextTurn");
 		//Debug.Log(TM.NbTurns.ToString());
-		Done = true;
+		//Done = true;
 		//
 	}
 	
 	public override bool IsDone ()
 	{
-		return Done;
+		//return Done;
+        return defilement.IsDone();
 	}
 }
 

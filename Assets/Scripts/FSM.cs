@@ -164,9 +164,11 @@ namespace NSFSM
 				Debug.Log("Performing [" + trans.ToString() + "] - From " + trans.FromState.ToString() + " To " + trans.ToState.ToString());
 
 				currentState.DoBeforeLeaving ();
+				//Debug.Log (currentState.ToString());
 				currentState = trans.ToState;
 				currentState.DoBeforeEntering ();
-				
+				//Debug.Log (currentState.ToString());
+
 				return;
 			}
 			Debug.LogError ("FSMState ERROR: Transition " + trans.Name + " passed to " + Name + 
