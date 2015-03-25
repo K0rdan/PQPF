@@ -82,25 +82,25 @@ Exposition : # Définition des variables utiles (personnages, objets, prefabs, d
             with threat of 7
             with speed of 3 # or 2 ?
 
-   Stage #, "" :
-      Direction :
-      Setup :
-         ////
-   Stage #, "" :
-   Stage #, "" :
-   …
+   #Stage #, "" :
+   #   Direction :
+   #   Setup :
+   #      ////
+   #Stage #, "" :
+   #Stage #, "" :
+   #…
 
-Act #, "" :
-   Scene #, "":
-      set Stage
-      Offstage / Wings :
+#Act #, "" :
+#   Scene #, "":
+#      set Stage
+#      Offstage / Wings :
 
-Cutscene #, "" :
+#Cutscene #, "" :
 
-Denouement / Conclusion
+#Denouement / Conclusion
 
-To be continued in Scenario 2
-***
-To be continued in Scenario 3
-***
-The End
+#To be continued in Scenario 2
+#***
+#To be continued in Scenario 3
+#***
+#The End
