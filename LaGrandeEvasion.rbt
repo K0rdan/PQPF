@@ -52,7 +52,7 @@ Exposition : # Définition des variables utiles (personnages, objets, prefabs, d
                now :
                   Choose Player from [Players with Player.where is self.where] # UI et filtre
                   Chosen Player.liveliness.heal # methode heal de la propriété liveliness
-	      # Choose <Type> mémorise le choix dans Chosen <Type>
+						#Choose <Type> mémorise le choix dans Chosen <Type>
                with equipment "Anesthésiant" :
                   when self.dealDamage :
                      with active ability "Anesthésier" :

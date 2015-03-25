@@ -162,7 +162,7 @@ public class TurnManager : FSM
 	public int NbTurns;
 	public bool NewTurn;
 
-	public List<Player> Players;
+	public List<GamePlayer> Players;
 	public int CurrentPlayerIndex;
 	public GameManager GM;
 
@@ -170,11 +170,13 @@ public class TurnManager : FSM
 	{
 		NbTurns = 0;
 		NewTurn = false;
-		Players = new List<Player> ();
+		//Players = new List<Player> ();
 		CurrentPlayerIndex = 0;
 		GM = gm;
 
-		Players.Add (new Player ());
+		//Players.Add (new Player ());
+		Debug.Log ("Nb players = " + GamePlayer.Players.Count.ToString ());
+		Players = GamePlayer.Players;
 
 		//Create all states and sub-FSM
 		NextTurnState nts = new NextTurnState (this);
@@ -247,11 +249,8 @@ public class NextTurnState : FSMState
 	
 	public override void DoBeforeLeaving ()
 	{
-<<<<<<< HEAD
 		Debug.Log ("Leave NT");	
-=======
         GameObject.Destroy(defilement);
->>>>>>> master
 	}
 	
 	public override void Do ()

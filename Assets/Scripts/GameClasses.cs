@@ -54,7 +54,17 @@ namespace NSGameNarrator{
 	public class GameScenario
 	{
 		public static List<GameScenario> Scenarios = new List<GameScenario>();
-		//public static getScenario(int id);
+		public static GameScenario GetScenarioById(int id)
+		{
+			//TODO optimize if possible? low priority...
+			for(int i = 0; i < Scenarios.Count; ++i){
+				if(Scenarios[i].Id == id)
+				{
+					return Scenarios[i];
+				}
+			}
+			return null;
+		}
 		
 		public int Id;
 		public string Name;
@@ -127,7 +137,7 @@ namespace NSGameNarrator{
 		
 	}
 
-	#endif region
+	#endregion
 
 
 	#region "ExtendedGameClasses"
