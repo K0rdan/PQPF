@@ -236,12 +236,13 @@ public class NextTurnState : FSMState
 
 	public override void DoBeforeEntering ()
 	{
+		Debug.Log ("Enter NT");
 		Done = false;
 	}
 	
 	public override void DoBeforeLeaving ()
 	{
-		
+		Debug.Log ("Leave NT");	
 	}
 	
 	public override void Do ()
@@ -283,17 +284,18 @@ public class PlayerBeginTurnState : FSMState
 		//base.DoBeforeLeaving ();
 		//.AddComponent<Text>();
 		//GM.DM.DisplayCanvas.AddComponent<Text> ();
-		GameObject o = GameObject.Instantiate(GameObject.Find("UI Talking Guy")) as GameObject;
-		o.SetActive (true);
+		//GameObject o = GameObject.Instantiate(GameObject.Find("UI Talking Guy")) as GameObject;
+		//o.SetActive (true);
 		//TM.GM.DM.DisplayCanvas.AddComponent<Text>();
 		//Text
-
+		Debug.Log ("Enter PBT");
 	}
 
 	public override void DoBeforeLeaving ()
 	{
 		//base.DoBeforeLeaving ();
 		Done = false;
+		Debug.Log ("Leave PBT");
 	}
 
 	public override bool IsDone ()
