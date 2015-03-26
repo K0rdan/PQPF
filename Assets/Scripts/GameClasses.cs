@@ -27,12 +27,15 @@ namespace NSGameNarrator{
 			Tag = tag;
 			ParentExpression = null;
 
+			Debug.Log ("vn = " + varName + ","); 
+			Debug.Log ("dn = " + displayedName + ",");
+			Debug.Log ("t  = " + tag);
 			if (VarName != "") {
 				// Register instances
 				if (!Vars.ContainsKey (VarName)) {
 					Vars.Add (VarName, this);
 				} else {
-					Debug.LogError ("Variable \"" + Vars + "\" already exists");
+					Debug.LogError ("Variable \"" + VarName + "\" already exists");
 					//TDDO Error crash
 				}
 			}
@@ -137,10 +140,57 @@ namespace NSGameNarrator{
 		
 	}
 
+	public class GameEnemy : GameCharacter
+	{
+		public static List<GameEnemy> Enemies = new List<GameEnemy>();
+		
+		public GameEnemy (GameNarratorObject gno) : base(gno)
+		{
+			Enemies.Add (this);
+			
+			GNO.RequiredAttributes = new Dictionary<string, GameNarratorObject>();
+			//GNO.RequiredAttributes.add ();
+		}
+		
+		public void Action()
+		{
+			
+		}
+		
+		
+	}
+
 	#endregion
 
 
 	#region "ExtendedGameClasses"
+	//GameNarratorProperty
 
+	public class DeusExMachina
+	{
+		public List<GameNarratorAbstractExpression> Lgnabex;
+		
+		public DeusExMachina(List<GameNarratorAbstractExpression> lgnabex)
+		{
+			Lgnabex = lgnabex;
+		}
+		
+		public void LootBonus()
+		{
+			Debug.Log ("DeusExMachina : ");
+			for (int i = 0; i < Lgnabex.Count; ++i) {
+				Debug.Log(Lgnabex[i].ToString());
+			}
+		}
+		
+		public void LootBonus2()
+		{
+			Debug.Log ("DeusExMachina2 : ");
+			for (int i = 0; i < Lgnabex.Count; ++i) {
+				Debug.Log(Lgnabex[i].ToString());
+			}
+		}
+		
+	}
 	#endregion
 }

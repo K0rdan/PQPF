@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 		}*/
 	}
 
-	/*
+
 	void OnGUI() {
 		//GUILayout.Label("Press Enter To Start Game");
 		if (Event.current.Equals (Event.KeyboardEvent ("KeyPad1")))
@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
 		}
 		Debug.Log("Detected key code: " + Event.current.keyCode);
 		
-	}*/
+	}
 }
 
 public class GameEvent

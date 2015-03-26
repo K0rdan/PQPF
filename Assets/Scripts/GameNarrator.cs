@@ -30,7 +30,7 @@ namespace NSGameNarrator{
 				Interpret(line);
 			}
 			
-			Context.Interpret (0, ""); // end
+			Context.Interpret (-1, ""); // end
 		}
 		
 		void Update () {
@@ -63,7 +63,8 @@ namespace NSGameNarrator{
 	#region "GameNarratorContext"
 	public class GameNarratorContext{
 		public Stack<GameNarratorNonTerminalExpression> ObjectConstructionStack = new Stack<GameNarratorNonTerminalExpression> ();
-		public Stack<GameNarratorAbstractExpression> ExpressionConstructionStack = new Stack<GameNarratorAbstractExpression> ();
+		//public Stack<GameNarratorAbstractExpression> ExpressionConstructionStack = new Stack<GameNarratorAbstractExpression> ();
+		public Queue<GameNarratorAbstractExpression> ExpressionConstructionQueue = new Queue<GameNarratorAbstractExpression> ();
 		//TODO ObjectConstructionStack.Peek()
 
 		private int CurrentIndentation = 0;
@@ -147,10 +148,25 @@ namespace NSGameNarrator{
 			{
 				// end
 				//TODO Resolve all non terminal expression in stacks (Object construction)
+				/*while(ObjectConstructionStack.Count > 0) {
+					ObjectConstructionStack.Pop().Resolve(this);
+				}*/
+
+				//IndentationResolve(0);
+				while (ObjectConstructionStack.Count > 0)
+				{
+					GameNarratorNonTerminalExpression gnnte = ObjectConstructionStack.Pop();
+					Debug.Log("Popping " + gnnte.ToString());
+					gnnte.Resolve(this);
+				}
 
 				//
 				Debug.Log ("End of Script");
 				return;// null;
+			}
+
+			if (cmd == "") {
+				return;
 			}
 
 			// Detect comment
@@ -166,35 +182,19 @@ namespace NSGameNarrator{
 				}
 			}
 
-			// Indentation resolve
-			// TODO
-			int deltaIndentation = indentationCount - CurrentIndentation;
-			if (deltaIndentation < 0) {
-				// Unindentation, resolve deltaIndentation objects
-
-			} else if (deltaIndentation > 0) {
-				// New indentation, begin object construction
-				// Check deltaIndentation == 1
-
-				//
-			} else {
-				// Same indentation, same object in construction
-
-			}
-			CurrentIndentation = indentationCount;
+			IndentationResolve (indentationCount);
 
 
-			Debug.Log ("Interpreting line " + CurrentLine.ToString());
-			Debug.Log ("cmd = " + cmd);
+			Debug.Log ("Interpreting line " + CurrentLine.ToString()+ " - " + cmd);
 
 			GameNarratorAbstractExpression gnabex  = null;
 			while(cmd != "") {
 				gnabex = InterpretWords (ref cmd);
 				if (gnabex != null)
 				{
-					ExpressionConstructionStack.Push (gnabex);
+					Debug.Log ("Enqueuing " + gnabex.ToString());
+					ExpressionConstructionQueue.Enqueue (gnabex);
 				}
-
 			}
 
 			ResolveExpression();
@@ -203,6 +203,8 @@ namespace NSGameNarrator{
 
 		public GameNarratorAbstractExpression InterpretWords(ref string cmd){
 			// No command to be interpreted
+			cmd = cmd.Trim ();
+
 			if (cmd == ""){
 				Debug.LogError("cmd is void");
 
@@ -212,13 +214,14 @@ namespace NSGameNarrator{
 			// No keywords were detected, try detecting a variable expression
 			GameNarratorAbstractExpression gnabex = DetectVariableExpression (ref cmd);
 			if (gnabex != null){
-				cmd = "";
+				Debug.Log("Variable Expression Detected");
 				return gnabex;
 			}
 
 			// Detect expression cmd using the keyword
 			gnabex = DetectKeyword(ref cmd);
 			if (gnabex != null){
+				Debug.Log("Keyword Detected");
 				return gnabex;
 			}
 
@@ -226,6 +229,7 @@ namespace NSGameNarrator{
 			// No variable expressions were detected, try detecting variable
 			gnabex = DetectVariable (ref cmd);
 			if (gnabex != null){
+				Debug.Log("Variable Detected");
 				return gnabex;
 			}
 
@@ -243,7 +247,7 @@ namespace NSGameNarrator{
 					cmd = re.Replace (cmd, "", 1);
 					
 					// TODO return this line below
-					return gnabex.Interpret(this, ref cmd);
+					return gnabex.Interpret2(this, ref cmd);
 				}
 			}
 			return null;
@@ -253,10 +257,10 @@ namespace NSGameNarrator{
 		{
 			foreach (GameNarratorAbstractExpression gnabex in VariableExpressions) {
 				// Match keyword
-				if (gnabex.MatchPattern(cmd)) {					
+				if (gnabex.MatchPattern(ref cmd)) {					
 					//Debug.Log ("Line " + CurrentLine.ToString () + ", " + gnabex.GetName () + " Expression detected : " + cmd);
 
-					return gnabex.Interpret(this, ref cmd);	
+					return gnabex.Interpret2(this, ref cmd);	
 				}
 			}
 			return null;
@@ -270,8 +274,7 @@ namespace NSGameNarrator{
 			Match m = cmdCutter.Match (cmd);
 
 			if (!m.Success) {
-				Debug.LogError("No word detected (l." + CurrentLine.ToString () + ")");
-				cmd = "";
+				Debug.LogError("No word detected (l." + CurrentLine.ToString () + ") - " + cmd);
 				return null;
 			}
 			Debug.Log ("Detected word : " + m.Value);
@@ -290,11 +293,48 @@ namespace NSGameNarrator{
 			return null;
 		}
 
-		public void ResolveExpression()
+		private void IndentationResolve(int indentationCount)
+		{
+			int deltaIndentation = indentationCount - CurrentIndentation;
+			if (deltaIndentation < 0) {
+				// Unindentation, resolve deltaIndentation objects
+				Debug.Log ("deltaIndentation = " + deltaIndentation.ToString());
+				for(int i = deltaIndentation; i < 0; i++)
+				{
+					GameNarratorNonTerminalExpression gnnte = ObjectConstructionStack.Pop();
+					Debug.Log("Popping " + gnnte.ToString());
+					gnnte.Resolve(this);
+				}
+				
+			} else if (deltaIndentation > 0) {
+				// New indentation, begin object construction
+				// Check deltaIndentation == 1
+				if(deltaIndentation == 1){
+					// TODO
+					
+				}else{
+					Debug.LogError ("Multiple indentations error");
+				}
+				//
+			} else {
+				// Same indentation, same object in construction
+				
+			}
+			CurrentIndentation = indentationCount;
+		}
+
+		private void ResolveExpression()
 		{
 			//TODO evaluate subexpression currently in stack
 			Debug.Log("cmd == \"\", resolving expression");
-
+			while (ExpressionConstructionQueue.Count > 0) {
+				GameNarratorAbstractExpression gnabex = ExpressionConstructionQueue.Dequeue ();
+				Debug.Log ("Dequeueing " + gnabex.ToString());
+				if (typeof (GameNarratorNonTerminalExpression).IsInstanceOfType (gnabex)){
+					GameNarratorNonTerminalExpression gnnte = gnabex as GameNarratorNonTerminalExpression;
+					gnnte.Resolve (this);
+				}
+			}
 			return;
 		}
 	}
