@@ -272,7 +272,73 @@ namespace NSGameNarrator
 	}
 
 	//Filter
+	public class ChooseExpression : GameNarratorTerminalExpression
+	{
+		/*public override string GetKeyword()
+		{
+			return "Choose";
+		}*/
+		public override string GetExpressionPattern()
+		{
+			return @"^\s*Choose\[\s*([a-zA-Z][a-zA-Z0-9]*)\s+from\s+([a-zA-Z][a-zA-Z0-9]*)\s+with\s+([^\[\]]*)\s*\]\s*";
+		}
+		public override string GetName()
+		{
+			return "Choose UI";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			return this;
+		}
+	}
+	
+	public class ChosenExpression : GameNarratorTerminalExpression
+	{
+		public override string GetExpressionPattern()
+		{
+			return @"^\s*Chosen\[\s*([a-zA-Z][a-zA-Z0-9]*)\s*\]\s*";
+		}
+		public override string GetName()
+		{
+			return "Chosen UI";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			return this;
+		}
+	}
 
+	//DotMethod
+	public class DotMethodExpression : GameNarratorTerminalExpression
+	{
+		//public GamePlayer CO;
+		
+		public override string GetExpressionPattern()
+		{
+			return @"^\.([a-zA-Z][a-zA-Z0-9]*)\s*";
+		}
+		public override string GetName()
+		{
+			return "Dot Function";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			//TODO
+			
+			return this;
+		}
+	}
 
 	public class DeusExMachinaExpression : GameNarratorTerminalExpression
 	{
@@ -919,7 +985,7 @@ namespace NSGameNarrator
 		}
 		public override string GetExpressionPattern()
 		{
-			return @"^at +.+:$";
+			return @"";
 		}
 		public override string GetName()
 		{
@@ -985,53 +1051,7 @@ namespace NSGameNarrator
 		}
 	}
 
-	public class ChooseExpression : GameNarratorTerminalExpression
-	{
-		public override string GetKeyword()
-		{
-			return "Choose";
-		}
-		public override string GetExpressionPattern()
-		{
-			return @"^Choose +[\w] +from +.+$";
-		}
-		public override string GetName()
-		{
-			return "Choose UI";
-		}
-		public override int GetPriority () {
-			return 10;
-		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
-		{
-			// TODO
-			return this;
-		}
-	}
 
-	public class ChosenExpression : GameNarratorTerminalExpression
-	{
-		public override string GetKeyword()
-		{
-			return "Chosen";
-		}
-		public override string GetExpressionPattern()
-		{
-			return @"^Chosen +[\w] +.+$";
-		}
-		public override string GetName()
-		{
-			return "Chosen UI";
-		}
-		public override int GetPriority () {
-			return 10;
-		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
-		{
-			// TODO
-			return this;
-		}
-	}
 	#endregion
 
 	#region "Keyword Game Expressions"
@@ -1171,6 +1191,7 @@ namespace NSGameNarrator
 		}
 	}
 
+	//TODO replace with Board.activeSquare
 	public class CurrentSquareExpression : GameNarratorTerminalExpression
 	{
 		//public GamePlayer CO;

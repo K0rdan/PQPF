@@ -123,21 +123,27 @@ namespace NSGameNarrator{
 	public class GamePlayer : GameCharacter
 	{
 		public static List<GamePlayer> Players = new List<GamePlayer>();
-		
+		public static int CurrentPlayerIndex = 0;
+		public static GamePlayer CurrentPlayer;
+
+
 		public GamePlayer (GameNarratorObject gno) : base(gno)
 		{
 			Players.Add (this);
-			
+		
+			GNO = gno;
 			GNO.RequiredAttributes = new Dictionary<string, GameNarratorObject>();
 			//GNO.RequiredAttributes.add (); 
 		}
 		
-		public void Action()
+		public void CheckActions() // List<GameCharacterAction>
 		{
-			
+			/*List<GamePLayer>.Enumerator It = Players.GetEnumerator ();
+			//It.Current;
+			It.MoveNext;
+			It.*/
 		}
-		
-		
+
 	}
 
 	public class GameEnemy : GameCharacter
@@ -152,7 +158,7 @@ namespace NSGameNarrator{
 			//GNO.RequiredAttributes.add ();
 		}
 		
-		public void Action()
+		public void CheckActions() // ?
 		{
 			
 		}

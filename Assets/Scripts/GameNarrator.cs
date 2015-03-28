@@ -61,7 +61,8 @@ namespace NSGameNarrator{
 	#endregion
 
 	#region "GameNarratorContext"
-	public class GameNarratorContext{
+	public class GameNarratorContext
+	{
 		public Stack<GameNarratorNonTerminalExpression> ObjectConstructionStack = new Stack<GameNarratorNonTerminalExpression> ();
 		//public Stack<GameNarratorAbstractExpression> ExpressionConstructionStack = new Stack<GameNarratorAbstractExpression> ();
 		public Queue<GameNarratorAbstractExpression> ExpressionConstructionQueue = new Queue<GameNarratorAbstractExpression> ();

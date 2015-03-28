@@ -351,11 +351,13 @@ namespace NSBoard
 
 		}
 
-		public void interaction01 (string msg)
+		public static void ToggleBoard()
 		{
-			Debug.Log ("board message: " + msg);
-			GetComponentInChildren<Canvas> ().enabled = !GetComponentInChildren<Canvas> ().enabled;
+			Debug.Log ("Toggle!");
+			Canvas c = GameObject.Find ("BoardCanvas").GetComponentInChildren<Canvas> () as Canvas;
+			c.enabled = !c.enabled;
 		}
+
 
 		public bool						loadFromFile (string fileName)
 		{

@@ -32,10 +32,9 @@ namespace NSFSM
 				return;
 			}
 
-
 			// Insertion sort
 			int i = 0;
-			while(i < Transitions.Count && Transitions[i].Priority < trans.Priority)
+			while ((i < Transitions.Count) && (Transitions[i].Priority < trans.Priority))
 			{
 				i++;
 			}
@@ -67,7 +66,9 @@ namespace NSFSM
 		
 		public bool CheckTransitions ()
 		{
+			//Debug.Log(Transitions.Count.ToString() + " TRANSITIONS FROM " + Name + " TO CHECK...");
 			foreach (FSMTransition trans in Transitions) {
+				//Debug.Log("CHECKING TRANSITION : " + trans.Name);
 				if (trans.Check ()) {
 					Parent.PerformTransition (trans);
 					return true;
@@ -152,7 +153,7 @@ namespace NSFSM
 			Debug.LogError ("FSM ERROR: Impossible to delete state " + stateName + 
 				". It was not on the list of states");
 		}
-		
+
 		public void PerformTransition (FSMTransition trans)
 		{
 			if (trans == null) {
@@ -161,11 +162,14 @@ namespace NSFSM
 			}
 			
 			if (currentState.Transitions.Contains (trans)) {
-				Debug.Log("Performing [" + trans.ToString() + "] - From " + trans.FromState.ToString() + " To " + trans.ToState.ToString());
+				//Debug.Log("Performing [" + trans.ToString() + "] - From " + trans.FromState.ToString() + " To " + trans.ToState.ToString());
 
 				currentState.DoBeforeLeaving ();
+
 				//Debug.Log (currentState.ToString());
 				currentState = trans.ToState;
+
+				//Debug.Log (currentState.ToString() + " - Entering from FSM");
 				currentState.DoBeforeEntering ();
 				//Debug.Log (currentState.ToString());
 
@@ -177,27 +181,37 @@ namespace NSFSM
 		
 		public override void Do ()
 		{
-			CurrentState.Do ();
 			if (CurrentState.CheckTransitions ())
 			{
+				//Debug.Log("CurrentState Transition checked and performed");
 				return;
 			}
+
 			if (CheckTransitions ())
 			{
+				//Debug.Log("Transition checked and performed");
 				return;
 			}
+
+			CurrentState.Do ();
 		}
 		
 		public override bool IsDone ()
 		{
 			//Debug.Log ("Checking if FSM is Done");
-			return CurrentState.IsDone ();// && !CurrentState.CheckTransitions();
+			return CurrentState.IsDone () && (CurrentState.Transitions.Count == 0);
 		}
 
 		public override void DoBeforeEntering ()
 		{
 			Debug.Log ("Initializing FSM");
 			currentState = initState;
+			currentState.DoBeforeEntering ();
+		}
+
+		public override void DoBeforeLeaving ()
+		{
+			currentState.DoBeforeLeaving ();
 		}
 	} // class FSM
 	

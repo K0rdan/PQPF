@@ -37,7 +37,7 @@ Scenario 1, "Scenario de La grande évasion" :
 					with craftiness of 4
 					with liveliness of 3
 					with passive ability "Loot" :
-						when self.digUp # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif)
+						when self.digUp : # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif)
 							Deus Ex Machina $LootBonus of 1 # appel d’une fonction externe (unity C#)
 							# try without deus ex
 					with equipment "Fouet" :
@@ -50,8 +50,8 @@ Scenario 1, "Scenario de La grande évasion" :
 					with active ability "Soin" :
 						with cost of liveliness of 2
 						now :
-							Choose Player from [Players with Player.where is self.where] # UI et filtre
-							Chosen Player.liveliness.heal # methode heal de la propriété liveliness
+							Choose[Player from Players with Player.where is self.where] # UI et filtre
+							Chosen[Player].liveliness.heal # methode heal de la propriété liveliness
 							#Choose <Type> mémorise le choix dans Chosen <Type>
 						with equipment "Anesthésiant" :
 							when self.dealDamage :
