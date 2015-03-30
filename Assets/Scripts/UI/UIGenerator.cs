@@ -1,21 +1,27 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 //using MyExtensions;
 using NSBoard;
+//using NSActionManager;
 
 public class UIGenerator {// : MonoBehaviour {
     //public const float CENTER_X = 62;
     //public const float CENTER_Y = -15;
-	public const float MARGIN = 2;
+	private const float MARGIN = 2;
 
 	//container = GameObject.Find ("ActionPrompter");
-	public static void ActionButtonsFromList(GameObject container, List<string> ls) {
-	    for(int i = 0; i < ls.Count; i++)
-        {
+	public static void ActionButtonsFromList(GameObject container, Dictionary<string, GameAction> al) {
+	    //for(int i = 0; i < al.Count; i++)
+        //{
+
+		int i = 0;
+		foreach(KeyValuePair<string, GameAction> entry in al)
+		{
 			GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/ActionButton")) as GameObject;
             
             go.transform.SetParent(container.transform);
@@ -30,20 +36,20 @@ public class UIGenerator {// : MonoBehaviour {
 
 			Vector3 pos = rect.position;
 			pos.y -= i * (rect.rect.height + MARGIN);
+			++i;
 			rect.position = rect.TransformVector(pos);
 
-			go.GetComponentInChildren<Text>().text = ls[i];
+			go.GetComponentInChildren<Text>().text = entry.Key;
 
 
 			Button b = go.GetComponent<Button>();
 			b.interactable = true;
-			Debug.Log (b);
-			Debug.Log (b.onClick);
-			b.onClick.AddListener(Board.ToggleBoard);
-			/*b.onClick.AddListener(() => {
-				Debug.Log ("Click click");	//handle click here
-			});*/
+
+			string s = entry.Key; // Closure issue : store external value (entry.Key) in internal variable (s)
+			b.onClick.AddListener(() => {ActionManager.DoAction(s);});
         }
+
+		ActionManager.LoadActionList(al);
 	}
 
 	public static void DestroyChildren(GameObject container) {
@@ -60,11 +66,9 @@ public class UIGenerator {// : MonoBehaviour {
 		}
 	}
 
-	public static void UpdateActionButtonsFromList(GameObject container, List<string> ls) {
+	public static void UpdateActionButtonsFromList(GameObject container, Dictionary<string, GameAction> al) {
 		DestroyChildren (container);
-		ActionButtonsFromList(container, ls);
+		ActionButtonsFromList(container, al);
 	}
-
-
 
 }

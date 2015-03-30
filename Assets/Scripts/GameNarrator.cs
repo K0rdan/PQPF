@@ -61,25 +61,20 @@ namespace NSGameNarrator{
 	#endregion
 
 	#region "GameNarratorContext"
+	public delegate GameNarratorObject GameNarratorCommand();
+
 	public class GameNarratorContext
 	{
 		public Stack<GameNarratorNonTerminalExpression> ObjectConstructionStack = new Stack<GameNarratorNonTerminalExpression> ();
-		//public Stack<GameNarratorAbstractExpression> ExpressionConstructionStack = new Stack<GameNarratorAbstractExpression> ();
 		public Queue<GameNarratorAbstractExpression> ExpressionConstructionQueue = new Queue<GameNarratorAbstractExpression> ();
-		//TODO ObjectConstructionStack.Peek()
 
 		private int CurrentIndentation = 0;
 		public int CurrentLine = 0;
-
-		//public Dictionary<string, GameNarratorAbstractExpression> NarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
-		// A sub list of NarrationObjects
-		//public Dictionary<string, GameNarratorAbstractExpression> TaggedNarrationObjects = new Dictionary<string, GameNarratorAbstractExpression> ();
 
 		public List<GameNarratorAbstractExpression> Expressions = new List<GameNarratorAbstractExpression> ();
 		public List<GameNarratorAbstractExpression> VariableExpressions = new List<GameNarratorAbstractExpression> ();
 		
 		private Regex NarrationCommentRE = new Regex(@"#(?!""(?:(?:[^""#]*""){2})*[^""]*)");
-		//private Regex NarrationObjectRE = new Regex(@"^[:word:]+ +"".+"" *:$");
 		private Regex TaggedNarrationObjectRE = new Regex(@"^[:word:]+ +"".+"" *, *[:word:]* *:$");
 
 		public GameNarratorContext(){
@@ -206,30 +201,32 @@ namespace NSGameNarrator{
 			// No command to be interpreted
 			cmd = cmd.Trim ();
 
+			bool detected;
+
 			if (cmd == ""){
 				Debug.LogError("cmd is void");
-
+				detected = false;
 				return null;
 			}
 
 			// No keywords were detected, try detecting a variable expression
-			GameNarratorAbstractExpression gnabex = DetectVariableExpression (ref cmd);
-			if (gnabex != null){
+			GameNarratorAbstractExpression gnabex = DetectVariableExpression (ref cmd, out detected);
+			if (detected){
 				Debug.Log("Variable Expression Detected");
 				return gnabex;
 			}
 
 			// Detect expression cmd using the keyword
-			gnabex = DetectKeyword(ref cmd);
-			if (gnabex != null){
+			gnabex = DetectKeyword(ref cmd, out detected);
+			if (detected){
 				Debug.Log("Keyword Detected");
 				return gnabex;
 			}
 
 			// TODO
 			// No variable expressions were detected, try detecting variable
-			gnabex = DetectVariable (ref cmd);
-			if (gnabex != null){
+			gnabex = DetectVariable (ref cmd, out detected);
+			if (detected){
 				Debug.Log("Variable Detected");
 				return gnabex;
 			}
@@ -237,13 +234,13 @@ namespace NSGameNarrator{
 			return null;
 		}
 
-		public GameNarratorAbstractExpression DetectKeyword(ref string cmd)
+		public GameNarratorAbstractExpression DetectKeyword(ref string cmd, out bool detected)
 		{
 			foreach (GameNarratorAbstractExpression gnabex in Expressions) {
 				// Match keyword
 				if (gnabex.MatchKeyword(cmd)) {
 					//Debug.Log ("Line " + CurrentLine.ToString () + ", " + gnabex.GetName () + " KeyWord detected : " + cmd);
-
+					detected = true;
 					Regex re = new Regex ("^" + gnabex.GetKeyword () + " *");
 					cmd = re.Replace (cmd, "", 1);
 					
@@ -251,23 +248,25 @@ namespace NSGameNarrator{
 					return gnabex.Interpret2(this, ref cmd);
 				}
 			}
+			detected = false;
 			return null;
 		}
 			
-		public GameNarratorAbstractExpression DetectVariableExpression(ref string cmd)
+		public GameNarratorAbstractExpression DetectVariableExpression(ref string cmd, out bool detected)
 		{
 			foreach (GameNarratorAbstractExpression gnabex in VariableExpressions) {
 				// Match keyword
 				if (gnabex.MatchPattern(ref cmd)) {					
 					//Debug.Log ("Line " + CurrentLine.ToString () + ", " + gnabex.GetName () + " Expression detected : " + cmd);
-
+					detected = true;
 					return gnabex.Interpret2(this, ref cmd);	
 				}
 			}
+			detected = false;
 			return null;
 		}
 
-		public GameNarratorAbstractExpression DetectVariable(ref string cmd)
+		public GameNarratorAbstractExpression DetectVariable(ref string cmd, out bool detected)
 		{
 			GameNarratorObject gno = null;
 
@@ -276,6 +275,7 @@ namespace NSGameNarrator{
 
 			if (!m.Success) {
 				Debug.LogError("No word detected (l." + CurrentLine.ToString () + ") - " + cmd);
+				detected = false;
 				return null;
 			}
 			Debug.Log ("Detected word : " + m.Value);
@@ -286,11 +286,12 @@ namespace NSGameNarrator{
 
 			if(GameNarratorObject.Vars.TryGetValue(word, out gno))
 			{
+				detected = true;
 				return gno.ParentExpression;
 			}
 
 			Debug.LogError ("Variable \"" + word+ "\" doesn't exist");
-
+			detected = false;
 			return null;
 		}
 

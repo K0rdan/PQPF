@@ -65,7 +65,7 @@ namespace NSBoardSquare
 			mfilter.mesh = msh;
 
 
-			float s = 30;
+			float s = 30f;
 			Transform tf = gameObject.GetComponent<Transform> ();
 			tf.localPosition = new Vector3(-4.0f*s,2.5f*s,0);
 			tf.localScale = new Vector3 (s,s,s);
@@ -107,18 +107,22 @@ namespace NSBoardSquare
 			Border.material = new Material (Shader.Find ("Diffuse"));
 			//Border.material.SetFloat("_Outline", 0.01F);
 			//Border.material.SetColor("_OutlineColor", Color.red);
-			Border.SetWidth(0.002f*s, 0.002f*s);
+			Border.SetWidth(0.05f, 0.05f);
 			Border.SetVertexCount (vertices2D2.Length+1);
 
+			for (int i=0; i<vertices2D2.Length; i++) {
+				Border.SetPosition (i, tf.TransformVector(vertices2D2 [i] + new Vector2(-4.0f,2.5f)));
+			}
+			Border.SetPosition (vertices2D2.Length, tf.TransformVector(vertices2D2 [0]  + new Vector2(-4.0f,2.5f)));
+			for (int i=vertices2D2.Length-1; i>-1; i--) {
+				Border.SetPosition (i, tf.TransformVector(vertices2D2 [i] + new Vector2(-4.0f,2.5f)));
+			}
+			Border.SetPosition (vertices2D2.Length, tf.TransformVector(vertices2D2 [0] + new Vector2(-4.0f,2.5f)));
 
 
+			/*
 			float s2 = 1.4666f;
 			for (int i=0; i<vertices2D2.Length; i++) {
-				/*Debug.DrawLine(new Vector3 ((vertices2D [i].x - 4.0f) / s2, (vertices2D [i].y + 2.5f) / s2, 0.1f),
-				               new Vector3 ((vertices2D [i+1].x - 4.0f) / s2, (vertices2D [i+1].y + 2.5f) / s2, 0.1f),
-				               Color.white,
-				               65.0f
-				);*/
 				Border.SetPosition (i, new Vector3 ((vertices2D2 [i].x - 4.0f) / s2, (vertices2D2 [i].y + 2.5f) / s2, 1f));
 			}
 			Border.SetPosition (vertices2D2.Length, new Vector3 ((vertices2D2 [0].x - 4.0f) / s2, (vertices2D2 [0].y + 2.5f) / s2, 1f));
@@ -126,16 +130,7 @@ namespace NSBoardSquare
 				Border.SetPosition (i, new Vector3 ((vertices2D2 [i].x - 4.0f) / s2, (vertices2D2 [i].y + 2.5f) / s2, 1f));
 			}
 			Border.SetPosition (vertices2D2.Length, new Vector3 ((vertices2D2 [0].x - 4.0f) / s2, (vertices2D2 [0].y + 2.5f) / s2, 1f));
-
-
-			/*
-			Debug.DrawLine(new Vector3 ((vertices2D [vertices2D.Length-1].x - 4.0f) / s2, (vertices2D [vertices2D.Length-1].y + 2.5f) / s2, 0.1f),
-			               new Vector3 ((vertices2D [0].x - 4.0f) / s2, (vertices2D [0].y + 2.5f) / s2, 0.1f),
-			               Color.white,
-			               65.0f
-			               );
 			*/
-			//Border.SetPosition (vertices2D.Length, new Vector3 ((vertices2D [0].x - 4.0f) / 1.5f, (vertices2D [0].y + 2.5f) / 1.5f, 0.1f));
 
 		}
 
@@ -160,7 +155,7 @@ namespace NSBoardSquare
 			if (rsr != null) {
 				Debug.Log (rsr.test);
 				//TODO
-				Text t = GameObject.FindGameObjectsWithTag("Player")[0].GetComponentInChildren<Text>();
+				Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
 				t.text = rsr.test;
 				if(alt){
 					t.color = Color.red;
@@ -203,22 +198,6 @@ namespace NSBoardSquare
 			//tag = "square#"+ id.ToString ();
 			//gameObject.name = "square#"+ gameObject.GetInstanceID().ToString ();
 		}
-
-		/*public void setCollider2D (Vector2[] c2d)
-		{
-			//_border = gameObject.AddComponent("PolygonCollider2D") as PolygonCollider2D;
-			//Debug.Log("border says hey");
-			//Debug.Log(_border);
-		
-			Collider2D.SetPath (0, c2d);
-			//Debug.Log (_border.points);
-			//Debug.Log (_border.GetPath(0));
-		}
-	
-		public PolygonCollider2D getCollider2D ()
-		{
-			return Collider2D;
-		}*/
 	
 		public /*override*/ bool			loadFromFile (string fileName)
 		{

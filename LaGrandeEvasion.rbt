@@ -24,20 +24,20 @@ Scenario 1, "Scenario de La grande évasion" :
 					with craftiness of 4 # astuce
 					with liveliness of 4 # vivacité
 					with active ability "Camouflage" :
-						with cost of liveliness of 2 : # ou liveliness(2) -> [of … === (...)] 
-																 # et [of ... , … === (... , ...])], etc.
-							now : # implicite, mais empile un time event à dépiler de suite
-								set self in State of {"invisibility", 1} # ref. a l’état "invisibility" avec le paramètre 1
+						with cost of liveliness of 2 # ou liveliness(2) -> [of … === (...)] 
+															  # et [of ... , … === (... , ...])], etc.
+						now : # implicite, mais empile un time event à dépiler de suite. now sert de conteneur pour la commande
+							set self in State of {"invisibility", 1} # ref. a l’état "invisibility" avec le paramètre 1
 					with consumable equipment "Super glue" times 2 :
 						at Phase of "EndPlayerTurn" : # empile un time event déclenché à la fin du tour de ce joueur
-							set currentSquare in State of {"stickyness", 3} # currentSquare ou self.where ?
+							set self.where in State of {"stickyness", 3} # currentSquare ou self.where ?
 
 			Niles "Chasseur de Trésors", Taupe :
 				as Player :
 					with craftiness of 4
 					with liveliness of 3
 					with passive ability "Loot" :
-						when self.digUp : # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif)
+						when self.digUp : # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif) déclenché lors de l'action de fouille
 							Deus Ex Machina $LootBonus of 1 # appel d’une fonction externe (unity C#)
 							# try without deus ex
 					with equipment "Fouet" :
@@ -53,12 +53,12 @@ Scenario 1, "Scenario de La grande évasion" :
 							Choose[Player from Players with Player.where is self.where] # UI et filtre
 							Chosen[Player].liveliness.heal # methode heal de la propriété liveliness
 							#Choose <Type> mémorise le choix dans Chosen <Type>
-						with equipment "Anesthésiant" :
-							when self.dealDamage :
-								with active ability "Anesthésier" :
-									with cost of liveliness of 1
-									now :
-										set self.target in State of {"anesthesia", 3}
+					with equipment "Anesthésiant" :
+						when self.dealDamage :
+							with active ability "Anesthésier" :
+								with cost of liveliness of 1
+								now :
+									set self.target in State of {"anesthesia", 3}
 
 			Volotom "Pyromancien", Rat :
 				as Player :
@@ -67,7 +67,7 @@ Scenario 1, "Scenario de La grande évasion" :
 					with active ability "Let it burn!" :
 						with cost of liveliness of 2
 						at Phase of "EndPlayerTurn" :
-							set currentSquare in State of {"ablaze", 1} # avec persistance possible ou 4 avec extinction, et en plus propagation.
+							set self.where in State of {"ablaze", 1} # avec persistance possible ou 4 avec extinction, et en plus propagation.
 					with passive equipment "Ceinture à pétards" :
 						with range of 1
 						with bonusCraftiness of 1
@@ -91,11 +91,11 @@ Scenario 1, "Scenario de La grande évasion" :
 		#…
 
 	#Act #, "" :
-	#   Scene #, "":
-	#      set Stage
+	#	Scene #, "":
+	#	set Stage
 	#      Offstage / Wings :
 
-	#Cutscene #, "" :
+	#	Cutscene #, "" :
 
 	#Denouement / Conclusion
 

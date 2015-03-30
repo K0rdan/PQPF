@@ -1,35 +1,60 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+//using NSActionManager;
+
 namespace NSGameNarrator{
 	#region "GameClasses"
+
+	// All game objects shall inherit from this class
 	public class GameNarratorObject
 	{
+		// All instances
+		public static Dictionary<string, GameNarratorObject> Vars = new Dictionary<string, GameNarratorObject> ();
+		// A subset of vars
+		public static Dictionary<string, List<GameNarratorObject>> Tags = new Dictionary<string, List<GameNarratorObject>> ();		
+
+
 		public string VarName;
 		public string DisplayedName;
 		public string Tag;
 		public GameNarratorAbstractExpression ParentExpression;
-		
-		public Dictionary<string, GameNarratorObject> RequiredAttributes;
-		//TODO
-		//public GameNarratorType GNType;
-		
-		// All instances
-		public static Dictionary<string, GameNarratorObject> Vars = new Dictionary<string, GameNarratorObject> ();
-		// A subset of vars
-		public static Dictionary<string, List<GameNarratorObject>> Tags = new Dictionary<string, List<GameNarratorObject>> ();
-		
-		
+		public Dictionary<string, GameNarratorObject> Properties = new Dictionary<string, GameNarratorObject>();
+		public List<string> RequiredProperties;
+		public GameNarratorCommand Command = null;
+
+		public List<GameNarratorCommand> ExpressionCommands = null;
+		// Call AddCommand only when resolving expression line, after the GNC is fully constructed
+		public void AddCommand(GameNarratorCommand gnc)
+		{
+			if (ExpressionCommands == null)
+			{
+				ExpressionCommands = new List<GameNarratorCommand>();
+			}
+			ExpressionCommands.Add(gnc);
+		}
+		public void ExecuteCommands(){
+			if(ExpressionCommands != null) 
+			{
+				for (int i = 0; i < ExpressionCommands.Count; ++i) {
+					ExpressionCommands[i]();
+				}
+			}
+		}
+
+
 		public GameNarratorObject(string varName, string displayedName, string tag) {
 			VarName = varName;
 			DisplayedName = displayedName;
 			Tag = tag;
 			ParentExpression = null;
 
+			/*
 			Debug.Log ("vn = " + varName + ","); 
 			Debug.Log ("dn = " + displayedName + ",");
 			Debug.Log ("t  = " + tag);
+			 */
 			if (VarName != "") {
 				// Register instances
 				if (!Vars.ContainsKey (VarName)) {
@@ -50,11 +75,15 @@ namespace NSGameNarrator{
 					l.Add (this);
 					Tags.Add (Tag, new List<GameNarratorObject> ());
 				}
-			}
+
+				// Properties initialization
+				Properties ["Set"] = new GameNarratorObject ("", "", "");
+				Properties ["Set"].Command = () => {return this;};
+			} // else, GNO is a Command
 		}
 	}
 
-	public class GameScenario
+	public class GameScenario // : GameNarratorObject
 	{
 		public static List<GameScenario> Scenarios = new List<GameScenario>();
 		public static GameScenario GetScenarioById(int id)
@@ -99,24 +128,55 @@ namespace NSGameNarrator{
 		}
 	}
 
+
+	#endregion
+
+	#region "GameNarratorObject extensions"
 	public class GameCharacter
 	{
 		public static List<GameCharacter> Characters = new List<GameCharacter>();
-		
+
 		public GameNarratorObject GNO;
 		
 		public GameCharacter(GameNarratorObject gno)
 		{
 			GNO = gno;
 			Characters.Add (this);
-			
-			GNO.RequiredAttributes = new Dictionary<string, GameNarratorObject>();
-			//GNO.RequiredAttributes.add();
+
+			GNO.RequiredProperties = new List<string>();
+			//None are required;
 		}
 		
-		public void Action()
+		public virtual void GetActions(out Dictionary<string, GameAction> al) // ?
 		{
-			
+			al = new Dictionary<string, GameAction>();
+
+			List<string> sls = new List<string>();
+			sls.Add ("Text1");
+			sls.Add ("Hey!");
+			ActionManager.Context ["SayListString"] = sls;
+			al ["Say"] = GameCharacter.Say;
+		}
+	
+		public static void Say()//IEnumerator Say()
+		{
+			ActionManager.Busy = true; // Synchronous
+
+			object o;
+			if (ActionManager.Context.TryGetValue ("SayListString", out o)) {
+				List<string> ls = o as List<string>;
+				
+				for (int i = 0; i < ls.Count; ++i) {
+					Debug.Log (ls [i]);
+					ls [i] = "hoho - " + i.ToString ();
+
+					//yield
+					new WaitForSeconds (2.5f);
+					return;
+				}
+			}
+
+			ActionManager.Busy = false; // Synchronous
 		}
 	}
 
@@ -130,18 +190,16 @@ namespace NSGameNarrator{
 		public GamePlayer (GameNarratorObject gno) : base(gno)
 		{
 			Players.Add (this);
-		
-			GNO = gno;
-			GNO.RequiredAttributes = new Dictionary<string, GameNarratorObject>();
-			//GNO.RequiredAttributes.add (); 
+			// TODO where is a GNO BoardSquare, it is updated when moving
+
+			GNO.Properties ["where"] = new GameNarratorObject ("", "case 27", "where BoardSquare");
+			//GNO.RequiredProperties.Add ("");
 		}
 		
-		public void CheckActions() // List<GameCharacterAction>
+		public override void GetActions(out Dictionary<string, GameAction> al) // List<GameCharacterAction>
 		{
-			/*List<GamePLayer>.Enumerator It = Players.GetEnumerator ();
-			//It.Current;
-			It.MoveNext;
-			It.*/
+			base.GetActions(out al);
+
 		}
 
 	}
@@ -154,18 +212,17 @@ namespace NSGameNarrator{
 		{
 			Enemies.Add (this);
 			
-			GNO.RequiredAttributes = new Dictionary<string, GameNarratorObject>();
-			//GNO.RequiredAttributes.add ();
+			//GNO.RequiredProperties.Add ("");
 		}
 		
-		public void CheckActions() // ?
+		public override void GetActions(out Dictionary<string, GameAction> al) // ?
 		{
-			
-		}
-		
-		
-	}
+			base.GetActions(out al);
 
+
+		}
+
+	}
 	#endregion
 
 
@@ -181,17 +238,19 @@ namespace NSGameNarrator{
 			Lgnabex = lgnabex;
 		}
 		
-		public void LootBonus()
+		public void LootBonus(GameNarratorObject gno)
 		{
 			Debug.Log ("DeusExMachina : ");
+			Debug.Log (gno);
 			for (int i = 0; i < Lgnabex.Count; ++i) {
 				Debug.Log(Lgnabex[i].ToString());
 			}
 		}
 		
-		public void LootBonus2()
+		public void LootBonus2(GameNarratorObject gno)
 		{
 			Debug.Log ("DeusExMachina2 : ");
+			Debug.Log (gno);
 			for (int i = 0; i < Lgnabex.Count; ++i) {
 				Debug.Log(Lgnabex[i].ToString());
 			}

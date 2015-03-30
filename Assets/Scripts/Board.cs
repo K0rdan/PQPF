@@ -365,7 +365,7 @@ namespace NSBoard
 			StreamReader r;
 			FileInfo t = new FileInfo (Application.dataPath + "\\" + fileName);
 			if (!t.Exists) { 
-				Debug.Log ("File Does not exist."); 
+				Debug.Log ("File Does not exist.");
 				return false;
 			} 
 

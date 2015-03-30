@@ -4,14 +4,14 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+using System.IO.Ports;
+
 using NSBoard;
 using NSBoardGameItem;
 using NSBoardSquare;
 using NSFSM;
 using NSGameNarrator;
-
-using System.IO.Ports;
-
+//using NSActionManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -115,9 +115,16 @@ public class GameEvent
 	
 }
 
-public class TimeEvent : GameEvent
+public class TurnEvent : GameEvent
 {
-	
+	public int Turn;
+	GameNarratorNonTerminalExpression ScriptEvent;
+
+	public TurnEvent(int turn, GameNarratorNonTerminalExpression gnnte)
+	{
+		Turn = turn;
+		ScriptEvent = gnnte;
+	}
 }
 
 public class PlayerEvent : GameEvent
@@ -127,16 +134,44 @@ public class PlayerEvent : GameEvent
 
 public class EventManager
 {
-	public List<GameEvent> events;
+	public static List<TurnEvent> TurnEvents = new List<TurnEvent>();
+	public static List<PlayerEvent> PlayerEvents = new List<PlayerEvent>();
 
 	public EventManager ()
 	{
 		
 	}
-	
-	public void update ()
+
+	public static void AddEvent(TurnEvent te)
 	{
-		
+		for (int i = 0; i < TurnEvents.Count; ++i)
+		{
+			if(te.Turn <= TurnEvents[i].Turn){
+				TurnEvents.Insert(i, te);
+				return;
+			}
+		}
+		TurnEvents.Add (te);
+	}
+	public static void RemoveEvent(TurnEvent te)
+	{
+		TurnEvents.Remove(te);
+		/*for (List<TurnEvent>.Enumerator ete = TurnEvents.GetEnumerator (); ete.MoveNext();) {
+			if(te.Turn < ete.Current.Turn)
+			{
+				break;
+			} else {
+				TurnEvents.Remove(te);
+			}
+		}*/
+	}
+
+	public static void AddEvent(PlayerEvent pe)
+	{
+		PlayerEvents.Add (pe);
+	}
+	public static void RemoveEvent(PlayerEvent pe){
+		PlayerEvents.Remove (pe);
 	}
 }
 
@@ -166,50 +201,52 @@ public class TurnManager : FSM
 	public bool NewTurn;
 
 	public List<GamePlayer> Players;
-	//public int CurrentPlayerIndex;
 	public GameManager GM;
 
 	public TurnManager (GameManager gm) : base("TurnManager")
 	{
 		NbTurns = 0;
 		NewTurn = false;
-		//Players = new List<Player> ();
-		//CurrentPlayerIndex = 0;
+
 		GM = gm;
 
-		//Players.Add (new Player ());
 		Debug.Log ("Nb players = " + GamePlayer.Players.Count.ToString ());
 		Players = GamePlayer.Players; // static list from class GamePlayer
 
 		for (int i = 1; i < GamePlayer.Players.Count; ++i) {
-			//Texture2D t = Resources.Load("Eddy") as Texture2D;
-			//t.LoadImage(System.Convert.FromBase64String("Eddy.png"));
+			// TODO factorize and put it in UIGenerator
 			GameObject pts = GameObject.Find("PlayerTurnSprite");
-			GameObject s = GameObject.Instantiate (pts, new Vector3(-335 + 50 * i, 180, 0), Quaternion.Euler(0, 0, 0)) as GameObject;// as Sprite;
+			GameObject s = GameObject.Instantiate (pts, new Vector3(-335 + 50 * i, 175, 0), Quaternion.Euler(0, 0, 0)) as GameObject;// as Sprite;
 			s.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Eddy");
 
 			s.transform.SetParent(pts.transform.parent.transform, false);
-			//Sprite.Create(t, new Rect(-285 - 50 * i, 130, 100,100), new Vector2(-335 - 50 * i, 180), 100);
 		}
 
 
 		//Create all states and sub-FSM
 		NextTurnState nts = new NextTurnState (this);
+		TurnEventState tes = new TurnEventState (this);
+		EnemyTurnState enemyturn = new EnemyTurnState ();//this);
 		PlayerTurnFSM playerturn = new PlayerTurnFSM (this);
-		// TODO eventhandlerstate
 
 		// Add states and sub-FSM
 		AddState (nts);
+		AddState (tes);
+		AddState (enemyturn);
 		AddState (playerturn);
 
 		// Create all transitions
+		IsDoneTransition idt2tes = new IsDoneTransition (tes);
+		IsDoneTransition idt2enemyturn = new IsDoneTransition (enemyturn);
 		IsDoneTransition idt2playerturn = new IsDoneTransition (playerturn);
-		NewTurnTransition idt2nts = new NewTurnTransition (this, nts, 1);
+		NewTurnTransition t2nts = new NewTurnTransition (this, nts, 1);
 		IsDoneTransition idt2playerturnself = new IsDoneTransition (playerturn);
 
 		// Add transitions to states
-		nts.AddTransition(idt2playerturn);
-		playerturn.AddTransition(idt2nts);
+		nts.AddTransition(idt2tes);
+		tes.AddTransition(idt2enemyturn);
+		enemyturn.AddTransition(idt2playerturn);
+		playerturn.AddTransition(t2nts); // priority over playerturnself
 		playerturn.AddTransition (idt2playerturnself); 
 	}
 
@@ -253,7 +290,6 @@ public class NextTurnState : FSMState
 	public TurnManager TM;
 	public bool Done;
 
-	//private Defilement defilement;
 	private Animator TurnTextAnimation;
 
 	public NextTurnState(TurnManager tm) : base("NextTurn")
@@ -262,8 +298,6 @@ public class NextTurnState : FSMState
 		Done = false;
 
 		TurnTextAnimation = GameObject.Find("TurnText").GetComponent<Animator>();
-		//TurnTextAnimation.Play (0);
-		//defilement.animation.Play ();
 	}
 
 	public override void DoBeforeEntering ()
@@ -348,17 +382,6 @@ public class PlayerBeginTurnState : FSMState
 		GamePlayer.CurrentPlayer = GamePlayer.Players [GamePlayer.CurrentPlayerIndex];
 		Debug.Log (GamePlayer.CurrentPlayer.GNO.DisplayedName);// = GamePlayer.Players [GamePlayer.CurrentPlayerIndex];
 
-		/*
-		if (GamePlayer.CurrentPlayerIndex > ToRightCount) {
-			PlayerCursorSpriteAnimation.SetTrigger ("ToRight");
-			ToRightCount++;
-		} else {
-			if(ToRightCount > GamePlayer.CurrentPlayerIndex){
-				PlayerCursorSpriteAnimation.SetTrigger ("ToLeft");
-				ToRightCount--;
-			}
-		}*/
-
 		Done = false;
 	}
 
@@ -366,7 +389,7 @@ public class PlayerBeginTurnState : FSMState
 	{
 		Debug.Log ("PlayerBeginTurn");
 		
-		Debug.Log ("Player #" + GamePlayer.CurrentPlayerIndex);//.Current.ToString ());
+		Debug.Log ("Player #" + GamePlayer.CurrentPlayerIndex);
 		
 		if (PlayerCursorSpriteAnimation.GetCurrentAnimatorStateInfo (0).IsName ("CursorSpriteIdle")){
 			if (GamePlayer.CurrentPlayerIndex == ToRightCount) {
@@ -389,7 +412,9 @@ public class PlayerBeginTurnState : FSMState
 	public void SolidifyPosition()
 	{
 		CursorPosition = PlayerCursorAnchor.transform.position;
-		CursorPosition.x = ToRightCount * DeltaPosition;// * 0.02197802f;
+		CursorPosition.x = ToRightCount * DeltaPosition;
+		CursorPosition.y = -7;// TODO Remove and modify animations
+
 		PlayerCursorAnchor.transform.position = PlayerCursorAnchor.transform.TransformVector (CursorPosition);
 	}
 
@@ -411,7 +436,7 @@ public class PlayerTurnState : FSMState
 	public TurnManager TM;
 	private Animator PlayerCursorSpriteAnimation;
 
-	private List<string> ActionList;
+	private static Dictionary<string, GameAction> ActionList;
 
 	public PlayerTurnState(TurnManager tm) : base("PlayerTurn")
 	{
@@ -419,24 +444,45 @@ public class PlayerTurnState : FSMState
 		PlayerCursorSpriteAnimation = GameObject.Find ("PlayerCursorAnchor").GetComponent<Animator> ();
 	}
 
+	public static void ReloadActionPrompter()
+	{
+		ActionList = new Dictionary<string, GameAction> ();
+		GamePlayer.CurrentPlayer.GetActions (out ActionList);
+		ActionList.Add ("EndTurn", PlayerTurnState.EndPlayerTurn);
+		
+		UIGenerator.UpdateActionButtonsFromList(GameObject.Find ("ActionPrompter"), ActionList);
+
+
+		///
+		Debug.Log ("Prompter reloaded");
+		ChooseExpression.Once = 1;
+	}
+
 	public override void DoBeforeEntering()	
 	{
 		PlayerCursorSpriteAnimation.SetBool("PlayerTurn", true);
-
-		//
-		ActionList = new List<string> ();
-		ActionList.Add ("EndTurn");
-
-
-		UIGenerator.UpdateActionButtonsFromList(GameObject.Find ("ActionPrompter"), ActionList);
+		ReloadActionPrompter();
+		Debug.Log (1);
+		ReloadActionPrompter();
+		Debug.Log (2);
+		ReloadActionPrompter();
+		Debug.Log (3);
 	}
 
 	public override void Do()
 	{
-		Debug.Log ("PlayerTurn");
+		if (!ActionManager.Busy) {
+			Debug.Log ("PlayerTurn");
 
-
-		Done = true; // TODO
+			Done = true; // TODO
+		} else {
+			if(ChooseExpression.Once > 0)
+			{
+				ActionManager.Busy = false;
+				ChooseExpression.Test ();
+				--ChooseExpression.Once;
+			}
+		}
 	}
 	public override void DoBeforeLeaving ()
 	{
@@ -447,6 +493,13 @@ public class PlayerTurnState : FSMState
 	public override bool IsDone ()
 	{
 		return ActionList.Count == 0;//Done;
+	}
+
+	public static void EndPlayerTurn()
+	{
+		ActionList.Clear ();
+		//yield return null;
+		return;
 	}
 }
 
@@ -478,7 +531,7 @@ public class PlayerEndTurnState : FSMState
 		}
 	}
 
-	public override void DoBeforeLeaving()//Entering()
+	public override void DoBeforeLeaving()
 	{
 		Debug.Log("Leaving PET");
 
@@ -491,6 +544,73 @@ public class PlayerEndTurnState : FSMState
 	}
 }
 
+public class TurnEventState : FSMState
+{
+	public TurnManager TM;
+	public EventManager EM;
+
+	public List<TurnEvent> CurrentTurnEvent = new List<TurnEvent>();
+
+	public TurnEventState(TurnManager tm) : base("TurnEvent")
+	{
+		TM = tm;
+		EM = TM.GM.EM;
+
+	}
+
+	public override void DoBeforeEntering()
+	{
+		FetchEvents ();
+	}
+
+	public override void Do()
+	{
+		
+	}
+
+	public void FetchEvents(){
+		//EM.events;
+		//CurrentTurnEvent.Add
+	}
+
+	public override void DoBeforeLeaving()
+	{
+	}
+
+	public override bool IsDone()
+	{
+		return CurrentTurnEvent.Count == 0;
+	}
+}
+
+public class EnemyTurnState : FSMState
+{
+	public List<GameEnemy> Enemies;
+	public EnemyTurnState() : base("EnemyTurn")
+	{
+		Enemies = new List<GameEnemy>();
+	}
+
+	public override void DoBeforeEntering()
+	{
+		
+	}
+	
+	public override void Do()
+	{
+		
+	}
+
+	public override void DoBeforeLeaving()
+	{
+	}
+	
+	public override bool IsDone()
+	{
+		return Enemies.Count == 0; // TODO
+	}
+
+}
 
 public class IsDoneTransition : FSMTransition
 {

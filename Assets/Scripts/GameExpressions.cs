@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ namespace NSGameNarrator
 	{ 
 		public string[] args;
 		public Match argsMatch;
+		public GameNarratorObject GNO = null;
 
 		public virtual string GetKeyword()
 		{
@@ -63,7 +64,6 @@ namespace NSGameNarrator
 		}
 
 		public GameNarratorAbstractExpression Interpret2(GameNarratorContext context, ref string cmd){
-			//GameNarratorAbstractExpression gnabex = Activator.CreateInstance(this.GetType()) as GameNarratorAbstractExpression;
 			GameNarratorAbstractExpression gnabex = this.MemberwiseClone() as GameNarratorAbstractExpression;
 			return gnabex.Interpret(context, ref cmd);
 		}
@@ -79,15 +79,12 @@ namespace NSGameNarrator
 	// "NonterminalExpression" 
 	public abstract class GameNarratorNonTerminalExpression : GameNarratorAbstractExpression
 	{
-		public GameNarratorObject GNO = null;
 		public virtual Type GetObjectType(){
 			return null;
 		}
 
 		public GameNarratorNonTerminalExpression AsConstructor(GameNarratorNonTerminalExpression gnnte) {
-			Debug.Log ("ASCONSTRUCTOR");
 			if (gnnte.GetObjectType() == null) {
-				Debug.Log ("NULL");
 				return null;
 			}
 
@@ -95,9 +92,10 @@ namespace NSGameNarrator
 
 			object[] o = { GNO };
 
-			Debug.Log ("INVOKE - " + gnnte.GetObjectType().GetConstructor (t).ToString ());
-
-			return  gnnte.GetObjectType().GetConstructor (t).Invoke (o) as GameNarratorNonTerminalExpression;
+			GameNarratorNonTerminalExpression gnnteExtension = gnnte.GetObjectType().GetConstructor (t).Invoke (o) as GameNarratorNonTerminalExpression;
+			//gnnteExtension.GNO = GNO;
+			//GNO.ExtendedAs = gnnte.GNO;
+			return gnnteExtension;
 		}
 
 		public abstract void Resolve (GameNarratorContext context);
@@ -106,33 +104,6 @@ namespace NSGameNarrator
 
 
 	#region "Pure Expressions"
-	/*public class NarrationObjectExpression : GameNarratorNonTerminalExpression
-	{
-		// No Keyword
-		
-		public override string GetExpressionPattern()
-		{
-			return @"^([a-zA-Z\u00c0-\u017F][a-zA-Z0-9\u00c0-\u017F]*) +""([^""]+)"" *";
-		}
-		public override string GetName()
-		{
-			return "NarrationObject";
-		}
-		public override int GetPriority () {
-			return 2; // Shall be less than TaggedNarrationObject
-		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
-		{
-			Debug.Log ("Creating TaggedNarrationObject : " + cmd);
-			
-			GNO = new GameNarratorObject (args[1], args[2], "");
-			GNO.ParentExpression = this;
-
-			return this;
-		}
-		public override void Resolve (GameNarratorContext context) {}
-	}*/
-
 	public class TaggedNarrationObjectExpression : GameNarratorNonTerminalExpression
 	{
 		public virtual Type GetType(){
@@ -158,9 +129,7 @@ namespace NSGameNarrator
 			
 			GNO = new GameNarratorObject (args[1], args[2], args[3]);
 			GNO.ParentExpression = this;
-			//
-			
-			//
+
 			return this;
 		}
 		public override void Resolve (GameNarratorContext context) {}
@@ -258,9 +227,6 @@ namespace NSGameNarrator
 			}
 			ls.Add (s);
 
-			//Lgnabex;
-			//Val = int.Parse(args[1]);
-			//Debug.Log ("Found Integer : " + val);
 			Debug.Log ("List args");
 			for (int i = 0; i < ls.Count; i++) {
 				Debug.Log (ls[i]);
@@ -274,60 +240,111 @@ namespace NSGameNarrator
 	//Filter
 	public class ChooseExpression : GameNarratorTerminalExpression
 	{
-		/*public override string GetKeyword()
-		{
-			return "Choose";
-		}*/
+		public GameNarratorCommand gnc;
 		public override string GetExpressionPattern()
 		{
-			return @"^\s*Choose\[\s*([a-zA-Z][a-zA-Z0-9]*)\s+from\s+([a-zA-Z][a-zA-Z0-9]*)\s+with\s+([^\[\]]*)\s*\]\s*";
+			return @"^\s*Choose\[\s*([a-zA-Z][a-zA-Z0-9]*)\s+from\s+([a-zA-Z][a-zA-Z0-9]*)(?:\s+with\s+([^\[\]]*))?\s*\]\s*";
 		}
 		public override string GetName()
 		{
-			return "Choose UI";
+			return "Choose Command";
 		}
 		public override int GetPriority () {
 			return 10;
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			// TODO
-			return this;
+			gnc = () => {
+				string s1 = args [1].Clone() as string;
+				string s2 = args [2].Clone () as string;
+				string s3 = (args.Length > 3) ? args [3].Clone() as string : "";
+
+				GameNarratorAbstractExpression variableType = context.InterpretWords (ref s1);
+				GameNarratorAbstractExpression list = context.InterpretWords (ref s2);
+				GameNarratorAbstractExpression filter = (args.Length > 3)? context.InterpretWords (ref s3) : null;
+				
+				// TODO Apply filter
+
+				Dictionary<string, GameAction> al = new Dictionary<string, GameAction>();
+				foreach(KeyValuePair<string, GameNarratorObject> entry in list.GNO.Properties)
+				{
+					string s = entry.Key ;
+					GameNarratorObject gno = entry.Value;
+
+					GameAction a = () => {
+						ActionManager.Busy = true; // Synchronous
+						
+						ChosenExpression.Selection[variableType.GetName()] = gno;
+						ActionManager.Busy = false; // Synchronous
+
+
+						PlayerTurnState.ReloadActionPrompter();
+
+						return;//new IEnumerable.Empty<GameAction>();
+						//yield return null;
+					};
+
+					al[s] = a;
+				}
+
+				UIGenerator.UpdateActionButtonsFromList(GameObject.Find("ActionPrompter"), al);
+				return list.GNO;
+			};
+
+			context.ObjectConstructionStack.Peek().GNO.AddCommand(gnc);
+			Test = gnc;
+
+			return null;
 		}
+
+		public static GameNarratorCommand Test;
+		public static int Once = 1;
+
 	}
 	
 	public class ChosenExpression : GameNarratorTerminalExpression
 	{
+		public static Dictionary<string, GameNarratorObject> Selection = new Dictionary<string, GameNarratorObject>();
 		public override string GetExpressionPattern()
 		{
-			return @"^\s*Chosen\[\s*([a-zA-Z][a-zA-Z0-9]*)\s*\]\s*";
+			return @"^\s*Chosen\[\s*([a-zA-Z][a-zA-Z0-9]*)\s*\]\s*(.*)";
 		}
 		public override string GetName()
 		{
-			return "Chosen UI";
+			return "Chosen Command";
 		}
 		public override int GetPriority () {
 			return 10;
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			// TODO
-			return this;
+			GameNarratorCommand gnc = () => {
+				string s1 = args [1].Clone() as string;
+				string s2 = args [2].Clone() as string;
+				
+				GameNarratorAbstractExpression variableType = context.InterpretWords (ref s1);
+				GNO = Selection[variableType.GetName()];
+				context.InterpretWords (ref s2);
+
+				return null;
+			};
+
+			context.ObjectConstructionStack.Peek ().GNO.AddCommand (gnc);
+			
+			return null;
 		}
 	}
 
 	//DotMethod
-	public class DotMethodExpression : GameNarratorTerminalExpression
+	public class DotPropertyExpression : GameNarratorTerminalExpression
 	{
-		//public GamePlayer CO;
-		
 		public override string GetExpressionPattern()
 		{
 			return @"^\.([a-zA-Z][a-zA-Z0-9]*)\s*";
 		}
 		public override string GetName()
 		{
-			return "Dot Function";
+			return "Dot Command";
 		}
 		public override int GetPriority () {
 			return 10;
@@ -335,8 +352,28 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			//TODO
-			
-			return this;
+			GameNarratorAbstractExpression[] gnabexes = context.ExpressionConstructionQueue.ToArray ();
+			GameNarratorAbstractExpression gnabex = gnabexes[context.ExpressionConstructionQueue.Count - 1];
+
+			// Chaining to the last gnabex GNO
+			GNO = gnabex.GNO;
+
+			// Get Property matching 
+			GameNarratorObject gno;
+			if (GNO.Properties.TryGetValue (args [1], out gno)) {
+				if(gno.Command != null){
+					//context.ExpressionCommand = gno.Command;
+					context.ObjectConstructionStack.Peek ().GNO.AddCommand(gno.Command);
+				}else{
+					//Normal property
+					gnabex.GNO = gno;
+				}
+				return null;//this;
+			} else {
+				Debug.LogError("DotProperty : Couldn't find '" + args[1] + "' in GNO");
+			}
+
+			return null;// this;
 		}
 	}
 
@@ -378,10 +415,14 @@ namespace NSGameNarrator
 
 			Type DEMType = typeof(DeusExMachina);
 			MethodInfo dem = DEMType.GetMethod(Str);
-			Debug.Log ("Will invoke method " + Str);
-			Debug.Log ("methodinfo " + dem.ToString());
 
-			dem.Invoke(new DeusExMachina(Lgnabex), null);
+			//context.ExpressionCommand
+			GameNarratorCommand gnc = () => {
+				object[] os = {context.ObjectConstructionStack.Peek()}; //TODO find the argument for DEM
+				dem.Invoke (new DeusExMachina (Lgnabex), os);
+				return null;
+			};
+
 
 			return this;
 		}
@@ -575,8 +616,7 @@ namespace NSGameNarrator
 			//TODO make something with gnnte and gnabex parsed to gnnte
 			//gnnte.GNO
 			gnnte.AsConstructor (gnabex as GameNarratorNonTerminalExpression);
-
-			Type t = typeof(GamePlayer);
+			gnabex.GNO = gnnte.GNO;
 			//Debug.Log (gnnte);
 			//Debug.Log (gnnte.GNO);
 			Debug.Log (gnnte.GNO.VarName + " As ...");
@@ -611,9 +651,8 @@ namespace NSGameNarrator
 		{
 			GameNarratorNonTerminalExpression gnnte = context.ObjectConstructionStack.Peek ();
 			GameNarratorAbstractExpression gnabex = context.InterpretWords (ref cmd);
-			//TODO Add gnabex (object/property) to gnnte
 
-			//
+			gnnte.GNO.Properties[gnabex.GetKeyword()] = gnabex.GNO;
 
 			return gnabex;
 		}
@@ -731,7 +770,7 @@ namespace NSGameNarrator
 		{
 			GameNarratorAbstractExpression gnabex = context.InterpretWords (ref cmd);
 			//TODO Add passive modifier to gnabex
-			
+			// add property passive in gnabex.GNO
 			//context.ObjectConstructionStack.
 			return gnabex;
 		}
@@ -816,7 +855,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			//TODO replace with an Ability instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 		public override void Resolve (GameNarratorContext context) {}
@@ -844,8 +885,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
-			Debug.Log ("Creating Equipment");
+			//TODO replace with an Equipment instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 		public override void Resolve (GameNarratorContext context) {}
@@ -855,7 +897,7 @@ namespace NSGameNarrator
 	{
 		public override string GetKeyword()
 		{
-			return "set";
+			return "set"; // Command
 		}
 		public override string GetExpressionPattern()
 		{
@@ -863,7 +905,7 @@ namespace NSGameNarrator
 		}
 		public override string GetName()
 		{
-			return "Set Accessor";
+			return "Set Command";
 		}
 		public override int GetPriority () {
 			return 10;
@@ -871,8 +913,22 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
+			while (cmd != "") {
+				GameNarratorAbstractExpression gnabex = context.InterpretWords(ref cmd);
+				if (gnabex != null)
+				{
+					Debug.Log ("Enqueuing " + gnabex.ToString());
+					context.ExpressionConstructionQueue.Enqueue (gnabex);
+				}
+			}
 
-			return context.InterpretWords (ref cmd);
+			// set is low priority, so it is done after the interpretation the whole cmd
+
+			context.ObjectConstructionStack.Peek().GNO.AddCommand(
+				context.ExpressionConstructionQueue.Peek().GNO.Properties["Set"].Command
+			);
+
+			return null;//gnabex;
 		}  
 	}
 
@@ -896,6 +952,8 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
+
+
 			return context.InterpretWords (ref cmd);
 		}  
 	}
@@ -919,6 +977,10 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
+			GNO = GamePlayer.Players [GamePlayer.Players.Count - 1].GNO;
+			/*if (GNO.ExtendedAs != null) {
+				GNO = GNO.ExtendedAs;
+			}*/
 			// TODO if the expression in the beginning og the queue has a set accessor
 			// modify
 			// with the gnabex to come
@@ -945,7 +1007,10 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			// TODO
+			//TODO replace with a State instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
+
 			return this;
 		}  
 	}
@@ -970,11 +1035,11 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
-
-
+			GNO = new GameNarratorObject ("", "", GetName());
 			return this;
 		}
-		public override void Resolve (GameNarratorContext context) {}
+		public override void Resolve (GameNarratorContext context) {
+		}
 	}
 
 	public class AtExpression : GameNarratorNonTerminalExpression
@@ -997,9 +1062,13 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
+			GNO = new GameNarratorObject ("", "", GetName());
+
+
 			return this;
 		}
-		public override void Resolve (GameNarratorContext context) {}
+		public override void Resolve (GameNarratorContext context) {
+		}
 	}
 
 	public class WhenExpression : GameNarratorNonTerminalExpression
@@ -1014,7 +1083,7 @@ namespace NSGameNarrator
 		}
 		public override string GetName()
 		{
-			return "When TimeEvent";
+			return "When Limiter"; // anti-Trigger
 		}
 		public override int GetPriority () {
 			return 10;
@@ -1022,6 +1091,9 @@ namespace NSGameNarrator
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
 			// TODO
+			GNO = new GameNarratorObject ("", "", GetName());
+
+
 			return this;
 		}
 		public override void Resolve (GameNarratorContext context) {}
@@ -1090,10 +1162,11 @@ namespace NSGameNarrator
 
 	public class PlayerExpression : GameNarratorNonTerminalExpression
 	{
-		public GamePlayer GP;
+		public GamePlayer GP; //TODO check if used
 		public override Type GetObjectType(){
 			return typeof(GamePlayer);
 		}
+
 		public override string GetKeyword()
 		{
 			return "Player";
@@ -1122,6 +1195,38 @@ namespace NSGameNarrator
 			//TODO
 
 		}
+	}
+
+	public class PlayersExpression : GameNarratorTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Players";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"";
+		}
+		public override string GetName()
+		{
+			return "Players List";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			//list.GNO.Properties // TODO
+			GNO = new GameNarratorObject ("", "", "");
+
+			List<GamePlayer> players = GamePlayer.Players;
+			for(int i = 0; i < players.Count; ++i){
+				GNO.Properties [players[i].GNO.DisplayedName] = players[i].GNO;
+			}
+
+			return this;
+		}
+
 	}
 
 	public class EnemyExpression : GameNarratorNonTerminalExpression
@@ -1181,41 +1286,14 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			//TODO replace with a Cost instance
+			GNO = new GameNarratorObject ("", "", GetName ());
 
 			return this;
 		}
 		public override void Resolve(GameNarratorContext context){
 			//TODO
 			
-		}
-	}
-
-	//TODO replace with Board.activeSquare
-	public class CurrentSquareExpression : GameNarratorTerminalExpression
-	{
-		//public GamePlayer CO;
-		
-		public override string GetKeyword()
-		{
-			return "currentSquare";
-		}
-		public override string GetExpressionPattern()
-		{
-			return @"";
-		}
-		public override string GetName()
-		{
-			return "CurrentSquare Object";
-		}
-		public override int GetPriority () {
-			return 10;
-		}
-		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
-		{
-			//TODO
-			
-			return this;
 		}
 	}
 
@@ -1240,8 +1318,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
-			
+			//TODO replace with a Craftiness instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 	}
@@ -1267,8 +1346,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
-			
+			//TODO replace with a Liveliness instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 	}
@@ -1294,8 +1374,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
-			
+			//TODO replace with a Threat instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 	}
@@ -1321,8 +1402,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
-			
+			//TODO replace with a Speed instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			return this;
 		}
 	}
@@ -1348,7 +1430,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			//TODO replace with a Range instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			
 			return this;
 		}
@@ -1375,7 +1459,8 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			//TODO replace with a BonusCraftiness instance
+			GNO = new GameNarratorObject ("", "", GetName ());
 			
 			return this;
 		}
@@ -1402,7 +1487,9 @@ namespace NSGameNarrator
 		}
 		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
 		{
-			//TODO
+			//TODO replace with a BonusDamageExpession instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+
 			
 			return this;
 		}
