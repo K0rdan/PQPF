@@ -588,6 +588,167 @@ namespace NSGameNarrator
 		public override void Resolve (GameNarratorContext context) {}
 	}
 
+	public class ActExpression : GameNarratorNonTerminalExpression
+	{
+		//public GameScenario GS = null;
+		
+		public override string GetKeyword()
+		{
+			return "Act";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^([0-9]+) *, *""(.+)"" *";
+		}
+		public override string GetName()
+		{
+			return "Act Region";
+		}
+		public override int GetPriority()
+		{
+			return 1;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			if (MatchPattern (ref cmd)) {
+				// The main expression
+				GNO = new GameNarratorObject("Act " + args[1].ToString(), args[2], GetName ());
+				// TODO GameAct instance
+			} else {
+				// Just the keyword
+
+				// TODO get corresponding Act
+				//GNO = 
+				//TODO //
+
+			}
+			return this;
+		}
+		public override void Resolve (GameNarratorContext context) {}
+	}
+
+
+	public class SceneExpression : GameNarratorNonTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Scene";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^([0-9]+) *, *""(.+)"" *";
+		}
+		public override string GetName()
+		{
+			return "Scene Region";
+		}
+		public override int GetPriority()
+		{
+			return 1;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			if (MatchPattern (ref cmd)) {
+				// The main expression
+				GNO = new GameNarratorObject("Scene " + args[1].ToString(), args[2], GetName ());
+				// TODO GameScene instance
+			} else {
+				// Just the keyword
+				
+				// TODO get corresponding Scene
+				//GNO = 
+				//TODO //
+				
+			}
+			return this;
+		}
+		public override void Resolve (GameNarratorContext context) {}
+	}
+
+	// Where graphical resources are displayed
+	public class StageExpression : GameNarratorNonTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Stage";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"^([0-9]+)\s*,\s*""(.+)""\s*";
+		}
+		public override string GetName()
+		{
+			return "Stage Region";
+		}
+		public override int GetPriority()
+		{
+			return 1;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			// TODO
+			if (MatchPattern (ref cmd)) {
+				// The main expression
+				GNO = new GameNarratorObject("Stage " + args[1].ToString(), args[2], GetName ());
+				// TODO GameStage instance
+				string s2 = args[2];
+				// with set property
+				GNO.Properties["Set"].Command = () => {
+					DisplayManager.SetStage(s2);
+					return GNO;
+				};
+			} else {
+				// Just the keyword
+				Regex re = new Regex(@"([0-9]+)\s*");
+				Match m = re.Match(cmd);
+
+				if(m.Success){
+					cmd = re.Replace(cmd, "");
+					//TODO get
+
+				}
+				// TODO get corresponding Stage
+				//GNO = 
+				//TODO //
+				
+			}
+			return this;
+		}
+		public override void Resolve (GameNarratorContext context) {}
+	}
+
+	// Where all the events are initialized
+	public class OffstageExpression : GameNarratorNonTerminalExpression
+	{
+		public override string GetKeyword()
+		{
+			return "Offstage";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"";
+		}
+		public override string GetName()
+		{
+			return "Offstage Region";
+		}
+		public override int GetPriority()
+		{
+			return 1;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			GNO = new GameNarratorObject("", "", GetName ());
+			// TODO GameOffstage instance
+
+			return this;
+		}
+		public override void Resolve (GameNarratorContext context) {}
+	}
+
+
 	public class AsExpression : GameNarratorTerminalExpression
 	{
 		public override string GetKeyword()

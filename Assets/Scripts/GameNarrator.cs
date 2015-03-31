@@ -18,6 +18,10 @@ namespace NSGameNarrator{
 		
 		private Regex IndentationRE = new Regex(@"\t|[ ]{3}");
 		private Regex IndentationReplaceRE = new Regex(@"^\s+");
+
+		void Awake() {
+			DontDestroyOnLoad(transform.gameObject);
+		}
 		
 		void Start () {
 			Context = new GameNarratorContext();

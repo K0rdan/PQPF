@@ -25,7 +25,11 @@ public class GameManager : MonoBehaviour
 
 	
 	//private SerialPort SP;
-	private string s="";
+	//private string s="";
+
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
+	}
 
 	void Start ()
 	{
@@ -178,17 +182,32 @@ public class EventManager
 [System.Serializable]
 public class DisplayManager
 {
+	// TODO ?
 	public Canvas DisplayCanvas;
     public Canvas CanvasUI;
 
 	/*DisplayManager ()
 	{
-	
+
 	}*/
 
 	void update ()
 	{
 		
+	}
+
+	public static void SetStage(string stageName)
+	{
+		Component[] cpnts = GameObject.Find("Stages").GetComponentsInChildren<Transform>(true);
+		for (int i = 0; i < cpnts.Length; ++i)
+		{
+			// Activate GameObject with stageName
+			// And deactivate the others
+			if(cpnts[i].tag == "Stage"){
+				Debug.Log (cpnts[i].transform.name);
+				cpnts[i].gameObject.SetActive(cpnts[i].transform.name == stageName);
+			}
+		}
 	}
 }
 
@@ -216,8 +235,8 @@ public class TurnManager : FSM
 		for (int i = 1; i < GamePlayer.Players.Count; ++i) {
 			// TODO factorize and put it in UIGenerator
 			GameObject pts = GameObject.Find("PlayerTurnSprite");
-			GameObject s = GameObject.Instantiate (pts, new Vector3(-335 + 50 * i, 175, 0), Quaternion.Euler(0, 0, 0)) as GameObject;// as Sprite;
-			s.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/Eddy");
+			GameObject s = GameObject.Instantiate (pts, new Vector3(-335 + 50 * i, 175, 0), Quaternion.Euler(0, 0, 0)) as GameObject;
+			s.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/"+GamePlayer.Players[i].GNO.VarName);
 
 			s.transform.SetParent(pts.transform.parent.transform, false);
 		}
@@ -308,6 +327,14 @@ public class NextTurnState : FSMState
 		//defilement.animation.Rewind ();
 		++TM.NbTurns;
 		TM.NewTurn = false;
+
+		// TODO TEST
+		/*if (TM.NbTurns == 1) {
+			DisplayManager.SetStage("La carte");
+		} else if (TM.NbTurns == 2) {
+			DisplayManager.SetStage("Fond de la décharge");
+		}*/
+		///
 
 		Debug.Log ("Turn " + TM.NbTurns.ToString());
 
@@ -462,11 +489,6 @@ public class PlayerTurnState : FSMState
 	{
 		PlayerCursorSpriteAnimation.SetBool("PlayerTurn", true);
 		ReloadActionPrompter();
-		Debug.Log (1);
-		ReloadActionPrompter();
-		Debug.Log (2);
-		ReloadActionPrompter();
-		Debug.Log (3);
 	}
 
 	public override void Do()

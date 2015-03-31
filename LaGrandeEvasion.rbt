@@ -1,4 +1,4 @@
-Scenario 1, "Scenario de La grande évasion" :
+Scenario 1, "La grande évasion" :
 
 	Exposition : # Définition des variables utiles (personnages, objets, prefabs, décors, lieux…
 
@@ -16,7 +16,7 @@ Scenario 1, "Scenario de La grande évasion" :
 			LambdaRat "Rat en fuite", Rat :
 				as Character
 
-			Eddie "Eddie la Pipe", Chien :
+			Eddy "Eddy la Pipe", Chien :
 				as Character
 
 			Tirette "Filou", Souris : # nomVariable "Nom affiché", Tag
@@ -81,20 +81,130 @@ Scenario 1, "Scenario de La grande évasion" :
 				as Enemy :
 					with threat of 7
 					with speed of 3 # or 2 ?
+					with loot of "Missive"
 
-		#Stage #, "" :
+		
+		
+		Stage 1, "Fond de la décharge" :
+			
+		Stage 2, "La carte" :
 		#   Direction :
 		#   Setup :
-		#      ////
+		
 		#Stage #, "" :
 		#Stage #, "" :
-		#…
-
-	#Act #, "" :
-	#	Scene #, "":
-	#	set Stage
-	#      Offstage / Wings :
-
+		
+		# Scene d'introduction
+		set Stage 1
+			
+		Enter Jazz
+		Jazz.Says ""
+		Exit Jazz
+		
+		Enter Fidel
+		Fidel.Says ""
+		Exit Fidel
+		
+		Enter Jazz
+		Jazz.Says ""
+		Exit Jazz
+		
+		Narrator.Says ""
+		Narrator.Says ""
+		
+		Enter Eddy
+		Eddy.Says ""
+		Exit Eddy
+		
+		Narrator.Says ""
+		set Stage 2
+			
+	Act 1, "Introduction" :
+		#Scene 1, "Evasion" : # === at Turn 1
+		
+		Scene 2, "Evadés" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 3, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 4, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 5, "" :
+			set Stage 1
+			Enter Eddy
+			Eddy.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Eddy
+			set Stage 2
+			
+		Scene 6, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 7, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 8, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+		
+		Scene 9, "" :
+			set Stage 1
+			Enter Fidel
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+				
+		Scene 10, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			set Stage 2
+		
+		Offstage :
+			# ChefEcrou condition
+			
+	#Act 2, "Et c'est reparti!" :
 	#	Cutscene #, "" :
 
 	#Denouement / Conclusion

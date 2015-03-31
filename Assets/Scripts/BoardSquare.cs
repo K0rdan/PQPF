@@ -155,14 +155,18 @@ namespace NSBoardSquare
 			if (rsr != null) {
 				Debug.Log (rsr.test);
 				//TODO
-				Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
+
+
+				GenerateResources.PopResource(rsr.test, Input.mousePosition.x, Input.mousePosition.y);
+
+				/*Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
 				t.text = rsr.test;
 				if(alt){
 					t.color = Color.red;
 				}else{
 					t.color = Color.blue;
 				}
-				alt = !alt;
+				alt = !alt;*/
 			}
 		}
 
