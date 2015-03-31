@@ -13,7 +13,10 @@ namespace NSGameNarrator{
 
 	#region "GameNarrator"
 	public class GameNarrator : MonoBehaviour {
-		public string Scenario;
+		public string Scenario;//Application.persistentDataPath + "LaGrandeEvasion.rbt";
+		public TextAsset ScenarioAsset;
+		//Application.persistentDataPath
+		//if (File.Exists(fileLocation))
 		private GameNarratorContext Context;// = new GameNarratorContext();
 		
 		private Regex IndentationRE = new Regex(@"\t|[ ]{3}");
@@ -24,10 +27,19 @@ namespace NSGameNarrator{
 		}
 		
 		void Start () {
+			//Debug.Log (Application.persistentDataPath);
+			//Debug.Log (Application.dataPath);
+			//Application.dataPath + "\\" + "myFile.txt")
+			//Scenario = Application.dataPath+"\\LaGrandeEvasion.rbt";
+			Scenario = ScenarioAsset.text;//.Clone () as string;
+			Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
 			Context = new GameNarratorContext();
 			
-			string[] lines = File.ReadAllLines(Scenario);
-			
+			//string[] lines = File.ReadAllLines(Scenario);
+			char[] cs = {'\n'};
+			string[] lines = Scenario.Split(cs);
+
 			foreach (string line in lines)
 			{
 				//Context.CurrentLine++;

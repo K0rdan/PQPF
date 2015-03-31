@@ -2743,6 +2743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Scenario: LaGrandeEvasion.rbt
+  ScenarioAsset: {fileID: 4900000, guid: 464a91a18460b04438d7622167697289, type: 3}
 --- !u!4 &1261666367
 Transform:
   m_ObjectHideFlags: 0

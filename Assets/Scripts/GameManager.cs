@@ -329,11 +329,11 @@ public class NextTurnState : FSMState
 		TM.NewTurn = false;
 
 		// TODO TEST
-		/*if (TM.NbTurns == 1) {
+		if (TM.NbTurns == 1) {
 			DisplayManager.SetStage("La carte");
 		} else if (TM.NbTurns == 2) {
 			DisplayManager.SetStage("Fond de la décharge");
-		}*/
+		}
 		///
 
 		Debug.Log ("Turn " + TM.NbTurns.ToString());

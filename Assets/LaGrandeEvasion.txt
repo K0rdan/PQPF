@@ -1,0 +1,216 @@
+Scenario 1, "La grande évasion" :
+
+	Exposition : # Définition des variables utiles (personnages, objets, prefabs, décors, lieux…
+
+		Starring :
+
+			Jazz "Jazz le Sous-Rat", Bâtard :
+				as Character
+
+			Fidel "Fidel Chastro", Chat :
+				as Character
+
+			Favio "Favio Estocar", Taupe :
+				as Character
+
+			LambdaRat "Rat en fuite", Rat :
+				as Character
+
+			Eddy "Eddy la Pipe", Chien :
+				as Character
+
+			Tirette "Filou", Souris : # nomVariable "Nom affiché", Tag
+				as Player : # < Character
+					with craftiness of 4 # astuce
+					with liveliness of 4 # vivacité
+					with active ability "Camouflage" :
+						with cost of liveliness of 2 # ou liveliness(2) -> [of … === (...)] 
+															  # et [of ... , … === (... , ...])], etc.
+						now : # implicite, mais empile un time event à dépiler de suite. now sert de conteneur pour la commande
+							set self in State of {"invisibility", 1} # ref. a l’état "invisibility" avec le paramètre 1
+					with consumable equipment "Super glue" times 2 :
+						at Phase of "EndPlayerTurn" : # empile un time event déclenché à la fin du tour de ce joueur
+							set self.where in State of {"stickyness", 3} # currentSquare ou self.where ?
+
+			Niles "Chasseur de Trésors", Taupe :
+				as Player :
+					with craftiness of 4
+					with liveliness of 3
+					with passive ability "Loot" :
+						when self.digUp : # ou self.turn is turn and digUp # empile un event conditionnel permanent (passif) déclenché lors de l'action de fouille
+							Deus Ex Machina $LootBonus of 1 # appel d’une fonction externe (unity C#)
+							# try without deus ex
+					with equipment "Fouet" :
+						with bonusDamage of 2
+
+			Piquette "Medic", Souris :
+				as Player :
+					with craftiness of 4
+					with liveliness of 4
+					with active ability "Soin" :
+						with cost of liveliness of 2
+						now :
+							Choose[Player from Players with Player.where is self.where] # UI et filtre
+							Chosen[Player].liveliness.heal # methode heal de la propriété liveliness
+							#Choose <Type> mémorise le choix dans Chosen <Type>
+					with equipment "Anesthésiant" :
+						when self.dealDamage :
+							with active ability "Anesthésier" :
+								with cost of liveliness of 1
+								now :
+									set self.target in State of {"anesthesia", 3}
+
+			Volotom "Pyromancien", Rat :
+				as Player :
+					with craftiness of 2
+					with liveliness of 3
+					with active ability "Let it burn!" :
+						with cost of liveliness of 2
+						at Phase of "EndPlayerTurn" :
+							set self.where in State of {"ablaze", 1} # avec persistance possible ou 4 avec extinction, et en plus propagation.
+					with passive equipment "Ceinture à pétards" :
+						with range of 1
+						with bonusCraftiness of 1
+
+			Kitten "Chaton", Chat :
+				as Enemy : # < Character
+					with threat of 5 # menace
+					with speed of 2 # déplacement du début de tour
+
+			Messenger "Messager", Chat :
+				as Enemy :
+					with threat of 7
+					with speed of 3 # or 2 ?
+					with loot of "Missive"
+
+		
+		
+		Stage 1, "Fond de la décharge" :
+			
+		Stage 2, "La carte" :
+		#   Direction :
+		#   Setup :
+		
+		#Stage #, "" :
+		#Stage #, "" :
+		
+		# Scene d'introduction
+		set Stage 1
+			
+		Enter Jazz
+		Jazz.Says ""
+		Exit Jazz
+		
+		Enter Fidel
+		Fidel.Says ""
+		Exit Fidel
+		
+		Enter Jazz
+		Jazz.Says ""
+		Exit Jazz
+		
+		Narrator.Says ""
+		Narrator.Says ""
+		
+		Enter Eddy
+		Eddy.Says ""
+		Exit Eddy
+		
+		Narrator.Says ""
+		set Stage 2
+			
+	Act 1, "Introduction" :
+		#Scene 1, "Evasion" : # === at Turn 1
+		
+		Scene 2, "Evadés" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 3, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 4, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 5, "" :
+			set Stage 1
+			Enter Eddy
+			Eddy.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Eddy
+			set Stage 2
+			
+		Scene 6, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 7, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+			
+		Scene 8, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+		
+		Scene 9, "" :
+			set Stage 1
+			Enter Fidel
+			Narrator.Says ""
+			Narrator.Says ""
+			Exit Fidel
+			set Stage 2
+				
+		Scene 10, "" :
+			set Stage 1
+			Enter Fidel
+			Fidel.Says ""
+			Narrator.Says ""
+			Narrator.Says ""
+			set Stage 2
+		
+		Offstage :
+			# ChefEcrou condition
+			
+	#Act 2, "Et c'est reparti!" :
+	#	Cutscene #, "" :
+
+	#Denouement / Conclusion
+
+	#To be continued in Scenario 2
+	#***
+	#To be continued in Scenario 3
+	#***
+	#The End
