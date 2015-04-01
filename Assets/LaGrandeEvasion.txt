@@ -86,8 +86,10 @@ Scenario 1, "La grande évasion" :
 		
 		
 		Stage 1, "Fond de la décharge" :
-			
+			loot # juste pour eviter le bug d'indentation
 		Stage 2, "La carte" :
+			loot # juste pour eviter le bug d'indentation
+			
 		#   Direction :
 		#   Setup :
 		

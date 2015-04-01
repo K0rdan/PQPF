@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Reflection;
 
+using NSGameNarrator;
+
 namespace NSGameNarrator
 {	
 	#region "GnabexAbstractClasses"
@@ -355,6 +357,8 @@ namespace NSGameNarrator
 			GameNarratorAbstractExpression[] gnabexes = context.ExpressionConstructionQueue.ToArray ();
 			GameNarratorAbstractExpression gnabex = gnabexes[context.ExpressionConstructionQueue.Count - 1];
 
+
+			List<GameNarratorAbstractExpression> Lgnabex = new List<GameNarratorAbstractExpression> ();
 			// Chaining to the last gnabex GNO
 			GNO = gnabex.GNO;
 
@@ -362,8 +366,31 @@ namespace NSGameNarrator
 			GameNarratorObject gno;
 			if (GNO.Properties.TryGetValue (args [1], out gno)) {
 				if(gno.Command != null){
-					//context.ExpressionCommand = gno.Command;
-					context.ObjectConstructionStack.Peek ().GNO.AddCommand(gno.Command);
+					// Get all following expression
+					while (cmd != "") {
+						GameNarratorAbstractExpression argGnabex = context.InterpretWords(ref cmd);
+						if (argGnabex != null)
+						{
+							Lgnabex.Add(argGnabex);
+							Debug.Log ("Enqueuing " + argGnabex.ToString());
+							context.ExpressionConstructionQueue.Enqueue (argGnabex);
+						}
+					}
+				
+					// Add them into the lambda expression
+					GameNarratorCommand gnc = () => {
+						string s = args[1];
+						for (int i = 0; i < Lgnabex.Count; ++i) {
+							int j = i;
+							GameNarratorObject gno2 = Lgnabex[i].GNO;
+							gno.Properties[s.ToString() + " arg" + j.ToString()] = gno2;
+						}
+						gno.Command();
+						return null;
+					};
+
+					context.ObjectConstructionStack.Peek ().GNO.AddCommand(gnc);
+				
 				}else{
 					//Normal property
 					gnabex.GNO = gno;
@@ -380,7 +407,7 @@ namespace NSGameNarrator
 	public class DeusExMachinaExpression : GameNarratorTerminalExpression
 	{
 		public string Str;
-		public List<GameNarratorAbstractExpression> Lgnabex = new List<GameNarratorAbstractExpression> ();
+		//public List<GameNarratorAbstractExpression> Lgnabex = new List<GameNarratorAbstractExpression> ();
 
 		/* No Keyword */
 		/**************/
@@ -402,6 +429,7 @@ namespace NSGameNarrator
 		{
 			// TODO
 			Str = args [1];
+			List<GameNarratorAbstractExpression> Lgnabex = new List<GameNarratorAbstractExpression> ();
 
 			while (cmd != "") {
 				GameNarratorAbstractExpression gnabex = context.InterpretWords(ref cmd);
@@ -422,7 +450,7 @@ namespace NSGameNarrator
 				dem.Invoke (new DeusExMachina (Lgnabex), os);
 				return null;
 			};
-
+			context.ObjectConstructionStack.Peek ().GNO.AddCommand(gnc);
 
 			return this;
 		}
@@ -545,6 +573,7 @@ namespace NSGameNarrator
 				// Not creating a region
 				
 			}*/
+			GNO = new GameNarratorObject("", "", GetName());
 			
 			return this;
 		}
@@ -701,13 +730,18 @@ namespace NSGameNarrator
 				};
 			} else {
 				// Just the keyword
-				Regex re = new Regex(@"([0-9]+)\s*");
+				Regex re = new Regex(@"\s*([0-9]+)\s*");
 				Match m = re.Match(cmd);
 
 				if(m.Success){
 					cmd = re.Replace(cmd, "");
 					//TODO get
+					//Scem.Value;
 
+					if(!GameNarratorObject.Vars.TryGetValue("Stage " + m.Value.ToString (), out GNO))
+					{
+						Debug.LogError("Couldn't find State " + m.Value.ToString ());
+					}
 				}
 				// TODO get corresponding Stage
 				//GNO = 
@@ -1538,6 +1572,34 @@ namespace NSGameNarrator
 			//TODO replace with a Threat instance
 			GNO = new GameNarratorObject ("", "", GetName ());
 
+			return this;
+		}
+	}
+
+	public class LootExpression : GameNarratorTerminalExpression
+	{
+		//public GamePlayer CO;
+		
+		public override string GetKeyword()
+		{
+			return "loot";
+		}
+		public override string GetExpressionPattern()
+		{
+			return @"";
+		}
+		public override string GetName()
+		{
+			return "Loot Object";
+		}
+		public override int GetPriority () {
+			return 10;
+		}
+		public override GameNarratorAbstractExpression Interpret(GameNarratorContext context, ref string cmd)
+		{
+			//TODO replace with a Loot instance
+			GNO = new GameNarratorObject ("", "", GetName ());
+			
 			return this;
 		}
 	}

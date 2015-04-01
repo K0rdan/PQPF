@@ -286,7 +286,7 @@ namespace NSGameNarrator{
 		{
 			GameNarratorObject gno = null;
 
-			Regex cmdCutter = new Regex (@"^[^\s]+"); // TODO CmdCutterRE
+			Regex cmdCutter = new Regex (@"^[^\s.]+"); // TODO CmdCutterRE
 			Match m = cmdCutter.Match (cmd);
 
 			if (!m.Success) {

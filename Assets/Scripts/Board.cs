@@ -29,7 +29,6 @@ namespace NSBoard
 		protected event TimeEvent timeEvent;
 
 
-
 		// Use this for initialization
 		void Start ()
 		{

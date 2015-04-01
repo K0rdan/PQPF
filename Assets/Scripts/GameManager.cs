@@ -90,28 +90,20 @@ public class GameManager : MonoBehaviour
 	}
 
 
-	/*void OnGUI() {
+	void OnGUI() {
 		//GUILayout.Label("Press Enter To Start Game");
-		if (Event.current.Equals (Event.KeyboardEvent ("KeyPad1")))
-			s += "1";
-		else if (Event.current.Equals (Event.KeyboardEvent ("Alpha1")))
-			s += "1";
-		else if (Event.current.Equals (Event.KeyboardEvent ("KeyPad0")))
-			s += "0";
-		else if (Event.current.Equals (Event.KeyboardEvent ("Alpha0")))
-			s += "0";
-		else if (Event.current.Equals (Event.KeyboardEvent ("return"))) {
-			Debug.Log (s);
+		if (Event.current.Equals (Event.KeyboardEvent ("return"))) {
+			/*Debug.Log (s);
 			Text t = GameObject.FindGameObjectsWithTag("Player")[0].GetComponentInChildren<Text>();
-			t.text = s;
+			t.text = s;*/
+			Application.CaptureScreenshot("screenshot.png");
 			// TODO is s a caseCode?
 
-			s = "";
 
 		}
 		Debug.Log("Detected key code: " + Event.current.keyCode);
 		
-	}*/
+	}
 }
 
 public class GameEvent
