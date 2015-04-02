@@ -13,7 +13,6 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 	public Material matEnter;
 	public Material matExit;
 
-	static private bool alt = false;
 	public ResourceFindingRate[] resourceFindingRates;
 
 	MeshRenderer mrenderer;

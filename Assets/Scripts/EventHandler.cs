@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using MyExtensions;
 
-public class EventHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler//, IPointerClickHandler
+public class EventHandler : MonoBehaviour/*, IBeginDragHandler, IDragHandler, IPointerEnterHandler, IPointerExitHandler//, IPointerClickHandler*/
 {
     public static GameObject catBeingDragged;
     private GameObject tooltip;
@@ -17,7 +17,7 @@ public class EventHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IPoi
 
     void Update()
     {
-        // TEST Bulle
+        /*// TEST Bulle
         if(bulle != null)
         {
             if (timerBulle == 0)
@@ -30,11 +30,11 @@ public class EventHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IPoi
                     bulle = null;
                 }
             }
-        }
+        }*/
         //
     }
 
-    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
+/*    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
     {
         GameObject.Destroy(tooltip);                                    // Suppression du Tooltip
         //
@@ -121,10 +121,10 @@ public class EventHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IPoi
 
         tooltip.transform.localPosition = new Vector3(posX, posY, gameObject.transform.localPosition.z);
 
-		/*Text t = tooltip.GetComponentInChildren<Text> ();
-		t.
-		tooltip.GetComponentInChildren<Text>().text = "Test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ";
-		*/
+		//Text t = tooltip.GetComponentInChildren<Text> ();
+		//t.
+		//tooltip.GetComponentInChildren<Text>().text = "Test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ";
+
 		//Canvas.ForceUpdateCanvases(); // Force la mise à jour des canvas pour update le composant RectTransform (qui a été modifié par le text)
 		//tooltip.GetComponentInChildren<Canvas>().
 	}

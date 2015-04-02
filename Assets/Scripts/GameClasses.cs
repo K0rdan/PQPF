@@ -31,24 +31,37 @@ public class GameScenario
 
 		////// Scene container
 		GameScene intro = ga.CreateScene (0, "Introduction");
+
 		//////// Events
-		GameScene gs1 = ga.CreateScene (1, "");
-		string[] o = {"Eddy", "Bonjour"};
-		gs1.CreateEvent (dm.Narration, o.Clone ());
+		string[] o = {"Jazz", "Bienvenue dans le monde impitoyable..."};
+		intro.CreateEvent (dm.Narration, o.Clone ());
+		o [0] = "Jazz";
+		o [1] = "Lalala";
+		intro.CreateEvent (dm.Narration, o.Clone ());
 		o [0] = "Fidel";
-		o [1] = "Nope";
-		gs1.CreateEvent (dm.Narration, o.Clone ());
-		/*gs1.CreateEvent ();
-		gs1.CreateEvent ();
-		gs1.CreateEvent ();
-		gs1.CreateEvent ();
-		*/
+		o [1] = "Nyahahahahanyanyananananyanyan";
+		intro.CreateEvent (dm.Narration, o.Clone ());
+
+		GameScene gs1 = ga.CreateScene (1, "");
 
 		////// Scene container
 		GameScene gs2 = ga.CreateScene (2, "");
+		o [0] = "Fidel";
+		o [1] = "CHACHACHA";
+		gs2.CreateEvent (dm.Narration, o.Clone ());
 
 		////// Scene container
 		GameScene gs3 = ga.CreateScene (3, "");
+		o [0] = "Eddy";
+		o [1] = "Bonjour";
+		gs3.CreateEvent (dm.Narration, o.Clone ());
+		o [0] = "Fidel";
+		o [1] = "Nope";
+		gs3.CreateEvent (dm.Narration, o.Clone ());
+		o [0] = "Jazz";
+		o [1] = "Jamming with ya, yeaaaaaaaahhhhhh!";
+		gs3.CreateEvent (dm.Narration, o.Clone ());
+
 
 		////// Scene container
 		GameScene gs4 = ga.CreateScene (4, "");
@@ -77,12 +90,12 @@ public class GameScenario
 		//// Act 2 container
 		GameAct ga2 = scenario.CreateAct (2, "En cavale");
 		////// Scene container
-		GameScene gs10_2 = ga.CreateScene (10, "");
+		GameScene gs10_2 = ga2.CreateScene (10, "");
 
 		//// Act 3 container
 		GameAct ga3 = scenario.CreateAct (3, "Ad vitam eternam");
 		////// Scene container
-		GameScene gs100_3 = ga.CreateScene (100, "");
+		GameScene gs100_3 = ga3.CreateScene (100, "");
 
 
 		return scenario;
@@ -163,13 +176,32 @@ public class GameScenario
 
 	public GameScene GetCurrentScene()
 	{
-		GameAct a = GetCurrentAct();
+		GameAct a = GetCurrentAct(); // TODO Id
 		return a.Scenes[a.CurrentScene];
+	}
+
+	public GameScene GetSceneById(int id)
+	{
+		GameAct a = GetCurrentAct(); // TODO Id
+		for (int i = 0; i < a.Scenes.Count; ++i) {
+			if (a.Scenes[i].Id == id){
+				return a.Scenes[i];
+			} else if(a.Scenes[i].Id > id)
+			{
+				return null;
+			}
+		}
+		return null;
 	}
 
 	public List<GameEvent> FetchEvents()
 	{
-		return GetCurrentScene ().Events;
+		GameScene s = GetSceneById (GetCurrentAct ().CurrentScene);
+		if (s != null) {
+			return s.Events;
+		} else {
+			return new List<GameEvent> ();
+		}
 	}
 }
 
@@ -216,7 +248,7 @@ public class GameAct
 
 	public GameScene CreateScene (int id, string name) {
 		GameScene gs = new GameScene (id, name, this);
-		Scenes.Add (gs);
+		//Scenes.Add (gs);
 		
 		return gs;
 	}

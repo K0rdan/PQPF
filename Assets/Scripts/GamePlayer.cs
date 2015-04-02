@@ -121,6 +121,10 @@ public class GamePlayer : MonoBehaviour
 		Liveliness -= 2;
 	}
 
+	public void Hurt(){
+		++Damage;
+	}
+
 	public bool HasActivableSkill(){
 		return true;
 	}

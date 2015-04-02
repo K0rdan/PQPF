@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
 	public GameObject PlayerDisplay;
 	public GameObject NarrationDisplay;
 	public GameObject TurnDisplay;
+	public GameObject RandomSliderDisplay;
 
 
 	public EventManager EM;
@@ -26,7 +27,6 @@ public class GameManager : MonoBehaviour
 	public void DoNext()
 	{
 		Next = true;
-		Debug.Log ("click'd");
 	}
 	
 	//private SerialPort SP;
@@ -40,9 +40,11 @@ public class GameManager : MonoBehaviour
 	{
 		//List<GamePlayer> Players = GamePlayer.Players;
 
+		DM = new DisplayManager (this);
 		EM = new EventManager (GameScenario.Init (DM));
 		TM = new TurnManager (this);
-		DM = new DisplayManager (this);
+
+		Debug.Log ("NB tours: " + EM.Scenario.Acts [0].Scenes.Count);
 
 		TM.Start ();
 		//gameBoard.registerEventHandlers (TurnManager);
@@ -174,10 +176,11 @@ public class DisplayManager
 	public GameObject GameCanvas;
 
 	private GameManager GM;
-
-	public DisplayManager (GameManager gm)
+	//private TurnManager TM;
+	public DisplayManager (GameManager gm)//TurnManager tm)
 	{
-		GM = gm;
+		//tm = tm;
+		GM = gm;//TM.GM;
 	}
 
 	void update ()
@@ -238,18 +241,45 @@ public class DisplayManager
 	{
 		GM.TurnDisplay.SetActive (b);
 	}
+	public void SetRandomSliderDisplayActive(bool b)
+	{
+		GM.RandomSliderDisplay.SetActive (b);
+	}
+
 
 	public void Narration(object o){
 		string[] s = o as string[];
 		string speaker = s [0];
-		string speach = s [1];
+		string speech = s [1];
 
 		Debug.Log ("speaker is : " + speaker);
 
-		GameCharacter gc = GameCharacter.GetCharacter (speaker);
-		if (gc != null) {
-			gc.Say (s [1]);
+		GameObject go = GameObject.Instantiate(Resources.Load<GameObject> ("Prefabs/Characters/" + speaker)) as GameObject;
+		if (go != null) {
+
+			// Display Character
+			Transform t = GM.NarrationDisplay.transform.FindChild ("CharactersSpriteAnchor");
+			List<GameObject> lgo = new List<GameObject> ();
+			for (int i=0; i< t.childCount; ++i) {
+				lgo.Add (t.GetChild (i).gameObject);
+			}
+
+			for (int i=0; i < lgo.Count; ++i) {
+				GameObject.Destroy (lgo [i]);
+			}
+
+			go.transform.SetParent (t);
+
+			// Change Text Content
+			Transform tt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor").Find ("CharactersBubble").Find ("Text");
+			Debug.Log(tt);
+			Text txt = tt.gameObject.GetComponent<Text>();
+			Debug.Log (txt);
+			//Text txt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor/Text").gameObject.GetComponent<Text>();
+			txt.text = speech;
 		}
+
+
 	}
 }
 
@@ -270,18 +300,21 @@ public class TurnManager : FSM
 		GM = gm;
 		
 		//Create all states and sub-FSM
+		TurnEventState intro = new TurnEventState (GM, "_intro");
 		NextTurnState nts = new NextTurnState (this);
 		TurnEventState tes = new TurnEventState (GM);
-		EnemyTurnState enemyturn = new EnemyTurnState ();//this);
+		EnemyTurnState enemyturn = new EnemyTurnState (GM);
 		PlayerTurnFSM playerturn = new PlayerTurnFSM (this);
 
 		// Add states and sub-FSM
+		AddState (intro);
 		AddState (nts);
 		AddState (tes);
 		AddState (enemyturn);
 		AddState (playerturn);
 
 		// Create all transitions
+		IsDoneTransition idt2nts = new IsDoneTransition (nts);
 		IsDoneTransition idt2tes = new IsDoneTransition (tes);
 		IsDoneTransition idt2enemyturn = new IsDoneTransition (enemyturn);
 		IsDoneTransition idt2playerturn = new IsDoneTransition (playerturn);
@@ -289,6 +322,7 @@ public class TurnManager : FSM
 		IsDoneTransition idt2playerturnself = new IsDoneTransition (playerturn);
 
 		// Add transitions to states
+		intro.AddTransition(idt2nts);
 		nts.AddTransition(idt2tes);
 		tes.AddTransition(idt2enemyturn);
 		enemyturn.AddTransition(idt2playerturn);
@@ -300,10 +334,12 @@ public class TurnManager : FSM
 		Started = true;
 		DoBeforeEntering ();
 
-		GM.DM.SetMapActive(false);
-		GM.DM.SetNarrationActive(false);
-		GM.DM.SetTurnActive(true);
-		GM.DM.SetPlayerActive(true);
+		// Intro
+		GM.DM.SetMapActive (false);
+		GM.DM.SetNarrationActive (true);
+		GM.DM.SetTurnActive (false);
+		GM.DM.SetPlayerActive (false);
+		GM.DM.SetRandomSliderDisplayActive (false);
 	}
 
 	public void update ()
@@ -608,7 +644,7 @@ public class TurnEventState : FSMState
 
 	private bool hasChanged = false;
 
-	public TurnEventState(GameManager gm) : base("TurnEvent")
+	public TurnEventState(GameManager gm, string s = "") : base("TurnEvent"+s)
 	{
 		GM = gm;
 		TM = gm.TM;
@@ -625,19 +661,24 @@ public class TurnEventState : FSMState
 		if (Events.Count > 0)
 		{
 			hasChanged = true;
-			GM.DM.SetMapActive(false);
-			GM.DM.SetPlayerActive(false);
-			GM.DM.SetNarrationActive(true);
-			GM.DM.SetTurnActive(true);
+			GM.DM.SetMapActive (false);
+			GM.DM.SetPlayerActive (false);
+			GM.DM.SetNarrationActive (true);
+			GM.DM.SetTurnActive (true);
+			GM.DM.SetRandomSliderDisplayActive (false);
 		}
 	}
 
 	public override void Do()
 	{
 		Debug.Log ("TurnEventState");
-		Events [CurrentEvent].ExecuteEvent ();
+		if (CurrentEvent < Events.Count) {
+			Events [CurrentEvent].ExecuteEvent ();
+		}
 		if (GM.Next) {
 			++CurrentEvent;
+			Debug.Log ("ce" +CurrentEvent);
+			Debug.Log ("ec " +Events.Count);
 		}
 	}
 
@@ -647,10 +688,11 @@ public class TurnEventState : FSMState
 		if (hasChanged)
 		{
 			hasChanged = false;
-			GM.DM.SetMapActive(false);
-			GM.DM.SetPlayerActive(true);
-			GM.DM.SetNarrationActive(false);
-			GM.DM.SetTurnActive(true);
+			GM.DM.SetMapActive (false);
+			GM.DM.SetPlayerActive (true);
+			GM.DM.SetNarrationActive (false);
+			GM.DM.SetTurnActive (true);
+			GM.DM.SetRandomSliderDisplayActive (false);
 		}
 	}
 
@@ -662,15 +704,24 @@ public class TurnEventState : FSMState
 
 public class EnemyTurnState : FSMState
 {
+	private GameManager GM;
 	public List<GameEnemy> Enemies;
-	public EnemyTurnState() : base("EnemyTurn")
+	public EnemyTurnState(GameManager gm) : base("EnemyTurn")
 	{
+		GM = gm;
 		Enemies = new List<GameEnemy>();
 	}
 
 	public override void DoBeforeEntering()
 	{
 		Debug.Log ("Enter TurnEnemyState");
+		if (Enemies.Count > 0) {
+			GM.DM.SetMapActive (true);
+			GM.DM.SetPlayerActive (true);
+			GM.DM.SetNarrationActive (false);
+			GM.DM.SetTurnActive (true);
+			GM.DM.SetRandomSliderDisplayActive (false);
+		}
 	}
 	
 	public override void Do()
