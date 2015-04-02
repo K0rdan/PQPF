@@ -6,23 +6,28 @@ using System.Collections.Generic;
 
 using System.IO.Ports;
 
-using NSBoard;
-using NSBoardGameItem;
-using NSBoardSquare;
-using NSFSM;
-using NSGameNarrator;
-//using NSActionManager;
 
 public class GameManager : MonoBehaviour
 {
-	public Board gameBoard;
+	//public bool NextClicked = false;
+	public bool Next = false;
 
-	public GameNarrator Narrator;
-	public TurnManager TM;
+
+	public GameObject MapDisplay;
+	public GameObject PlayerDisplay;
+	public GameObject NarrationDisplay;
+	public GameObject TurnDisplay;
+
 
 	public EventManager EM;
+	public TurnManager TM;
 	public DisplayManager DM;
-
+	
+	public void DoNext()
+	{
+		Next = true;
+		Debug.Log ("click'd");
+	}
 	
 	//private SerialPort SP;
 	//private string s="";
@@ -33,7 +38,12 @@ public class GameManager : MonoBehaviour
 
 	void Start ()
 	{
+		//List<GamePlayer> Players = GamePlayer.Players;
+
+		EM = new EventManager (GameScenario.Init (DM));
 		TM = new TurnManager (this);
+		DM = new DisplayManager (this);
+
 		TM.Start ();
 		//gameBoard.registerEventHandlers (TurnManager);
 
@@ -63,6 +73,11 @@ public class GameManager : MonoBehaviour
 	void Update ()
 	{
 		TM.update ();
+
+		if(Next){
+			Next = false;
+		}
+
 		//displayManager.update();
 		/*if (SP != null) {
 			try 
@@ -98,112 +113,146 @@ public class GameManager : MonoBehaviour
 			t.text = s;*/
 			Application.CaptureScreenshot("screenshot.png");
 			// TODO is s a caseCode?
-
-
 		}
-		Debug.Log("Detected key code: " + Event.current.keyCode);
-		
 	}
-}
 
-public class GameEvent
-{
-	
-}
-
-public class TurnEvent : GameEvent
-{
-	public int Turn;
-	GameNarratorNonTerminalExpression ScriptEvent;
-
-	public TurnEvent(int turn, GameNarratorNonTerminalExpression gnnte)
+	#region "ActionPrompter methods"
+	public void DigUp()
 	{
-		Turn = turn;
-		ScriptEvent = gnnte;
+		EM.Scenario.GetCurrentPlayer ().DigUp (null); // TODO add Niles modifier
+		DM.ReloadActionPrompter();
+		DM.SetMapActive(true);
+		DM.SetPlayerActive(false);
 	}
-}
+	public void Move()
+	{
+		EM.Scenario.GetCurrentPlayer ().Move ();
+		DM.ReloadActionPrompter();
+		DM.SetMapActive(true);
+		DM.SetPlayerActive(false);
+	}
+	public void Fight()
+	{
+		EM.Scenario.GetCurrentPlayer ().Fight ();
+		DM.ReloadActionPrompter();
+	}
+	public void Skill() // TODO Skills?
+	{
+		EM.Scenario.GetCurrentPlayer ().Skill ();
+		DM.ReloadActionPrompter();
+	}
+	public void Inventory()
+	{
+		EM.Scenario.GetCurrentPlayer ().LookInventory ();
+		DM.ReloadActionPrompter();
+	}
+	public void Rest()
+	{
+		EM.Scenario.GetCurrentPlayer ().Rest ();
+		DM.ReloadActionPrompter();
 
-public class PlayerEvent : GameEvent
-{
-	
+		DoNext ();
+	}
+	#endregion
 }
 
 public class EventManager
 {
-	public static List<TurnEvent> TurnEvents = new List<TurnEvent>();
-	public static List<PlayerEvent> PlayerEvents = new List<PlayerEvent>();
+	public GameScenario Scenario;
 
-	public EventManager ()
+	public EventManager (GameScenario scenario)
 	{
-		
-	}
-
-	public static void AddEvent(TurnEvent te)
-	{
-		for (int i = 0; i < TurnEvents.Count; ++i)
-		{
-			if(te.Turn <= TurnEvents[i].Turn){
-				TurnEvents.Insert(i, te);
-				return;
-			}
-		}
-		TurnEvents.Add (te);
-	}
-	public static void RemoveEvent(TurnEvent te)
-	{
-		TurnEvents.Remove(te);
-		/*for (List<TurnEvent>.Enumerator ete = TurnEvents.GetEnumerator (); ete.MoveNext();) {
-			if(te.Turn < ete.Current.Turn)
-			{
-				break;
-			} else {
-				TurnEvents.Remove(te);
-			}
-		}*/
+		Scenario = scenario;
 	}
 
-	public static void AddEvent(PlayerEvent pe)
-	{
-		PlayerEvents.Add (pe);
-	}
-	public static void RemoveEvent(PlayerEvent pe){
-		PlayerEvents.Remove (pe);
-	}
+
 }
 
 [System.Serializable]
 public class DisplayManager
 {
-	// TODO ?
-	public Canvas DisplayCanvas;
-    public Canvas CanvasUI;
+	public GameObject GameCanvas;
 
-	/*DisplayManager ()
+	private GameManager GM;
+
+	public DisplayManager (GameManager gm)
 	{
-
-	}*/
+		GM = gm;
+	}
 
 	void update ()
 	{
 		
 	}
 
-	public static void SetStage(string stageName)
+	public void ReloadActionPrompter()
 	{
-		Component[] cpnts = GameObject.Find("Stages").GetComponentsInChildren<Transform>(true);
-		for (int i = 0; i < cpnts.Length; ++i)
-		{
-			// Activate GameObject with stageName
-			// And deactivate the others
-			if(cpnts[i].tag == "Stage"){
-				Debug.Log (cpnts[i].transform.name);
-				cpnts[i].gameObject.SetActive(cpnts[i].transform.name == stageName);
+		List<string> actionList;// = new Dictionary<string, GameAction> ();
+		GM.EM.Scenario.GetCurrentPlayer().GetActions (out actionList);
+
+		//DisplayManager.ActionLayout(GameObject.Find ("ActionPrompter"), actionList);
+
+		GameObject container = GameObject.Find ("ActionPrompter");
+		List<GameObject> lgo = new List<GameObject>();
+		
+		for (int i = 0; i < container.transform.childCount; ++i) {
+			GameObject go = container.transform.GetChild(i).gameObject;
+			Vector3 pos = go.transform.localPosition;
+
+			if(actionList.Contains(go.name))
+			{
+				pos.x = 0;
+			}else{
+				pos.x = 1000;
 			}
+			go.transform.localPosition = pos;
+
+		}
+
+			/*Button b = go.GetComponent<Button>();
+			b.interactable = true;
+			
+			string s = entry.Key; // Closure issue : store external value (entry.Key) in internal variable (s)
+			b.onClick.AddListener(() => {ActionManager.DoAction(s);});
+			 */
+		
+		Debug.Log ("Prompter reloaded");
+	}
+
+	public void SetMapActive(bool b)
+	{
+		GM.MapDisplay.SetActive (b);
+	}
+
+	public void SetPlayerActive(bool b)
+	{
+		GM.PlayerDisplay.SetActive (b);
+	}
+
+	public void SetNarrationActive(bool b)
+	{
+		GM.NarrationDisplay.SetActive (b);
+	}
+
+	public void SetTurnActive(bool b)
+	{
+		GM.TurnDisplay.SetActive (b);
+	}
+
+	public void Narration(object o){
+		string[] s = o as string[];
+		string speaker = s [0];
+		string speach = s [1];
+
+		Debug.Log ("speaker is : " + speaker);
+
+		GameCharacter gc = GameCharacter.GetCharacter (speaker);
+		if (gc != null) {
+			gc.Say (s [1]);
 		}
 	}
 }
 
-//[System.Serializable]
 public class TurnManager : FSM
 {
 	public bool Started = false;
@@ -211,7 +260,6 @@ public class TurnManager : FSM
 	public int NbTurns;
 	public bool NewTurn;
 
-	public List<GamePlayer> Players;
 	public GameManager GM;
 
 	public TurnManager (GameManager gm) : base("TurnManager")
@@ -220,23 +268,10 @@ public class TurnManager : FSM
 		NewTurn = false;
 
 		GM = gm;
-
-		Debug.Log ("Nb players = " + GamePlayer.Players.Count.ToString ());
-		Players = GamePlayer.Players; // static list from class GamePlayer
-
-		for (int i = 1; i < GamePlayer.Players.Count; ++i) {
-			// TODO factorize and put it in UIGenerator
-			GameObject pts = GameObject.Find("PlayerTurnSprite");
-			GameObject s = GameObject.Instantiate (pts, new Vector3(-335 + 50 * i, 175, 0), Quaternion.Euler(0, 0, 0)) as GameObject;
-			s.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Images/"+GamePlayer.Players[i].GNO.VarName);
-
-			s.transform.SetParent(pts.transform.parent.transform, false);
-		}
-
-
+		
 		//Create all states and sub-FSM
 		NextTurnState nts = new NextTurnState (this);
-		TurnEventState tes = new TurnEventState (this);
+		TurnEventState tes = new TurnEventState (GM);
 		EnemyTurnState enemyturn = new EnemyTurnState ();//this);
 		PlayerTurnFSM playerturn = new PlayerTurnFSM (this);
 
@@ -264,6 +299,11 @@ public class TurnManager : FSM
 	public void Start(){
 		Started = true;
 		DoBeforeEntering ();
+
+		GM.DM.SetMapActive(false);
+		GM.DM.SetNarrationActive(false);
+		GM.DM.SetTurnActive(true);
+		GM.DM.SetPlayerActive(true);
 	}
 
 	public void update ()
@@ -276,11 +316,13 @@ public class TurnManager : FSM
 
 public class PlayerTurnFSM : FSM
 {
+	public GameManager GM;
 	public TurnManager TM;
 
 	public PlayerTurnFSM(TurnManager tm) : base("Turn")
 	{
 		TM = tm;
+		GM = TM.GM;
 
 		PlayerBeginTurnState pbt = new PlayerBeginTurnState (TM);
 		PlayerTurnState pt = new PlayerTurnState (TM);
@@ -308,7 +350,7 @@ public class NextTurnState : FSMState
 		TM = tm;
 		Done = false;
 
-		TurnTextAnimation = GameObject.Find("TurnText").GetComponent<Animator>();
+		TurnTextAnimation = GameObject.Find("TurnAnchor").GetComponent<Animator>();
 	}
 
 	public override void DoBeforeEntering ()
@@ -318,15 +360,13 @@ public class NextTurnState : FSMState
 
 		//defilement.animation.Rewind ();
 		++TM.NbTurns;
+		++(TM.GM.EM.Scenario.GetCurrentAct ().CurrentScene);
 		TM.NewTurn = false;
 
-		// TODO TEST
-		if (TM.NbTurns == 1) {
-			DisplayManager.SetStage("La carte");
-		} else if (TM.NbTurns == 2) {
-			DisplayManager.SetStage("Fond de la décharge");
+		List<GamePlayer> players = TM.GM.EM.Scenario.Players;
+		for (int i = 0; i < players.Count; ++i) {
+			players[i].Refresh ();
 		}
-		///
 
 		Debug.Log ("Turn " + TM.NbTurns.ToString());
 
@@ -376,10 +416,11 @@ public class NextTurnState : FSMState
 public class PlayerBeginTurnState : FSMState
 {
 	public bool Done;
+	public GameManager GM;
 	public TurnManager TM;
 
-	public GameObject PlayerCursorAnchor;
-	private Animator PlayerCursorSpriteAnimation;
+	public GameObject PlayerCursorAnchor = null;
+	private Animator PlayerCursorSpriteAnimation = null;
 	private int ToRightCount = 0;
 	private float DeltaPosition;
 	private Vector3 CursorPosition;
@@ -387,19 +428,27 @@ public class PlayerBeginTurnState : FSMState
 	public PlayerBeginTurnState(TurnManager tm) : base("PlayerBeingTurn")
 	{
 		TM = tm;
+		GM = TM.GM;
 
-		PlayerCursorAnchor = GameObject.Find ("PlayerCursorAnchor");
-		PlayerCursorSpriteAnimation = PlayerCursorAnchor.GetComponent<Animator> ();
+		//PlayerCursorAnchor = cursorGameObject.Find ("PlayerCursorAnchor");
+		//PlayerCursorSpriteAnimation = PlayerCursorAnchor.GetComponent<Animator> ();
 
-		DeltaPosition = 50f;
+		DeltaPosition = 150f;
 	}
 
 	public override void DoBeforeEntering ()
 	{
 		Debug.Log ("Enter PBT");
+		if (PlayerCursorAnchor == null)
+		{
+			PlayerCursorAnchor = GameObject.Find ("PlayerCursorAnchor");
+		}
+		if (PlayerCursorSpriteAnimation == null)
+		{
+			PlayerCursorSpriteAnimation = PlayerCursorAnchor.GetComponent<Animator> ();
+		}
 
-		GamePlayer.CurrentPlayer = GamePlayer.Players [GamePlayer.CurrentPlayerIndex];
-		Debug.Log (GamePlayer.CurrentPlayer.GNO.DisplayedName);// = GamePlayer.Players [GamePlayer.CurrentPlayerIndex];
+		Debug.Log (GM.EM.Scenario.GetCurrentPlayer().Name);
 
 		Done = false;
 	}
@@ -408,18 +457,18 @@ public class PlayerBeginTurnState : FSMState
 	{
 		Debug.Log ("PlayerBeginTurn");
 		
-		Debug.Log ("Player #" + GamePlayer.CurrentPlayerIndex);
+		Debug.Log ("Player #" + GM.EM.Scenario.CurrentPlayer);
 		
 		if (PlayerCursorSpriteAnimation.GetCurrentAnimatorStateInfo (0).IsName ("CursorSpriteIdle")){
-			if (GamePlayer.CurrentPlayerIndex == ToRightCount) {
+			if (GM.EM.Scenario.CurrentPlayer == ToRightCount) {
 				SolidifyPosition();
 				Done = true;
 				return;
-			}else if(ToRightCount < GamePlayer.CurrentPlayerIndex){
+			}else if(ToRightCount < GM.EM.Scenario.CurrentPlayer){
 				ToRightCount++;
 
 				PlayerCursorSpriteAnimation.SetTrigger ("ToRight");
-			}else if(ToRightCount > GamePlayer.CurrentPlayerIndex){
+			}else if(ToRightCount > GM.EM.Scenario.CurrentPlayer){
 				ToRightCount--;
 
 				PlayerCursorSpriteAnimation.SetTrigger ("ToLeft");
@@ -432,7 +481,6 @@ public class PlayerBeginTurnState : FSMState
 	{
 		CursorPosition = PlayerCursorAnchor.transform.position;
 		CursorPosition.x = ToRightCount * DeltaPosition;
-		CursorPosition.y = -7;// TODO Remove and modify animations
 
 		PlayerCursorAnchor.transform.position = PlayerCursorAnchor.transform.TransformVector (CursorPosition);
 	}
@@ -459,33 +507,21 @@ public class PlayerTurnState : FSMState
 
 	public PlayerTurnState(TurnManager tm) : base("PlayerTurn")
 	{
-		TM = tm; // TODO ?
+		TM = tm;
 		PlayerCursorSpriteAnimation = GameObject.Find ("PlayerCursorAnchor").GetComponent<Animator> ();
-	}
-
-	public static void ReloadActionPrompter()
-	{
-		ActionList = new Dictionary<string, GameAction> ();
-		GamePlayer.CurrentPlayer.GetActions (out ActionList);
-		ActionList.Add ("EndTurn", PlayerTurnState.EndPlayerTurn);
-		
-		UIGenerator.UpdateActionButtonsFromList(GameObject.Find ("ActionPrompter"), ActionList);
-
-
-		///
-		Debug.Log ("Prompter reloaded");
-		ChooseExpression.Once = 1;
 	}
 
 	public override void DoBeforeEntering()	
 	{
 		PlayerCursorSpriteAnimation.SetBool("PlayerTurn", true);
-		ReloadActionPrompter();
+
+
+		TM.GM.DM.ReloadActionPrompter();
 	}
 
 	public override void Do()
 	{
-		if (!ActionManager.Busy) {
+		/*if (!ActionManager.Busy) {
 			Debug.Log ("PlayerTurn");
 
 			Done = true; // TODO
@@ -496,35 +532,39 @@ public class PlayerTurnState : FSMState
 				ChooseExpression.Test ();
 				--ChooseExpression.Once;
 			}
-		}
+		}*/
 	}
 	public override void DoBeforeLeaving ()
 	{
 		PlayerCursorSpriteAnimation.SetBool("PlayerTurn", false);
 		Done = false;
+
 	}
 
 	public override bool IsDone ()
 	{
-		return ActionList.Count == 0;//Done;
+		//return ActionList.Count == 0;//Done;
+		return TM.GM.Next;
 	}
 
+	/*
 	public static void EndPlayerTurn()
 	{
 		ActionList.Clear ();
-		//yield return null;
 		return;
-	}
+	}*/
 }
 
 public class PlayerEndTurnState : FSMState
 {
 	public bool Done;
+	public GameManager GM;
 	public TurnManager TM;
 
 	public PlayerEndTurnState(TurnManager tm) : base("PlayerEndTurn")
 	{
 		TM = tm;
+		GM = TM.GM;
 	}
 
 	public override void Do()
@@ -538,9 +578,9 @@ public class PlayerEndTurnState : FSMState
 		Debug.Log("Entering PET");
 		Done = false;
 
-		if (!(++GamePlayer.CurrentPlayerIndex < TM.Players.Count))
+		if (!(++(GM.EM.Scenario.CurrentPlayer) < GM.EM.Scenario.Players.Count))
 		{
-			GamePlayer.CurrentPlayerIndex = 0;
+			GM.EM.Scenario.CurrentPlayer = 0;
 			TM.NewTurn = true;
 		}
 	}
@@ -560,40 +600,63 @@ public class PlayerEndTurnState : FSMState
 
 public class TurnEventState : FSMState
 {
+	public GameManager GM;
 	public TurnManager TM;
 	public EventManager EM;
+	public List<GameEvent> Events;
+	public int CurrentEvent;
 
-	public List<TurnEvent> CurrentTurnEvent = new List<TurnEvent>();
+	private bool hasChanged = false;
 
-	public TurnEventState(TurnManager tm) : base("TurnEvent")
+	public TurnEventState(GameManager gm) : base("TurnEvent")
 	{
-		TM = tm;
-		EM = TM.GM.EM;
-
+		GM = gm;
+		TM = gm.TM;
+		EM = gm.EM;
 	}
 
 	public override void DoBeforeEntering()
 	{
-		FetchEvents ();
+		Debug.Log ("Enter TurnEventState");
+		Events = EM.Scenario.FetchEvents ();
+		CurrentEvent = 0;
+
+		//TODO
+		if (Events.Count > 0)
+		{
+			hasChanged = true;
+			GM.DM.SetMapActive(false);
+			GM.DM.SetPlayerActive(false);
+			GM.DM.SetNarrationActive(true);
+			GM.DM.SetTurnActive(true);
+		}
 	}
 
 	public override void Do()
 	{
-		
-	}
-
-	public void FetchEvents(){
-		//EM.events;
-		//CurrentTurnEvent.Add
+		Debug.Log ("TurnEventState");
+		Events [CurrentEvent].ExecuteEvent ();
+		if (GM.Next) {
+			++CurrentEvent;
+		}
 	}
 
 	public override void DoBeforeLeaving()
 	{
+		//TODO
+		if (hasChanged)
+		{
+			hasChanged = false;
+			GM.DM.SetMapActive(false);
+			GM.DM.SetPlayerActive(true);
+			GM.DM.SetNarrationActive(false);
+			GM.DM.SetTurnActive(true);
+		}
 	}
 
 	public override bool IsDone()
 	{
-		return CurrentTurnEvent.Count == 0;
+		return !(CurrentEvent < Events.Count);
 	}
 }
 
@@ -607,7 +670,7 @@ public class EnemyTurnState : FSMState
 
 	public override void DoBeforeEntering()
 	{
-		
+		Debug.Log ("Enter TurnEnemyState");
 	}
 	
 	public override void Do()

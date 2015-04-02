@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 //namespace NSActionManager {
-public delegate void GameAction();
+public delegate void GameAction(object o);
 //public delegate IEnumerator GameAction();
 
 public class ActionManager : MonoBehaviour {
@@ -14,14 +14,15 @@ public class ActionManager : MonoBehaviour {
 	public static Dictionary<string, GameAction> AL;
 
 	private static ActionManager instance;
-	public static ActionManager Instance {
+	public static ActionManager Instance
+	{
 		get
 		{
 			return instance;
 		}
 	}
 
-	public static bool Asynchronous = false;
+	//public static bool Asynchronous = false;
 	public static bool Busy = false;
 	//public static object Lock = new object();
 
@@ -48,10 +49,10 @@ public class ActionManager : MonoBehaviour {
 		if (!Busy) {
 			GameAction a;
 			if (AL.TryGetValue (s, out a)) {
-				a();
-				/*if(a != null){
-					Instance.StartCoroutine (a ());
-				}*/
+				a(null);
+				//if(a != null){
+				//	Instance.StartCoroutine (a ());
+				//}
 			}
 		}
 	}

@@ -4,23 +4,19 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-using NSBoard;
-using NSBoardGameItem;
 
-namespace NSBoardSquare
+public class BoardSquare : MonoBehaviour// BoardGameItem
 {
-	public class BoardSquare : MonoBehaviour// BoardGameItem
-	{
-		public int Id;
+	public int Id;
 
-		public Vector2[] vertices2D;
-		public Material matEnter;
-		public Material matExit;
+	public Vector2[] vertices2D;
+	public Material matEnter;
+	public Material matExit;
 
-		static private bool alt = false;
-		public ResourceFindingRate[] resourceFindingRates;
+	static private bool alt = false;
+	public ResourceFindingRate[] resourceFindingRates;
 
-		MeshRenderer mrenderer;
+	MeshRenderer mrenderer;
 
 		/*
 	Character[] 					_personnages;
@@ -231,7 +227,14 @@ namespace NSBoardSquare
 	}
 
 	
-	public class Triangulator
+[System.Serializable]
+public class ResourceFindingRate
+{
+	public Resource resource;
+	public float rate;
+}
+
+public class Triangulator
 	{
 		private List<Vector2> m_points = new List<Vector2>();
 		
@@ -339,4 +342,3 @@ namespace NSBoardSquare
 		}
 	}
 
-}

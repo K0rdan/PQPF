@@ -12,29 +12,29 @@ AnimationClip:
   m_UseHighQualityCurve: 1
   m_RotationCurves: []
   m_CompressedRotationCurves: []
-  m_PositionCurves: []
-  m_ScaleCurves:
+  m_PositionCurves:
   - curve:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: {x: 15, y: 7, z: 1}
-        inSlope: {x: 20, y: 12, z: 0}
-        outSlope: {x: 20, y: 12, z: 0}
-        tangentMode: 531496960
-      - time: .25
-        value: {x: 20, y: 10, z: 1}
+        value: {x: -875, y: 582.5, z: 0}
+        inSlope: {x: 0, y: -14, z: 0}
+        outSlope: {x: 0, y: -14, z: 0}
+        tangentMode: 0
+      - time: .5
+        value: {x: -875, y: 575.5, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
-      - time: .5
-        value: {x: 15, y: 7, z: 1}
-        inSlope: {x: -20, y: -12, z: 0}
-        outSlope: {x: -20, y: -12, z: 0}
-        tangentMode: 3145782
+      - time: 1
+        value: {x: -875, y: 582.5, z: 0}
+        inSlope: {x: 0, y: 14, z: 0}
+        outSlope: {x: 0, y: 14, z: 0}
+        tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: PlayerCursorSprite
+  m_ScaleCurves: []
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -45,7 +45,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - path: 575425582
-      attribute: 3
+      attribute: 1
       script: {fileID: 0}
       classID: 4
       customType: 0
@@ -54,7 +54,7 @@ AnimationClip:
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
-    m_StopTime: .5
+    m_StopTime: 1
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -73,23 +73,23 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 15
-        inSlope: 20
-        outSlope: 20
-        tangentMode: 10
-      - time: .25
-        value: 20
+        value: -875
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: .5
-        value: 15
-        inSlope: -20
-        outSlope: -20
+        value: -875
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      - time: 1
+        value: -875
+        inSlope: 0
+        outSlope: 0
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
-    attribute: m_LocalScale.x
+    attribute: m_LocalPosition.x
     path: PlayerCursorSprite
     classID: 4
     script: {fileID: 0}
@@ -97,23 +97,23 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 7
-        inSlope: 12
-        outSlope: 12
+        value: 582.5
+        inSlope: -14
+        outSlope: -14
         tangentMode: 10
-      - time: .25
-        value: 10
+      - time: .5
+        value: 575.5
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .5
-        value: 7
-        inSlope: -12
-        outSlope: -12
+      - time: 1
+        value: 582.5
+        inSlope: 14
+        outSlope: 14
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
-    attribute: m_LocalScale.y
+    attribute: m_LocalPosition.y
     path: PlayerCursorSprite
     classID: 4
     script: {fileID: 0}
@@ -121,23 +121,23 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 10
-      - time: .25
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: .5
-        value: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      - time: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
-    attribute: m_LocalScale.z
+    attribute: m_LocalPosition.z
     path: PlayerCursorSprite
     classID: 4
     script: {fileID: 0}

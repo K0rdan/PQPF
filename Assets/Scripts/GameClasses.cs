@@ -2,260 +2,312 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-//using NSActionManager;
-
-namespace NSGameNarrator{
-	#region "GameClasses"
-
-	// All game objects shall inherit from this class
-	public class GameNarratorObject
+#region "Narration"
+public class GameScenario
+{
+	public static List<GameScenario> Scenarios = new List<GameScenario>();
+	public static GameScenario GetScenarioById(int id)
 	{
-		// All instances
-		public static Dictionary<string, GameNarratorObject> Vars = new Dictionary<string, GameNarratorObject> ();
-		// A subset of vars
-		public static Dictionary<string, List<GameNarratorObject>> Tags = new Dictionary<string, List<GameNarratorObject>> ();		
-
-
-		public string VarName;
-		public string DisplayedName;
-		public string Tag;
-		public GameNarratorAbstractExpression ParentExpression;
-		public Dictionary<string, GameNarratorObject> Properties = new Dictionary<string, GameNarratorObject>();
-		public List<string> RequiredProperties;
-		public GameNarratorCommand Command = null;
-
-		public List<GameNarratorCommand> ExpressionCommands = null;
-		// Call AddCommand only when resolving expression line, after the GNC is fully constructed
-		public void AddCommand(GameNarratorCommand gnc)
-		{
-			if (ExpressionCommands == null)
+		for(int i = 0; i < Scenarios.Count; ++i){
+			if(Scenarios[i].Id == id)
 			{
-				ExpressionCommands = new List<GameNarratorCommand>();
-			}
-			ExpressionCommands.Add(gnc);
-		}
-		public void ExecuteCommands(){
-			if(ExpressionCommands != null) 
-			{
-				for (int i = 0; i < ExpressionCommands.Count; ++i) {
-					ExpressionCommands[i]();
-				}
+				return Scenarios[i];
 			}
 		}
-
-
-		public GameNarratorObject(string varName, string displayedName, string tag) {
-			VarName = varName;
-			DisplayedName = displayedName;
-			Tag = tag;
-			ParentExpression = null;
-
-			/*
-			Debug.Log ("vn = " + varName + ","); 
-			Debug.Log ("dn = " + displayedName + ",");
-			Debug.Log ("t  = " + tag);
-			 */
-			if (VarName != "") {
-				// Register instances
-				if (!Vars.ContainsKey (VarName)) {
-					Vars.Add (VarName, this);
-				} else {
-					Debug.LogError ("Variable \"" + VarName + "\" already exists");
-					//TDDO Error crash
-				}
-			}
-
-			// Register Tagged instances
-			if (Tag != "") {
-				List<GameNarratorObject> l;
-				if (Tags.TryGetValue (Tag, out l)) {
-					l.Add (this);
-				} else {
-					l = new List<GameNarratorObject> ();
-					l.Add (this);
-					Tags.Add (Tag, new List<GameNarratorObject> ());
-				}
-
-				// Properties initialization
-				Properties ["Set"] = new GameNarratorObject ("", "", "");
-				Properties ["Set"].Command = () => {return this;};
-			} // else, GNO is a Command
-		}
+		return null;
 	}
+	public static GameScenario Init (DisplayManager dm){
+		// Scenario container
+		GameScenario scenario = new GameScenario (1, "La Grande Evasion");
 
-	public class GameScenario // : GameNarratorObject
-	{
-		public static List<GameScenario> Scenarios = new List<GameScenario>();
-		public static GameScenario GetScenarioById(int id)
-		{
-			//TODO optimize if possible? low priority...
-			for(int i = 0; i < Scenarios.Count; ++i){
-				if(Scenarios[i].Id == id)
-				{
-					return Scenarios[i];
-				}
-			}
-			return null;
-		}
-		
-		public int Id;
-		public string Name;
-		
-		public GameScenario(int id, string name)
-		{
-			Id = id;
-			Name = name;
-			
-			// Insertion sort
-			if (Scenarios.Count == 0) {
-				Scenarios.Add(this);
-			} else {
-				for(int i = 0; i < Scenarios.Count; ++i)
-				{
-					if (id < Scenarios[i].Id)
-					{
-						Scenarios.Add (this);
-						return;
-					}else if (id == Scenarios[i].Id)
-					{
-						Debug.LogError("Scenario #" + id.ToString() + " already exists");
-						return;
-					}
-				}
-				Scenarios.Add (this);
-			}
-			
-		}
+		// Scenario players
+		GamePlayer tirette = scenario.InstantiatePlayer ("Tirette");
+		GamePlayer niles = scenario.InstantiatePlayer ("Niles");
+		GamePlayer piquette = scenario.InstantiatePlayer ("Piquette");
+		GamePlayer volotom = scenario.InstantiatePlayer ("Volotom");
+
+		//// Act 1 container
+		GameAct ga = scenario.CreateAct (1, "La Grande Evasion");
+
+		////// Scene container
+		GameScene intro = ga.CreateScene (0, "Introduction");
+		//////// Events
+		GameScene gs1 = ga.CreateScene (1, "");
+		string[] o = {"Eddy", "Bonjour"};
+		gs1.CreateEvent (dm.Narration, o.Clone ());
+		o [0] = "Fidel";
+		o [1] = "Nope";
+		gs1.CreateEvent (dm.Narration, o.Clone ());
+		/*gs1.CreateEvent ();
+		gs1.CreateEvent ();
+		gs1.CreateEvent ();
+		gs1.CreateEvent ();
+		*/
+
+		////// Scene container
+		GameScene gs2 = ga.CreateScene (2, "");
+
+		////// Scene container
+		GameScene gs3 = ga.CreateScene (3, "");
+
+		////// Scene container
+		GameScene gs4 = ga.CreateScene (4, "");
+
+		////// Scene container
+		GameScene gs5 = ga.CreateScene (5, "");
+
+		////// Scene container
+		GameScene gs6 = ga.CreateScene (6, "");
+
+		////// Scene container
+		GameScene gs7 = ga.CreateScene (7, "");
+
+		////// Scene container
+		GameScene gs8 = ga.CreateScene (8, "");
+
+		////// Scene container
+		GameScene gs9 = ga.CreateScene (9, "");
+
+		////// Scene container
+		GameScene gs10 = ga.CreateScene (10, "");
+
+		////// Scene container
+		GameScene gs11 = ga.CreateScene (11, "GameOver");
+
+		//// Act 2 container
+		GameAct ga2 = scenario.CreateAct (2, "En cavale");
+		////// Scene container
+		GameScene gs10_2 = ga.CreateScene (10, "");
+
+		//// Act 3 container
+		GameAct ga3 = scenario.CreateAct (3, "Ad vitam eternam");
+		////// Scene container
+		GameScene gs100_3 = ga.CreateScene (100, "");
+
+
+		return scenario;
 	}
 
 
-	#endregion
+	public int Id;
+	public string Name;
 
-	#region "GameNarratorObject extensions"
-	public class GameCharacter
+	public List<GamePlayer> Players = new List<GamePlayer>();
+	public int CurrentPlayer = 0;
+	public GamePlayer GetCurrentPlayer()
 	{
-		public static List<GameCharacter> Characters = new List<GameCharacter>();
+		return Players[CurrentPlayer];
+	}
+	public void SetCurrentPlayer(int cp)
+	{
+		CurrentPlayer = cp;
+	}
 
-		public GameNarratorObject GNO;
-		
-		public GameCharacter(GameNarratorObject gno)
-		{
-			GNO = gno;
-			Characters.Add (this);
+	public List<GameAct> Acts = new List<GameAct> ();
+	public int CurrentAct;
 
-			GNO.RequiredProperties = new List<string>();
-			//None are required;
-		}
-		
-		public virtual void GetActions(out Dictionary<string, GameAction> al) // ?
-		{
-			al = new Dictionary<string, GameAction>();
+	public GameScenario(int id, string name)
+	{
+		Id = id;
+		Name = name;
+		Acts = new List<GameAct> ();
 
-			List<string> sls = new List<string>();
-			sls.Add ("Text1");
-			sls.Add ("Hey!");
-			ActionManager.Context ["SayListString"] = sls;
-			al ["Say"] = GameCharacter.Say;
-		}
-	
-		public static void Say()//IEnumerator Say()
-		{
-			ActionManager.Busy = true; // Synchronous
-
-			object o;
-			if (ActionManager.Context.TryGetValue ("SayListString", out o)) {
-				List<string> ls = o as List<string>;
-				
-				for (int i = 0; i < ls.Count; ++i) {
-					Debug.Log (ls [i]);
-					ls [i] = "hoho - " + i.ToString ();
-
-					//yield
-					new WaitForSeconds (2.5f);
+		// Insertion sort
+		if (Scenarios.Count == 0) {
+			Scenarios.Add(this);
+			CurrentAct = 0;
+		} else {
+			for(int i = 0; i < Scenarios.Count; ++i)
+			{
+				if (id < Scenarios[i].Id)
+				{
+					Scenarios.Add (this);
+					return;
+				}else if (id == Scenarios[i].Id)
+				{
+					Debug.LogError("Scenario #" + id.ToString() + " already exists");
 					return;
 				}
 			}
-
-			ActionManager.Busy = false; // Synchronous
+			Scenarios.Add (this);
 		}
 	}
 
-	public class GamePlayer : GameCharacter
+	public GamePlayer InstantiatePlayer (string name) {
+		GameObject pts = GameObject.Find("PlayerTurnSpriteAnchor");
+		GameObject playerGo = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Players/" + name)) as GameObject;
+
+		Vector3 pos = playerGo.transform.localPosition;
+		pos.x += 150 * Players.Count;
+		playerGo.transform.localPosition = pos;
+		playerGo.transform.SetParent(pts.transform, false);
+
+		GamePlayer player = playerGo.GetComponent<GamePlayer> ();
+
+		Players.Add (player);
+
+		return player;
+	}
+
+	public GameAct CreateAct (int id, string name) {
+		GameAct ga = new GameAct (id, name, this);
+		Acts.Add (ga);
+		
+		return ga;
+	}
+
+	public GameAct GetCurrentAct()
 	{
-		public static List<GamePlayer> Players = new List<GamePlayer>();
-		public static int CurrentPlayerIndex = 0;
-		public static GamePlayer CurrentPlayer;
-
-
-		public GamePlayer (GameNarratorObject gno) : base(gno)
-		{
-			Players.Add (this);
-			// TODO where is a GNO BoardSquare, it is updated when moving
-
-			GNO.Properties ["where"] = new GameNarratorObject ("", "case 27", "where BoardSquare");
-			//GNO.RequiredProperties.Add ("");
-		}
-		
-		public override void GetActions(out Dictionary<string, GameAction> al) // List<GameCharacterAction>
-		{
-			base.GetActions(out al);
-
-		}
-
+		return Acts[CurrentAct];
 	}
 
-	public class GameEnemy : GameCharacter
+	public GameScene GetCurrentScene()
 	{
-		public static List<GameEnemy> Enemies = new List<GameEnemy>();
-		
-		public GameEnemy (GameNarratorObject gno) : base(gno)
-		{
-			Enemies.Add (this);
-			
-			//GNO.RequiredProperties.Add ("");
-		}
-		
-		public override void GetActions(out Dictionary<string, GameAction> al) // ?
-		{
-			base.GetActions(out al);
-
-
-		}
-
+		GameAct a = GetCurrentAct();
+		return a.Scenes[a.CurrentScene];
 	}
-	#endregion
 
-
-	#region "ExtendedGameClasses"
-	//GameNarratorProperty
-
-	public class DeusExMachina
+	public List<GameEvent> FetchEvents()
 	{
-		public List<GameNarratorAbstractExpression> Lgnabex;
-		
-		public DeusExMachina(List<GameNarratorAbstractExpression> lgnabex)
-		{
-			Lgnabex = lgnabex;
-		}
-		
-		public void LootBonus(GameNarratorObject gno)
-		{
-			Debug.Log ("DeusExMachina : ");
-			Debug.Log (gno);
-			for (int i = 0; i < Lgnabex.Count; ++i) {
-				Debug.Log(Lgnabex[i].ToString());
-			}
-		}
-		
-		public void LootBonus2(GameNarratorObject gno)
-		{
-			Debug.Log ("DeusExMachina2 : ");
-			Debug.Log (gno);
-			for (int i = 0; i < Lgnabex.Count; ++i) {
-				Debug.Log(Lgnabex[i].ToString());
-			}
-		}
-		
+		return GetCurrentScene ().Events;
 	}
-	#endregion
 }
+
+public class GameAct
+{
+	public int Id;
+	public string Name;
+	public GameScenario Parent;
+	public List<GameScene> Scenes;
+	public int CurrentScene;
+
+	public GameAct(int id, string name, GameScenario parent)
+	{
+		Id = id;
+		Name = name;
+		Parent = parent;
+		Scenes = new List<GameScene>();
+
+		// Insertion sort
+		if (Parent.Acts.Count == 0) {
+			Parent.Acts.Add(this);
+			Play(0);
+		} else {
+			for(int i = 0; i < Parent.Acts.Count; ++i)
+			{
+				if (Id < Parent.Acts[i].Id)
+				{
+					Parent.Acts.Add (this);
+					return;
+				}else if (Id == Parent.Acts[i].Id)
+				{
+					Debug.LogError("Act " + Id.ToString() + " already exists");
+					return;
+				}
+			}
+			Parent.Acts.Add (this);
+		}
+	}
+
+	public void Play(int i)
+	{
+		Parent.CurrentAct = i;
+	}
+
+	public GameScene CreateScene (int id, string name) {
+		GameScene gs = new GameScene (id, name, this);
+		Scenes.Add (gs);
+		
+		return gs;
+	}
+}
+
+public class GameScene
+{
+	public static GameScene CurrentScene;
+
+	public int Id;
+	public string Name;
+	public GameAct Parent;
+	public List<GameEvent> Events; // TurnEvents
+	//public int CurrentEvent = 0;
+
+	public GameScene(int id, string name, GameAct parent)
+	{
+		Id = id;
+		Name = name;
+		Parent = parent;
+		Events = new List<GameEvent>();
+
+		// Insertion sort
+		if (Parent.Scenes.Count == 0) {
+			Parent.Scenes.Add(this);
+			Play(0);
+		} else {
+			for(int i = 0; i < Parent.Scenes.Count; ++i)
+			{
+				if (Id < Parent.Scenes[i].Id)
+				{
+					Parent.Scenes.Add (this);
+					return;
+				}else if (Id == Parent.Scenes[i].Id)
+				{
+					Debug.LogError("Scene " + Id.ToString() + " already exists");
+					return;
+				}
+			}
+			Parent.Scenes.Add (this);
+		}
+	}
+
+	public void Play(int i)
+	{
+		Parent.CurrentScene = i;
+	}
+
+	public GameEvent CreateEvent (GameAction action, object args) {
+		GameEvent ge = new GameEvent (action, args);
+		Events.Add (ge);
+		
+		return ge;
+	}
+}
+
+public class GameEvent
+{
+	public GameAction EventAction;
+	public object EventArgument;
+
+	public GameEvent(GameAction a, object o)
+	{
+		EventAction = a;
+		EventArgument = o;
+	}
+
+	public void ExecuteEvent(){
+		EventAction (EventArgument);
+	}
+}
+# endregion
+
+#region "Board"
+public class GameBoard
+{
+	public GameObject BoardObject; // Reference to Board GameObject
+
+	public GameBoard()
+	{
+
+	}
+}
+
+public class GameBoardSquare
+{
+	public GameObject BoardSquareObject; // Reference to BoardSquare GameObject
+
+	public GameBoardSquare()
+	{
+
+	}
+}
+#endregion
