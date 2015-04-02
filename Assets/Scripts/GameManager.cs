@@ -9,7 +9,6 @@ using System.IO.Ports;
 
 public class GameManager : MonoBehaviour
 {
-	//public bool NextClicked = false;
 	public bool Next = false;
 
 
@@ -33,7 +32,7 @@ public class GameManager : MonoBehaviour
 	//private string s="";
 
 	void Awake() {
-		DontDestroyOnLoad(transform.gameObject);
+		//DontDestroyOnLoad(transform.gameObject);
 	}
 
 	void Start ()
@@ -44,7 +43,7 @@ public class GameManager : MonoBehaviour
 		EM = new EventManager (GameScenario.Init (DM));
 		TM = new TurnManager (this);
 
-		Debug.Log ("NB tours: " + EM.Scenario.Acts [0].Scenes.Count);
+		//Debug.Log ("NB tours: " + EM.Scenario.Acts [0].Scenes.Count);
 
 		TM.Start ();
 		//gameBoard.registerEventHandlers (TurnManager);

@@ -17,88 +17,98 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 
 	MeshRenderer mrenderer;
 
-		/*
+	public List<BoardSquare> Neighbours = new List<BoardSquare> ();
+	public List<GamePlayer> Players = new List<GamePlayer> ();
+	public List<GameEnemy> Enemies = new List<GameEnemy> ();
+
+	public GameManager GM;
+
+	/*
 	Character[] 					_personnages;
 	BoardSquareLink[]				_neighbours;
 	Property[] 						_effect;
 	*/
-		PolygonCollider2D			Collider2D;
-		LineRenderer				Border;
+	PolygonCollider2D			Collider2D;
+	LineRenderer				Border;
 
-		public void Start ()
-		{	
-			// Use the triangulator to get indices for creating triangles
-			Triangulator tr = new Triangulator(vertices2D);
-			int[] indices = tr.Triangulate();
-			
-			// Create the Vector3 vertices
-			Vector3[] vertices = new Vector3[vertices2D.Length];
-			for (int i=0; i<vertices.Length; i++) {
-				vertices[i] = new Vector3(vertices2D[i].x, vertices2D[i].y, 0);
-			}
-			
-			// Create the mesh
-			Mesh msh = new Mesh();
-			msh.vertices = vertices;
-			msh.triangles = indices;
-			msh.RecalculateNormals();
-			msh.RecalculateBounds();
+	public void Start ()
+	{	
+		// Use the triangulator to get indices for creating triangles
+		Triangulator tr = new Triangulator(vertices2D);
+		int[] indices = tr.Triangulate();
+		
+		// Create the Vector3 vertices
+		Vector3[] vertices = new Vector3[vertices2D.Length];
+		for (int i=0; i<vertices.Length; i++) {
+			vertices[i] = new Vector3(vertices2D[i].x, vertices2D[i].y, 0);
+		}
+		
+		// Create the mesh
+		Mesh msh = new Mesh();
+		msh.vertices = vertices;
+		msh.triangles = indices;
+		msh.RecalculateNormals();
+		msh.RecalculateBounds();
 
-			Vector2[] uvs = new Vector2[vertices.Length];
-			for(int i = 0; i < uvs.Length; i++) {
-				uvs[i] = new Vector2(vertices[i].x, vertices[i].y);
-			}
-			msh.uv = uvs;
+		Vector2[] uvs = new Vector2[vertices.Length];
+		for(int i = 0; i < uvs.Length; i++) {
+			uvs[i] = new Vector2(vertices[i].x, vertices[i].y);
+		}
+		msh.uv = uvs;
 
-			// Set up game object with mesh;
-			//MeshRenderer mrenderer
-			mrenderer = gameObject.AddComponent<MeshRenderer>();
-			//mrenderer.material.color = Color.red;
-			mrenderer.material = matExit;
-
-			MeshFilter mfilter = gameObject.AddComponent<MeshFilter>();
-			mfilter.mesh = msh;
-
-
-			float s = 30f;
-			Transform tf = gameObject.GetComponent<Transform> ();
-			tf.localPosition = new Vector3(-4.0f*s,2.5f*s,0);
-			tf.localScale = new Vector3 (s,s,s);
-
-			Collider2D = gameObject.AddComponent<PolygonCollider2D> ();
-			Collider2D.SetPath (0, vertices2D);
+		// Set up game object with mesh;
+		//MeshRenderer mrenderer
+		mrenderer = gameObject.AddComponent<MeshRenderer>();
+		//mrenderer.material.color = Color.red;
+		matExit = new Material (Shader.Find ("Diffuse"));
+		matEnter = new Material (Shader.Find ("Self-Illumin/Diffuse"));
+		mrenderer.material = matExit;
 
 
-			Vector2[] vertices2D2 = new Vector2[vertices2D.Length * 3];
-			int altBeginEnd = 1; // begin
-			for (int i = 0; i < vertices2D2.Length; i++) {
-				int iBegin = i/3;
-				if (i%3 == 0) {
-					vertices2D2[i] = new Vector2(vertices2D[iBegin].x, vertices2D[iBegin].y);
-					altBeginEnd = 1;
-				} else {
-					int iEnd = iBegin + 1;
-					if(iEnd == vertices2D.Length){
-						iEnd = 0;
-					}
+		MeshFilter mfilter = gameObject.AddComponent<MeshFilter>();
+		mfilter.mesh = msh;
+		
 
-					float dx = vertices2D[iEnd].x - vertices[iBegin].x;
-					float dy = vertices2D[iEnd].y - vertices[iBegin].y;
+		float s = 30f;
+		Transform tf = gameObject.GetComponent<Transform> ();
+		tf.localPosition = new Vector3(-4.0f*s,2.5f*s,0);
+		tf.localScale = new Vector3 (s,s,s);
 
-					float p = s*0.0001f;
-					if(altBeginEnd < 0){
-						vertices2D2[i] = new Vector2(vertices2D[iEnd].x - p * dx, vertices2D[iEnd].y - p * dy);
-					}else{
-						vertices2D2[i] = new Vector2(vertices2D[iBegin].x + p * dx, vertices2D[iBegin].y + p * dy);
-					}
+		Collider2D = gameObject.AddComponent<PolygonCollider2D> ();
+		Collider2D.SetPath (0, vertices2D);
 
-					altBeginEnd = -1;
+
+		Vector2[] vertices2D2 = new Vector2[vertices2D.Length * 3];
+		int altBeginEnd = 1; // begin
+		for (int i = 0; i < vertices2D2.Length; i++) {
+			int iBegin = i/3;
+			if (i%3 == 0) {
+				vertices2D2[i] = new Vector2(vertices2D[iBegin].x, vertices2D[iBegin].y);
+				altBeginEnd = 1;
+			} else {
+				int iEnd = iBegin + 1;
+				if(iEnd == vertices2D.Length){
+					iEnd = 0;
 				}
-			}
 
-			//GameObject o = (GameObject) Instantiate (gameObject);
-			Border = gameObject.AddComponent<LineRenderer> ();
-			Border.useWorldSpace = true;
+				float dx = vertices2D[iEnd].x - vertices[iBegin].x;
+				float dy = vertices2D[iEnd].y - vertices[iBegin].y;
+
+				float p = s*0.0001f;
+				if(altBeginEnd < 0){
+					vertices2D2[i] = new Vector2(vertices2D[iEnd].x - p * dx, vertices2D[iEnd].y - p * dy);
+				}else{
+					vertices2D2[i] = new Vector2(vertices2D[iBegin].x + p * dx, vertices2D[iBegin].y + p * dy);
+				}
+
+				altBeginEnd = -1;
+			}
+		}
+
+	/*	
+	//GameObject o = (GameObject) Instantiate (gameObject);
+		Border = gameObject.AddComponent<LineRenderer> ();
+		Border.useWorldSpace = true;
 			Border.material = new Material (Shader.Find ("Diffuse"));
 			//Border.material.SetFloat("_Outline", 0.01F);
 			//Border.material.SetColor("_OutlineColor", Color.red);
@@ -113,7 +123,7 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 				Border.SetPosition (i, tf.TransformVector(vertices2D2 [i] + new Vector2(-4.0f,2.5f)));
 			}
 			Border.SetPosition (vertices2D2.Length, tf.TransformVector(vertices2D2 [0] + new Vector2(-4.0f,2.5f)));
-
+		*/
 
 			/*
 			float s2 = 1.4666f;
@@ -127,103 +137,114 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 			Border.SetPosition (vertices2D2.Length, new Vector3 ((vertices2D2 [0].x - 4.0f) / s2, (vertices2D2 [0].y + 2.5f) / s2, 1f));
 			*/
 
+	}
+
+	public void Update ()
+	{
+
+	}
+
+	public void OnMouseEnter()
+	{
+		//mrenderer.material = matEnter;
+		//mrenderer.material.color = new Color(0F, 1F, 0F);
+
+		Color green = new Color (0F, 1F, 0F);
+
+		for(int i=0; i<Neighbours.Count; i++){
+			Neighbours[i].mrenderer.material = Neighbours[i].matEnter;
+			Neighbours[i].mrenderer.material.color = green;
 		}
+	}
+	public void OnMouseExit()
+	{
+		//mrenderer.material = matExit;
+		//mrenderer.material.color -= new Color(0, 1F, 0);
 
-		public void Update ()
-		{
-
+		for(int i=0; i<Neighbours.Count; i++){
+			Neighbours[i].mrenderer.material = Neighbours[i].matExit;
 		}
-	
-		public void OnMouseEnter()
-		{
-			mrenderer.material = matEnter;
-			//mmrenderer.material.color -= new Color(1F, 0, 0);
-		}
-		public void OnMouseExit()
-		{
-			mrenderer.material = matExit;
-			//mrenderer.material.color -= new Color(0, 1F, 0);
-		}
-		public void OnMouseUpAsButton()
-		{
-			Resource rsr = digUpResource ();
-			if (rsr != null) {
-				Debug.Log (rsr.test);
-				//TODO
+	}
+	public void OnMouseUpAsButton()
+	{
+		Resource rsr = digUpResource ();
+		if (rsr != null) {
+			Debug.Log (rsr.test);
+			//TODO
 
 
-				GenerateResources.PopResource(rsr.test, Input.mousePosition.x, Input.mousePosition.y);
+			GenerateResources.PopResource(rsr.test, Input.mousePosition.x, Input.mousePosition.y);
 
-				/*Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
-				t.text = rsr.test;
-				if(alt){
-					t.color = Color.red;
-				}else{
-					t.color = Color.blue;
-				}
-				alt = !alt;*/
+			/*Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
+			t.text = rsr.test;
+			if(alt){
+				t.color = Color.red;
+			}else{
+				t.color = Color.blue;
 			}
-		}
-
-		public Resource digUpResource()
-		{
-			int nbRes = resourceFindingRates.Length;
-			float[] cumulativeRates;
-			float rand;
-
-			if (nbRes > 0) {
-				cumulativeRates = new float[nbRes];
-				cumulativeRates[0] = resourceFindingRates[0].rate;
-				for (int i = 1; i < nbRes; i++) {
-					cumulativeRates[i] = cumulativeRates[i - 1] + resourceFindingRates[i].rate;
-				}
-
-				rand = UnityEngine.Random.Range (0f, cumulativeRates[nbRes - 1]);
-
-				int j = 0;
-				while(cumulativeRates[j] < rand){
-					j++;
-				}
-
-				return resourceFindingRates[j].resource;
-			}
-
-			return null;
-		}
-
-		public void SetId (int id)
-		{
-			Id = id;
-			//tag = "square#"+ id.ToString ();
-			//gameObject.name = "square#"+ gameObject.GetInstanceID().ToString ();
-		}
-	
-		public /*override*/ bool			loadFromFile (string fileName)
-		{
-			// Fill this instance
-			return true;
-		}
-
-		public /*override*/ bool 			save (string fileName)
-		{
-			return true;
+			alt = !alt;*/
 		}
 	}
 
-	public class BoardSquareLink //: BoardGameItem
+	public Resource digUpResource()
 	{
-		BoardSquare						_destination;
-		bool	 						_accessible;
-		/*public override bool			loadFromFile(string fileName)
+		int nbRes = resourceFindingRates.Length;
+		float[] cumulativeRates;
+		float rand;
+
+		if (nbRes > 0) {
+			cumulativeRates = new float[nbRes];
+			cumulativeRates[0] = resourceFindingRates[0].rate;
+			for (int i = 1; i < nbRes; i++) {
+				cumulativeRates[i] = cumulativeRates[i - 1] + resourceFindingRates[i].rate;
+			}
+
+			rand = UnityEngine.Random.Range (0f, cumulativeRates[nbRes - 1]);
+
+			int j = 0;
+			while(cumulativeRates[j] < rand){
+				j++;
+			}
+
+			return resourceFindingRates[j].resource;
+		}
+
+		return null;
+	}
+
+	public void SetId (int id)
+	{
+		Id = id;
+		//tag = "square#"+ id.ToString ();
+		//gameObject.name = "square#"+ gameObject.GetInstanceID().ToString ();
+	}
+
+	public /*override*/ bool			loadFromFile (string fileName)
 	{
 		// Fill this instance
 		return true;
 	}
-	public override bool 			save(string fileName)
+
+	public /*override*/ bool 			save (string fileName)
 	{
 		return true;
-	}*/
 	}
+}
+
+public class BoardSquareLink //: BoardGameItem
+{
+	BoardSquare						_destination;
+	bool	 						_accessible;
+	/*public override bool			loadFromFile(string fileName)
+{
+	// Fill this instance
+	return true;
+}
+public override bool 			save(string fileName)
+{
+	return true;
+}*/
+}
 
 	
 [System.Serializable]

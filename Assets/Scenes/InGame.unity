@@ -482,7 +482,7 @@ GameObject:
   - 4: {fileID: 161832968}
   - 114: {fileID: 161832969}
   m_Layer: 0
-  m_Name: sqr17
+  m_Name: sqr15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -499,7 +499,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 16
+  m_RootOrder: 14
 --- !u!114 &161832969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,6 +528,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &196085326
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,7 +542,7 @@ GameObject:
   - 4: {fileID: 196085327}
   - 114: {fileID: 196085328}
   m_Layer: 0
-  m_Name: sqr19
+  m_Name: sqr17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +559,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 18
+  m_RootOrder: 16
 --- !u!114 &196085328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,6 +588,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &216901793
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +602,7 @@ GameObject:
   - 4: {fileID: 216901794}
   - 114: {fileID: 216901795}
   m_Layer: 0
-  m_Name: sqr24
+  m_Name: sqr21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -611,7 +619,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 23
+  m_RootOrder: 20
 --- !u!114 &216901795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +648,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &273171112
 GameObject:
   m_ObjectHideFlags: 0
@@ -766,7 +778,7 @@ GameObject:
   - 4: {fileID: 311425027}
   - 114: {fileID: 311425028}
   m_Layer: 0
-  m_Name: sqr31
+  m_Name: sqr30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -783,7 +795,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 30
+  m_RootOrder: 29
 --- !u!114 &311425028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,6 +824,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &319972261
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +904,7 @@ GameObject:
   - 4: {fileID: 341165457}
   - 114: {fileID: 341165458}
   m_Layer: 0
-  m_Name: sqr35
+  m_Name: sqr34
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -905,7 +921,7 @@ Transform:
   m_LocalScale: {x: .99999994, y: .99999994, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 34
+  m_RootOrder: 33
 --- !u!114 &341165458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,6 +950,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &355117723
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,7 +1073,7 @@ GameObject:
   - 4: {fileID: 526135876}
   - 114: {fileID: 526135877}
   m_Layer: 0
-  m_Name: sqr30
+  m_Name: sqr29
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1070,7 +1090,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 29
+  m_RootOrder: 28
 --- !u!114 &526135877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1099,6 +1119,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &550516396
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,6 +1179,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &552047117
 GameObject:
   m_ObjectHideFlags: 0
@@ -1165,7 +1193,7 @@ GameObject:
   - 4: {fileID: 552047118}
   - 114: {fileID: 552047119}
   m_Layer: 0
-  m_Name: sqr25
+  m_Name: sqr24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1182,7 +1210,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 24
+  m_RootOrder: 23
 --- !u!114 &552047119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,6 +1239,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &572860044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,7 +1363,7 @@ GameObject:
   - 4: {fileID: 663022596}
   - 114: {fileID: 663022597}
   m_Layer: 0
-  m_Name: sqr20
+  m_Name: sqr19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1348,7 +1380,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 19
+  m_RootOrder: 18
 --- !u!114 &663022597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1377,6 +1409,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &672453177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,6 +1469,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &673293851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,7 +1519,7 @@ MonoBehaviour:
   - {x: 11, y: 3}
   - {x: 9, y: 1}
   - {x: 7, y: 1}
-  matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
+  matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
   - resource: {fileID: 0}
@@ -1490,6 +1530,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &680247161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1682,7 +1726,7 @@ GameObject:
   - 4: {fileID: 786373230}
   - 114: {fileID: 786373231}
   m_Layer: 0
-  m_Name: sqr22
+  m_Name: sqr23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1699,7 +1743,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 21
+  m_RootOrder: 22
 --- !u!114 &786373231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1728,6 +1772,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &803083090
 GameObject:
   m_ObjectHideFlags: 0
@@ -1941,6 +1989,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &834525331
 GameObject:
   m_ObjectHideFlags: 0
@@ -1951,7 +2003,7 @@ GameObject:
   - 4: {fileID: 834525332}
   - 114: {fileID: 834525333}
   m_Layer: 0
-  m_Name: sqr13
+  m_Name: sqr18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1968,7 +2020,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 12
+  m_RootOrder: 17
 --- !u!114 &834525333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1997,6 +2049,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 50
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &836357727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,7 +2063,7 @@ GameObject:
   - 4: {fileID: 836357728}
   - 114: {fileID: 836357729}
   m_Layer: 0
-  m_Name: sqr32
+  m_Name: sqr31
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2024,7 +2080,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 31
+  m_RootOrder: 30
 --- !u!114 &836357729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2053,6 +2109,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &842136462
 GameObject:
   m_ObjectHideFlags: 0
@@ -2109,6 +2169,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &859540421
 GameObject:
   m_ObjectHideFlags: 0
@@ -2284,7 +2348,7 @@ GameObject:
   - 4: {fileID: 915035579}
   - 114: {fileID: 915035580}
   m_Layer: 0
-  m_Name: sqr21
+  m_Name: sqr20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2301,7 +2365,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 20
+  m_RootOrder: 19
 --- !u!114 &915035580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2332,61 +2396,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
---- !u!1 &927619633
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 927619634}
-  - 114: {fileID: 927619635}
-  m_Layer: 0
-  m_Name: sqr16
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &927619634
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 927619633}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1640423308}
-  m_RootOrder: 15
---- !u!114 &927619635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 927619633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72072ef5301b0b043ac7f0415caef22a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Id: 0
-  vertices2D:
-  - {x: -3, y: -4}
-  - {x: -3, y: -8}
-  - {x: -5, y: -6}
-  matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
-  matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
-  resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &939646361
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,7 +2410,7 @@ GameObject:
   - 4: {fileID: 939646362}
   - 114: {fileID: 939646363}
   m_Layer: 0
-  m_Name: sqr26
+  m_Name: sqr25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2414,7 +2427,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 25
+  m_RootOrder: 24
 --- !u!114 &939646363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2443,6 +2456,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &961534630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2648,6 +2665,10 @@ MonoBehaviour:
     rate: 50
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &991259588
 GameObject:
   m_ObjectHideFlags: 0
@@ -2882,7 +2903,7 @@ GameObject:
   - 4: {fileID: 1136317279}
   - 114: {fileID: 1136317280}
   m_Layer: 0
-  m_Name: sqr28
+  m_Name: sqr27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2899,7 +2920,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 27
+  m_RootOrder: 26
 --- !u!114 &1136317280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2928,6 +2949,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1169062741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,7 +2963,7 @@ GameObject:
   - 4: {fileID: 1169062742}
   - 114: {fileID: 1169062743}
   m_Layer: 0
-  m_Name: sqr23
+  m_Name: sqr22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2955,7 +2980,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 22
+  m_RootOrder: 21
 --- !u!114 &1169062743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2984,6 +3009,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1171441219
 GameObject:
   m_ObjectHideFlags: 0
@@ -3175,6 +3204,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1284561364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3370,6 +3403,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1335270111
 GameObject:
   m_ObjectHideFlags: 0
@@ -3426,6 +3463,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1339047039
 GameObject:
   m_ObjectHideFlags: 0
@@ -3539,7 +3580,7 @@ GameObject:
   - 4: {fileID: 1404041970}
   - 114: {fileID: 1404041971}
   m_Layer: 0
-  m_Name: sqr27
+  m_Name: sqr26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3556,7 +3597,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 26
+  m_RootOrder: 25
 --- !u!114 &1404041971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3585,6 +3626,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1451444448
 GameObject:
   m_ObjectHideFlags: 0
@@ -3631,7 +3676,7 @@ MonoBehaviour:
   - {x: 13, y: -5}
   - {x: 12, y: -4.5}
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
-  matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
+  matExit: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   resourceFindingRates:
   - resource: {fileID: 0}
     rate: 25
@@ -3641,6 +3686,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1465206695
 GameObject:
   m_ObjectHideFlags: 0
@@ -3687,7 +3736,7 @@ GameObject:
   - 4: {fileID: 1485839004}
   - 114: {fileID: 1485839005}
   m_Layer: 0
-  m_Name: sqr18
+  m_Name: sqr16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3704,7 +3753,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 17
+  m_RootOrder: 15
 --- !u!114 &1485839005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3733,6 +3782,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1574399797
 GameObject:
   m_ObjectHideFlags: 0
@@ -3747,7 +3800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1574399798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3824,6 +3877,10 @@ MonoBehaviour:
     rate: 50
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1578479383
 GameObject:
   m_ObjectHideFlags: 0
@@ -3895,7 +3952,7 @@ GameObject:
   - 4: {fileID: 1599166175}
   - 114: {fileID: 1599166176}
   m_Layer: 0
-  m_Name: sqr34
+  m_Name: sqr33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3912,7 +3969,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 33
+  m_RootOrder: 32
 --- !u!114 &1599166176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3941,6 +3998,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1624019903
 GameObject:
   m_ObjectHideFlags: 0
@@ -4089,18 +4150,17 @@ RectTransform:
   - {fileID: 672453178}
   - {fileID: 1574605061}
   - {fileID: 977573703}
-  - {fileID: 834525332}
   - {fileID: 2035556980}
   - {fileID: 1901965169}
-  - {fileID: 927619634}
   - {fileID: 161832968}
   - {fileID: 1485839004}
   - {fileID: 196085327}
+  - {fileID: 834525332}
   - {fileID: 663022596}
   - {fileID: 915035579}
-  - {fileID: 786373230}
-  - {fileID: 1169062742}
   - {fileID: 216901794}
+  - {fileID: 1169062742}
+  - {fileID: 786373230}
   - {fileID: 552047118}
   - {fileID: 939646362}
   - {fileID: 1404041970}
@@ -4147,6 +4207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f91ffd7d1d6cb4984808981dab35ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GM: {fileID: 0}
   squares:
   - {fileID: 673293853}
   - {fileID: 842136464}
@@ -4160,18 +4221,17 @@ MonoBehaviour:
   - {fileID: 672453179}
   - {fileID: 1574605062}
   - {fileID: 977573704}
-  - {fileID: 834525333}
   - {fileID: 2035556981}
   - {fileID: 1901965170}
-  - {fileID: 927619635}
   - {fileID: 161832969}
   - {fileID: 1485839005}
   - {fileID: 196085328}
+  - {fileID: 834525333}
   - {fileID: 663022597}
   - {fileID: 915035580}
-  - {fileID: 786373231}
-  - {fileID: 1169062743}
   - {fileID: 216901795}
+  - {fileID: 1169062743}
+  - {fileID: 786373231}
   - {fileID: 552047119}
   - {fileID: 939646363}
   - {fileID: 1404041971}
@@ -4420,7 +4480,7 @@ GameObject:
   - 4: {fileID: 1736686769}
   - 114: {fileID: 1736686770}
   m_Layer: 0
-  m_Name: sqr36
+  m_Name: sqr35
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4437,7 +4497,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 35
+  m_RootOrder: 34
 --- !u!114 &1736686770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4466,6 +4526,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1801276767
 GameObject:
   m_ObjectHideFlags: 0
@@ -4542,7 +4606,7 @@ GameObject:
   - 4: {fileID: 1826138016}
   - 114: {fileID: 1826138017}
   m_Layer: 0
-  m_Name: sqr29
+  m_Name: sqr28
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4559,7 +4623,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 28
+  m_RootOrder: 27
 --- !u!114 &1826138017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4588,6 +4652,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1836890670
 GameObject:
   m_ObjectHideFlags: 0
@@ -4768,7 +4836,7 @@ GameObject:
   - 4: {fileID: 1901965169}
   - 114: {fileID: 1901965170}
   m_Layer: 0
-  m_Name: sqr15
+  m_Name: sqr14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4785,7 +4853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 14
+  m_RootOrder: 13
 --- !u!114 &1901965170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4802,6 +4870,7 @@ MonoBehaviour:
   - {x: -3, y: -4}
   - {x: -2, y: -6}
   - {x: -3, y: -8}
+  - {x: -5, y: -6}
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
@@ -4813,6 +4882,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1928958656
 GameObject:
   m_ObjectHideFlags: 0
@@ -4869,6 +4942,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &1929897196
 GameObject:
   m_ObjectHideFlags: 0
@@ -5011,7 +5088,7 @@ GameObject:
   - 4: {fileID: 1995568049}
   - 114: {fileID: 1995568050}
   m_Layer: 0
-  m_Name: sqr33
+  m_Name: sqr32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5028,7 +5105,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 32
+  m_RootOrder: 31
 --- !u!114 &1995568050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5057,6 +5134,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 25
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &2017947845
 GameObject:
   m_ObjectHideFlags: 0
@@ -5212,7 +5293,7 @@ GameObject:
   - 4: {fileID: 2035556980}
   - 114: {fileID: 2035556981}
   m_Layer: 0
-  m_Name: sqr14
+  m_Name: sqr13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5229,7 +5310,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1640423308}
-  m_RootOrder: 13
+  m_RootOrder: 12
 --- !u!114 &2035556981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5258,6 +5339,10 @@ MonoBehaviour:
     rate: 25
   - resource: {fileID: 0}
     rate: 50
+  Neighbours: []
+  Players: []
+  Enemies: []
+  GM: {fileID: 0}
 --- !u!1 &2068789448
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ using System.IO;
 //[XmlRoot("Board")]
 public class Board : MonoBehaviour, IEventSystemHandler
 {
+	public GameManager GM;
 	public BoardSquare[] squares;
 
 	// Use this for initialization
@@ -285,6 +286,248 @@ public class Board : MonoBehaviour, IEventSystemHandler
 			new Vector2(32*s,16*s)
 		});
 		*/
+
+		// Link all squares to the Game Manager
+		for (int i = 0; i < squares.Length; ++i) {
+			squares[i].GM = GM;
+		}
+
+		//Make all connections
+		// sqr1
+		squares [0].Neighbours.Add (squares [1]);
+		squares [1].Neighbours.Add (squares [0]);
+
+		squares [0].Neighbours.Add (squares [26]);
+		squares [26].Neighbours.Add (squares [0]);
+
+		squares [0].Neighbours.Add (squares [27]);
+		squares [27].Neighbours.Add (squares [0]);
+
+		//sqr2
+		squares [1].Neighbours.Add (squares [27]);
+		squares [27].Neighbours.Add (squares [1]);
+
+		squares [1].Neighbours.Add (squares [2]);
+		squares [2].Neighbours.Add (squares [1]);
+
+		//sqr3
+		squares [2].Neighbours.Add (squares [3]);
+		squares [3].Neighbours.Add (squares [2]);
+
+		squares [2].Neighbours.Add (squares [4]);
+		squares [4].Neighbours.Add (squares [2]);
+
+		//sqr4
+		squares [3].Neighbours.Add (squares [4]);
+		squares [4].Neighbours.Add (squares [3]);
+
+		squares [3].Neighbours.Add (squares [5]);
+		squares [5].Neighbours.Add (squares [3]);
+
+		squares [3].Neighbours.Add (squares [28]);
+		squares [28].Neighbours.Add (squares [3]);
+
+		squares [3].Neighbours.Add (squares [29]);
+		squares [29].Neighbours.Add (squares [3]);
+
+		//sqr5
+		squares [4].Neighbours.Add (squares [5]);
+		squares [5].Neighbours.Add (squares [4]);
+
+		//sqr6
+		squares [5].Neighbours.Add (squares [6]);
+		squares [6].Neighbours.Add (squares [5]);
+
+		squares [5].Neighbours.Add (squares [7]);
+		squares [7].Neighbours.Add (squares [5]);
+
+		squares [5].Neighbours.Add (squares [29]);
+		squares [29].Neighbours.Add (squares [5]);
+
+		squares [5].Neighbours.Add (squares [30]);
+		squares [30].Neighbours.Add (squares [5]);
+
+		//sqr7
+
+		//sqr8
+		squares [7].Neighbours.Add (squares [8]);
+		squares [8].Neighbours.Add (squares [7]);
+
+		squares [7].Neighbours.Add (squares [9]);
+		squares [9].Neighbours.Add (squares [7]);
+
+		squares [7].Neighbours.Add (squares [30]);
+		squares [30].Neighbours.Add (squares [7]);
+
+		//sqr9
+		squares [8].Neighbours.Add (squares [9]);
+		squares [9].Neighbours.Add (squares [8]);
+
+		squares [8].Neighbours.Add (squares [10]);
+		squares [10].Neighbours.Add (squares [8]);
+
+		squares [8].Neighbours.Add (squares [31]);
+		squares [31].Neighbours.Add (squares [8]);
+
+		//sqr10
+
+		//sqr11
+		squares [10].Neighbours.Add (squares [11]);
+		squares [11].Neighbours.Add (squares [10]);
+
+		squares [10].Neighbours.Add (squares [31]);
+		squares [31].Neighbours.Add (squares [10]);
+
+		squares [10].Neighbours.Add (squares [32]);
+		squares [32].Neighbours.Add (squares [10]);
+
+		//sqr12
+		squares [11].Neighbours.Add (squares [12]);
+		squares [12].Neighbours.Add (squares [11]);
+
+		squares [11].Neighbours.Add (squares [17]);
+		squares [17].Neighbours.Add (squares [11]);
+
+		squares [11].Neighbours.Add (squares [32]);
+		squares [32].Neighbours.Add (squares [11]);
+
+		//sqr13
+		squares [12].Neighbours.Add (squares [13]);
+		squares [13].Neighbours.Add (squares [12]);
+
+		squares [12].Neighbours.Add (squares [17]);
+		squares [17].Neighbours.Add (squares [12]);
+
+		//sqr14
+		squares [13].Neighbours.Add (squares [14]);
+		squares [14].Neighbours.Add (squares [13]);
+
+		squares [13].Neighbours.Add (squares [15]);
+		squares [15].Neighbours.Add (squares [13]);
+
+		//sqr15
+		squares [14].Neighbours.Add (squares [15]);
+		squares [15].Neighbours.Add (squares [14]);
+
+		//sqr16
+		squares [15].Neighbours.Add (squares [16]);
+		squares [16].Neighbours.Add (squares [15]);
+
+		//sqr17
+
+		//sqr18
+		squares [17].Neighbours.Add (squares [18]);
+		squares [18].Neighbours.Add (squares [17]);
+
+		squares [17].Neighbours.Add (squares [19]);
+		squares [19].Neighbours.Add (squares [17]);
+
+		squares [17].Neighbours.Add (squares [32]);
+		squares [32].Neighbours.Add (squares [17]);
+
+		//sqr19
+		squares [18].Neighbours.Add (squares [19]);
+		squares [19].Neighbours.Add (squares [18]);
+		
+		squares [18].Neighbours.Add (squares [20]);
+		squares [20].Neighbours.Add (squares [18]);
+		
+		squares [18].Neighbours.Add (squares [33]);
+		squares [33].Neighbours.Add (squares [18]);
+
+		//sqr20
+		squares [19].Neighbours.Add (squares [20]);
+		squares [20].Neighbours.Add (squares [19]);
+		
+		squares [19].Neighbours.Add (squares [21]);
+		squares [21].Neighbours.Add (squares [19]);
+		
+		squares [19].Neighbours.Add (squares [22]);
+		squares [22].Neighbours.Add (squares [19]);
+
+		//sqr21
+		squares [20].Neighbours.Add (squares [21]);
+		squares [21].Neighbours.Add (squares [20]);
+		
+		squares [20].Neighbours.Add (squares [23]);
+		squares [23].Neighbours.Add (squares [20]);
+		
+		squares [20].Neighbours.Add (squares [33]);
+		squares [33].Neighbours.Add (squares [20]);
+
+		//sqr22
+		squares [21].Neighbours.Add (squares [22]);
+		squares [22].Neighbours.Add (squares [21]);
+		
+		squares [21].Neighbours.Add (squares [23]);
+		squares [23].Neighbours.Add (squares [21]);
+
+		//sqr23
+		squares [22].Neighbours.Add (squares [23]);
+		squares [23].Neighbours.Add (squares [22]);
+
+		//sqr24
+		squares [23].Neighbours.Add (squares [24]);
+		squares [24].Neighbours.Add (squares [23]);
+
+		squares [23].Neighbours.Add (squares [33]);
+		squares [33].Neighbours.Add (squares [23]);
+
+		//sqr25
+		squares [24].Neighbours.Add (squares [34]);
+		squares [34].Neighbours.Add (squares [24]);
+
+		squares [24].Neighbours.Add (squares [25]);
+		squares [25].Neighbours.Add (squares [24]);
+
+		//sqr26
+		squares [25].Neighbours.Add (squares [26]);
+		squares [26].Neighbours.Add (squares [25]);
+
+		squares [25].Neighbours.Add (squares [34]);
+		squares [34].Neighbours.Add (squares [25]);
+
+		//sqr27
+		squares [26].Neighbours.Add (squares [27]);
+		squares [27].Neighbours.Add (squares [26]);
+
+		squares [26].Neighbours.Add (squares [34]);
+		squares [34].Neighbours.Add (squares [26]);
+
+		//sqr28
+		squares [27].Neighbours.Add (squares [28]);
+		squares [28].Neighbours.Add (squares [27]);
+
+		squares [27].Neighbours.Add (squares [34]);
+		squares [34].Neighbours.Add (squares [27]);
+
+		//sqr29
+		squares [28].Neighbours.Add (squares [29]);
+		squares [29].Neighbours.Add (squares [28]);
+
+		//sqr30
+		squares [29].Neighbours.Add (squares [30]);
+		squares [30].Neighbours.Add (squares [29]);
+
+		//sqr31
+		squares [30].Neighbours.Add (squares [31]);
+		squares [31].Neighbours.Add (squares [30]);
+
+		//sqr32
+		squares [31].Neighbours.Add (squares [32]);
+		squares [32].Neighbours.Add (squares [31]);
+
+		//sqr33
+		squares [32].Neighbours.Add (squares [33]);
+		squares [33].Neighbours.Add (squares [32]);
+
+		//sqr34
+		squares [33].Neighbours.Add (squares [34]);
+		squares [34].Neighbours.Add (squares [33]);
+
+		//sqr35
+
+
 
 	}
 

@@ -9,6 +9,9 @@ public class GameEnemy : MonoBehaviour
 	public int Speed;
 	public int Loot;
 	private int Range = 0;
+
+	public BoardSquare CurrentSquare;
+
 	/*public GameEnemy (string displayedName, string tag, int threat, int speed, int loot) : base(displayedName, tag)
 	{
 		Threat = threat;
