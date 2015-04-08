@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+
 using System.Collections;
 
 public class Resource : MonoBehaviour {
-	public string test;
+	public string Name;
+
 	// Use this for initialization
 	void Start () {
 	

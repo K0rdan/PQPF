@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -15,6 +16,28 @@ public class Board : MonoBehaviour, IEventSystemHandler
 {
 	public GameManager GM;
 	public BoardSquare[] squares;
+	public enum BoardPhase {
+		PlayerMoving, 				// OK
+		PlayerHasSelectedSquare, 	// OK
+		PlayerSelectTarget,
+		PlayerAttacking,
+		EnemyMoving,
+		EnemyAttacking,
+		Unactive					// ?OK?
+	};
+	private BoardPhase phase = BoardPhase.Unactive;
+	public bool PhaseHasChanged = false;
+	public BoardPhase Phase {
+		get{ return phase;}
+		set{ PhaseHasChanged = true; phase = value;}
+	}
+	public BoardSquare SelectedSquare;
+	public GameObject MoveButton;
+	public GameObject CancelButton;
+	public GameObject NextButton;
+	public GameObject RandomSlider;
+
+	public List<GameEnemy> Enemies = new List<GameEnemy>();
 
 	// Use this for initialization
 	void Start ()
@@ -287,9 +310,13 @@ public class Board : MonoBehaviour, IEventSystemHandler
 		});
 		*/
 
-		// Link all squares to the Game Manager
+		// Link all squares to the Game Manager and this
 		for (int i = 0; i < squares.Length; ++i) {
 			squares[i].GM = GM;
+			squares[i].GameBoard = this;
+			squares[i].Id = i;
+
+			squares[i].SetMaterial(squares[i].matExit, new Color(1,1,1,.1f));
 		}
 
 		//Make all connections
@@ -528,12 +555,187 @@ public class Board : MonoBehaviour, IEventSystemHandler
 		//sqr35
 
 
+		// Define eacch square center
+		squares[0].Center = new Vector2(400, 370);
+		squares[1].Center = new Vector2(570, 370);
+		squares[2].Center = new Vector2(650, 250);
+		squares[3].Center = new Vector2(590, 40);
+		squares[4].Center = new Vector2(700, -10);
+		squares[5].Center = new Vector2(610, -290);
+		squares[6].Center = new Vector2(710, -330);
+		squares[7].Center = new Vector2(330, -390);
+		squares[8].Center = new Vector2(40, -390);
+		squares[9].Center = new Vector2(190, -470);
+		squares[10].Center = new Vector2(-270, -365);
+		squares[11].Center = new Vector2(-320, -250);
+		squares[12].Center = new Vector2(-470, -170);
+		squares[13].Center = new Vector2(-570, -270);
+		squares[14].Center = new Vector2(-670, -370);
+		squares[15].Center = new Vector2(-670, -170);
+		squares[16].Center = new Vector2(-710, -65);
+		squares[17].Center = new Vector2(-340, -120);
+		squares[18].Center = new Vector2(-300, 0);
+		squares[19].Center = new Vector2(-480, 35);
+		squares[20].Center = new Vector2(-300, 110);
+		squares[21].Center = new Vector2(-420, 170);
+		squares[22].Center = new Vector2(-520, 205);
+		squares[23].Center = new Vector2(-300, 255);
+		squares[24].Center = new Vector2(-170, 315);
+		squares[25].Center = new Vector2(0, 315);
+		squares[26].Center = new Vector2(155, 315);
+		squares[27].Center = new Vector2(340, 235);
+		squares[28].Center = new Vector2(510, 100);
+		squares[29].Center = new Vector2(512, -165);
+		squares[30].Center = new Vector2(335, -310);
+		squares[31].Center = new Vector2(-20, -310);
+		squares[32].Center = new Vector2(-195, -160);
+		squares[33].Center = new Vector2(-195, 105);
+		squares[34].Center = new Vector2(-20, 235);
 
 	}
 
 	// Update is called once per frame
 	void Update ()
-	{
+	{}
 
+	// Reach calculation
+	public List<BoardSquare> Reach(BoardSquare s, int r)
+	{
+		if (s == null) {
+			return null;
+		}
+
+		List<BoardSquare> l;
+		if(r == 0)
+		{
+			l = new List<BoardSquare>();
+			l.Add(s);
+			return l;
+		}
+
+		l = Reach (s, r - 1);
+		BoardSquare[] lc = l.ToArray (); // the list is growing within the loop
+		for (int i = 0; i < lc.Length; ++i)
+		{
+			TryAdd(ref l, lc[i].Neighbours);
+		}
+
+		return l;
+	}
+
+	private void TryAdd(ref List<BoardSquare> boardSquareReach, BoardSquare squareToAdd)
+	{
+		// Insertion Sort
+		if (boardSquareReach.Count == 0)
+		{
+			boardSquareReach.Add(squareToAdd);
+			return;
+		}
+
+		for (int i = 0; i < boardSquareReach.Count; ++i) {
+			if(boardSquareReach[i].Id == squareToAdd.Id)
+			{
+				return;
+			} else if(boardSquareReach[i].Id < squareToAdd.Id)
+			{
+				boardSquareReach.Insert (i, squareToAdd);
+				return;
+			}
+		}
+		boardSquareReach.Add(squareToAdd);
+	}
+
+	private void TryAdd(ref List<BoardSquare> boardSquareReach, List<BoardSquare> squaresToAdd)
+	{
+		for (int i = 0; i < squaresToAdd.Count; ++i)
+		{
+			TryAdd(ref boardSquareReach, squaresToAdd[i]);
+		}
+	}
+
+
+	//Pathfinding
+	public void AStar(BoardSquare start, BoardSquare end, out List<BoardSquare> path)
+	{
+		List<int> closedset = new List<int>();
+		List<int> openset = new List<int>();
+		List<float> costs = new List<float> ();
+		List<int> previous = new List<int>();
+
+		for (int i = 0; i < squares.Length; ++i) {
+			costs.Add (100000);//float.PositiveInfinity);
+			previous.Add (-1);
+		}
+
+		openset.Add (start.Id);
+
+		while (openset.Count > 0){
+			int imin = -1;
+			float minCost = 200000;
+			for(int i = 0; i < openset.Count; ++i)
+			{
+				float md = ManhattanDist(end, squares[openset[i]]);
+				if (costs[openset[i]] < minCost - md){
+					minCost = costs[openset[i]] + md;
+					imin = i;
+				}
+			}
+
+			// Path found
+			if (openset[imin] == end.Id)
+			{
+				int node = end.Id;
+				path = new List<BoardSquare>();
+				while (node != start.Id) {
+					path.Add(squares[node]);
+					node = previous[node];
+				}
+				path.Add(squares[node]); // start
+				// Reverse
+				path.Reverse();
+
+
+
+				return;
+			}
+
+			int n = openset[imin];
+			closedset.Add (n);
+			openset.Remove(n);
+
+			for(int i = 0; i < squares[n].Neighbours.Count; ++i)
+			{
+				int n2 = squares[n].Neighbours[i].Id;
+				if (closedset.Contains(n2)){
+					continue;
+				}
+
+				float estimateCost = costs[n] + 100;
+				if(!openset.Contains(n2) || estimateCost < costs[n2])
+				{
+					previous[n2] = n;
+					costs[n2] = estimateCost;
+
+					if(!openset.Contains(n2)){
+						openset.Add (n2);
+					}
+				}
+
+			}
+		}
+
+		//could not find a path
+		path = null;
+	}
+
+	private float ManhattanDist(BoardSquare s1, BoardSquare s2)
+	{
+		return Math.Abs (s1.Center.x - s2.Center.x) + Math.Abs (s1.Center.y - s2.Center.y) / 100.0f;
+	}
+
+	public void CancelMove(){
+		Phase = BoardPhase.Unactive;
+		SelectedSquare = null;
+		GM.EM.Scenario.GetCurrentPlayer ().Path = null;
 	}
 }

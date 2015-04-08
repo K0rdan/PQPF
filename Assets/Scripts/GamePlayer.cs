@@ -10,23 +10,26 @@ public class GamePlayer : MonoBehaviour
 	public int Craftiness;
 	public int MaxLiveliness;
 
-	private int Liveliness;
-	private int Damage = 0;
+	public int Liveliness;
+	public int Damage = 0;
+	public int Range = 0;
 	private int HealRest = 0;
 
-	private int Range = 0;
 	private int DigUpCount = 0;
 
-	public object[] Skills;
+	public List<object> Skills = new List<object> ();
 	
-	public object[] Inventory;
-	
-	/*public GamePlayer (string name, string displayedName, string tag) : base(displayedName, tag)
-	{
-		Name = name;
-		
-		Players.Add (this);
-	}*/
+	public List<object> Inventory = new List<object> ();
+
+	public BoardSquare CurrentSquare;
+	public List<BoardSquare> Reach;
+	public List<BoardSquare> Path;
+
+	public List<BoardSquare> FightReach;
+	public List<BoardSquare> TargetableSquares = new List<BoardSquare>();
+	public List<GameEnemy> TargetableEnemies = new List<GameEnemy>();
+	public GameEnemy TargetEnemy;
+
 	public void Awake()
 	{
 		GM = GameObject.Find("GameManager").GetComponent<GameManager> ();
@@ -34,7 +37,9 @@ public class GamePlayer : MonoBehaviour
 	
 	public void Refresh()
 	{
+
 		Damage -= HealRest;
+		Damage = (Damage < 0) ? 0 : Damage;
 		HealRest = 0;
 		Liveliness = MaxLiveliness - Damage;
 		DigUpCount = 0;
@@ -63,35 +68,46 @@ public class GamePlayer : MonoBehaviour
 		}
 
 		if (Liveliness > 0) {
-			//if(this square is threaten
-			// al.Add ("Fuite", null);
-			//  if Liveliness > 1
-			
-			//else
 			ls.Add ("Déplacement");
 		}
 
-		if (Liveliness > 2) {
-			//if(this square is threaten
-			// al.Add ("Fuite", null);
-			//  if Liveliness > 1
-			
-			//else
-			ls.Add ("Combat");
+
+		if (Liveliness > 2){
+			FightReach = GM.GameBoard.Reach(CurrentSquare, Range);
+			Debug.Log(CurrentSquare);
+			Debug.Log(Range);
+			Debug.Log(FightReach);
+			Debug.Log(FightReach.Count);
+
+			TargetableSquares.Clear();
+			TargetableEnemies.Clear();
+			for(int i = 0; i < FightReach.Count; ++i)
+			{
+				if(FightReach[i].IsThreatened(this)){
+					TargetableSquares.Add (FightReach[i]);
+					TargetableEnemies.AddRange(FightReach[i].ThreatList(this));
+				}
+			}
+			if(TargetableSquares.Count > 0)
+			{ 
+				ls.Add ("Combat");
+			}
 		}
 
-		if (true) {
+		// TODO, not ready yet
+		if (HasActivableSkill()) {
 			ls.Add ("Capacité");
 		}
 
-
+		// TODO, not ready yet
 		ls.Add ("Inventaire");
+
+		// Always available
 		ls.Add ("Repos");
 
 	}
 	
 	public void GetActiveSkills(){
-
 		// search skill
 	}
 	
@@ -101,32 +117,71 @@ public class GamePlayer : MonoBehaviour
 	}
 	public void	DigUp(object modifier)
 	{
-		Liveliness -= DigUpCost();
-		// TODO
+		GamePlayer p = GM.EM.Scenario.GetCurrentPlayer ();
+		Resource rsr = p.CurrentSquare.digUpResource ();
+		Debug.Log ("Dug up : " + rsr.Name);
+		// TODO launch animation
 
+
+		p.Inventory.Add(rsr);
+
+		Liveliness -= DigUpCost();
 		++DigUpCount;
 	}
 
 	public void Move(){
 		// UI
-		
-		DigUpCount = 0; // Only if new square  is different
-		Liveliness--;
-	}
 
+		// TODO Resolve Path
+		Liveliness -= (Path.Count-1);
+		Debug.Log(Liveliness);
+		DigUpCount = 0; // Only if new square  is different
+		MoveTo (GM.GameBoard.SelectedSquare);
+
+	}
+	public void MoveTo(BoardSquare s){
+		if (s != null) {
+			if(CurrentSquare != null){
+				CurrentSquare.Players.Remove(this);
+			}
+			CurrentSquare = s;
+			s.Players.Add (this);
+		} else {
+			
+		}
+	}
+		
 	public bool CanFight(){
 		return true;
 	}
 	public void Fight(){
 		Liveliness -= 2;
+		//TODO
+		// ...
+		//
 	}
 
 	public void Hurt(){
+		Debug.Log (Name + " is hurt");
+
+		if (GetUsedLiveliness () == 0) {
+			--Liveliness;
+		}
 		++Damage;
 	}
 
+	public void Die(){
+		CurrentSquare.Players.Remove (this);
+	}
+	public void Heal(int life){
+		//TODO Respawn on this square
+
+	}
+
+
+	//TODO
 	public bool HasActivableSkill(){
-		return true;
+		return false;
 	}
 	public void Skill() // TODO Skills?
 	{

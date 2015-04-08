@@ -14,7 +14,7 @@ public class GenerateNumbers : MonoBehaviour, IDragHandler
     private bool isAnimationStarted = false, isAnimationEnded = false;
     private float animationStartTime;
 
-    public float defilementSpeed = 6f, animationDuration = 1f, sigma = 0.7f;
+    public float defilementSpeed = 6f, animationDuration = 1.2f, sigma = 1.2f;
 	public float Height;
 
 	private float randDuration;
@@ -83,7 +83,7 @@ public class GenerateNumbers : MonoBehaviour, IDragHandler
         if (isAnimationEnded)
             return int.Parse(listNumberGO[3].GetComponent<Text>().text);
         else
-            return 0;
+            return -1;
     }
 
     private void DisplayNumbers()
@@ -140,4 +140,13 @@ public class GenerateNumbers : MonoBehaviour, IDragHandler
         listNumberGO.Clear();
         listNumber.Clear();
     }
+
+	public void Activate(bool b)
+	{
+		if (b) {
+			isAnimationEnded = false;
+		}
+		gameObject.SetActive (b);
+	}
+
 }

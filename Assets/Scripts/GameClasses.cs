@@ -26,6 +26,14 @@ public class GameScenario
 		GamePlayer piquette = scenario.InstantiatePlayer ("Piquette");
 		GamePlayer volotom = scenario.InstantiatePlayer ("Volotom");
 
+		//TODO do this with events in intro
+		// Initial squares
+		tirette.MoveTo(dm.GM.GameBoard.squares[0]);
+		niles.MoveTo(dm.GM.GameBoard.squares[1]);
+		piquette.MoveTo(dm.GM.GameBoard.squares[1]);
+		volotom.MoveTo(dm.GM.GameBoard.squares[2]);
+		//
+
 		//// Act 1 container
 		GameAct ga = scenario.CreateAct (1, "La Grande Evasion");
 
@@ -49,6 +57,11 @@ public class GameScenario
 		o [0] = "Fidel";
 		o [1] = "CHACHACHA";
 		gs2.CreateEvent (dm.Narration, o.Clone ());
+		object[] oo = {"Chat", dm.GM.GameBoard.squares[4-1]};
+		gs2.CreateEvent (dm.Spawn, oo.Clone ());
+		oo[0] = "Chat";
+		oo[1] = dm.GM.GameBoard.squares[27-1];
+		gs2.CreateEvent (dm.Spawn, oo.Clone ());
 
 		////// Scene container
 		GameScene gs3 = ga.CreateScene (3, "");
@@ -134,7 +147,7 @@ public class GameScenario
 			{
 				if (id < Scenarios[i].Id)
 				{
-					Scenarios.Add (this);
+					Scenarios.Insert(i, this);
 					return;
 				}else if (id == Scenarios[i].Id)
 				{
@@ -229,7 +242,7 @@ public class GameAct
 			{
 				if (Id < Parent.Acts[i].Id)
 				{
-					Parent.Acts.Add (this);
+					Parent.Acts.Insert(i, this);
 					return;
 				}else if (Id == Parent.Acts[i].Id)
 				{
@@ -280,7 +293,7 @@ public class GameScene
 			{
 				if (Id < Parent.Scenes[i].Id)
 				{
-					Parent.Scenes.Add (this);
+					Parent.Scenes.Insert(i, this);
 					return;
 				}else if (Id == Parent.Scenes[i].Id)
 				{
@@ -321,25 +334,3 @@ public class GameEvent
 	}
 }
 # endregion
-
-#region "Board"
-public class GameBoard
-{
-	public GameObject BoardObject; // Reference to Board GameObject
-
-	public GameBoard()
-	{
-
-	}
-}
-
-public class GameBoardSquare
-{
-	public GameObject BoardSquareObject; // Reference to BoardSquare GameObject
-
-	public GameBoardSquare()
-	{
-
-	}
-}
-#endregion

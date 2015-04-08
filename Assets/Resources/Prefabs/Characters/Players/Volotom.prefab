@@ -44,6 +44,16 @@ MonoBehaviour:
   Name: Pyromancien
   Craftiness: 2
   MaxLiveliness: 3
+  Liveliness: 0
+  Damage: 0
+  Range: 1
+  CurrentSquare: {fileID: 0}
+  Reach: []
+  Path: []
+  FightReach: []
+  TargetableSquares: []
+  TargetableEnemies: []
+  TargetEnemy: {fileID: 0}
 --- !u!114 &11482530
 MonoBehaviour:
   m_ObjectHideFlags: 1

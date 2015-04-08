@@ -101,7 +101,7 @@ public class GenerateCats : MonoBehaviour {
 			go.transform.SetParent(GameObject.Find("Panel_PopCats").transform, false);
 			RectTransform rect = go.GetComponent<RectTransform>();
 			rect.SetDefaultScale();
-			rect.position = new Vector3(tempCases[i].x, tempCases[i].y, 0);
+			rect.position = new Vector3(tempCases[i].x, tempCases[i].y, -1);
 			cats.Add(go);
 		}
 	}

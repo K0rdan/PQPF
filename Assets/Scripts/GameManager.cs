@@ -1,28 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
-
 using System.IO.Ports;
 
 
 public class GameManager : MonoBehaviour
 {
 	public bool Next = false;
-
-
 	public GameObject MapDisplay;
 	public GameObject PlayerDisplay;
 	public GameObject NarrationDisplay;
 	public GameObject TurnDisplay;
-	public GameObject RandomSliderDisplay;
+	public GameObject ThreatSpawnDisplay;
+	public GameObject PlayerProfileDisplay;
 
+	IntPtr physicaloid;
 
 	public EventManager EM;
 	public TurnManager TM;
 	public DisplayManager DM;
-	
+
+	public Board GameBoard;
+
 	public void DoNext()
 	{
 		Next = true;
@@ -37,13 +39,74 @@ public class GameManager : MonoBehaviour
 
 	void Start ()
 	{
-		//List<GamePlayer> Players = GamePlayer.Players;
-
 		DM = new DisplayManager (this);
 		EM = new EventManager (GameScenario.Init (DM));
 		TM = new TurnManager (this);
 
 		//Debug.Log ("NB tours: " + EM.Scenario.Acts [0].Scenes.Count);
+
+
+		//AndroidJNI.NewByteArray (6);
+		
+		//physicaloid = AndroidJNI.FindClass ("com.physicaloid.lib.Physicaloid");
+		//using (AndroidJavaClass pluginClass = new AndroidJavaClass("com.physicaloid.lib.Physicaloid"));
+		//AndroidJavaObject physicaloidClass = new AndroidJavaClass ("com.physicaloid.lib.Physicaloid");
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		AndroidJavaObject physicaloidObject = new AndroidJavaObject("com/physicaloid/lib/Physicaloid");
+		physicaloidObject.Call ("open");
+
+		//IntPtr physicaloidObject = AndroidJNI.AllocObject (physicaloid);
+		//IntPtr openMethod = AndroidJNI.GetMethodID (physicaloidObject, "open", "()");
+		
+		//jvalue[] args = new jvalue[0];
+		//bool b = AndroidJNI.CallBooleanMethod(physicaloidObject, openMethod, args);
+
+		bool b = true;
+		DM.SetMapActive (b);
+		if (b) {
+			/*AndroidJNIHelper.ConvertToJNIArray();
+			public boolean setBaudrate(int baudrate) throws RuntimeException{
+				synchronized (LOCK) {
+					if(mSerial == null) return false;
+					return mSerial.setBaudrate(baudrate);
+				}
+			}
+			
+			public int write(byte[] buf) throws RuntimeException {
+			    if(mSerial == null) return 0;
+			    return write(buf, buf.length);
+			}
+
+			public int read(byte[] buf) throws RuntimeException {
+				if(mSerial == null) return 0;
+				return read(buf, buf.length);
+			}
+			args[0].b = 1;
+			 */
+			physicaloidObject.Call("setBaudrate", 9400);
+
+			string str = "get";
+			byte[] bytes = new byte[str.Length * sizeof(char)];
+			System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
+			physicaloidObject.Call("write", bytes);
+
+			byte[] buffer = {0,0,0,0,0,0};
+			physicaloidObject.Call("read", buffer);
+
+
+			Debug.Log ("Yay");
+			Debug.Log (buffer);
+		} else {
+			Debug.Log ("Nope");
+		}
+		Debug.Log (physicaloid);
+		//Debug.Log (physicaloidjava);
+		#endif
+
+
+
+
+
 
 		TM.Start ();
 		//gameBoard.registerEventHandlers (TurnManager);
@@ -122,15 +185,30 @@ public class GameManager : MonoBehaviour
 	{
 		EM.Scenario.GetCurrentPlayer ().DigUp (null); // TODO add Niles modifier
 		DM.ReloadActionPrompter();
-		DM.SetMapActive(true);
-		DM.SetPlayerActive(false);
+		//DM.SetMapActive(true);
+		//DM.SetPlayerActive(false);
 	}
 	public void Move()
 	{
-		EM.Scenario.GetCurrentPlayer ().Move ();
-		DM.ReloadActionPrompter();
-		DM.SetMapActive(true);
-		DM.SetPlayerActive(false);
+		GamePlayer p = EM.Scenario.GetCurrentPlayer ();
+		switch(GameBoard.Phase)
+		{
+		case Board.BoardPhase.PlayerHasSelectedSquare:
+			p.Move();
+			GameBoard.Phase = Board.BoardPhase.Unactive;
+			break;
+		default:
+			if (p.CurrentSquare == null) {
+				p.CurrentSquare = GameBoard.squares[1]; // Goto square 2
+				GameBoard.squares[1].Players.Add(p);
+			}
+			GameBoard.Phase = Board.BoardPhase.PlayerMoving;
+
+			//DM.ReloadActionPrompter();
+			DM.SetMapActive(true);
+			DM.SetPlayerActive(false);
+			break;
+		}
 	}
 	public void Fight()
 	{
@@ -174,7 +252,7 @@ public class DisplayManager
 {
 	public GameObject GameCanvas;
 
-	private GameManager GM;
+	public GameManager GM;
 	//private TurnManager TM;
 	public DisplayManager (GameManager gm)//TurnManager tm)
 	{
@@ -240,10 +318,10 @@ public class DisplayManager
 	{
 		GM.TurnDisplay.SetActive (b);
 	}
-	public void SetRandomSliderDisplayActive(bool b)
+	/*public void SetRandomSliderDisplayActive(bool b)
 	{
 		GM.RandomSliderDisplay.SetActive (b);
-	}
+	}*/
 
 
 	public void Narration(object o){
@@ -253,32 +331,68 @@ public class DisplayManager
 
 		Debug.Log ("speaker is : " + speaker);
 
-		GameObject go = GameObject.Instantiate(Resources.Load<GameObject> ("Prefabs/Characters/" + speaker)) as GameObject;
-		if (go != null) {
+		GameObject go = GameObject.Instantiate (Resources.Load<GameObject> ("Prefabs/Characters/" + speaker)) as GameObject;
 
-			// Display Character
-			Transform t = GM.NarrationDisplay.transform.FindChild ("CharactersSpriteAnchor");
-			List<GameObject> lgo = new List<GameObject> ();
-			for (int i=0; i< t.childCount; ++i) {
-				lgo.Add (t.GetChild (i).gameObject);
-			}
-
-			for (int i=0; i < lgo.Count; ++i) {
-				GameObject.Destroy (lgo [i]);
-			}
-
-			go.transform.SetParent (t);
-
-			// Change Text Content
-			Transform tt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor").Find ("CharactersBubble").Find ("Text");
-			Debug.Log(tt);
-			Text txt = tt.gameObject.GetComponent<Text>();
-			Debug.Log (txt);
-			//Text txt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor/Text").gameObject.GetComponent<Text>();
-			txt.text = speech;
+		if (go == null)
+		{
+			return;
 		}
 
+		// Display Character
+		Transform t = GM.NarrationDisplay.transform.FindChild ("CharactersSpriteAnchor");
+		List<GameObject> lgo = new List<GameObject> ();
+		for (int i=0; i< t.childCount; ++i) {
+			lgo.Add (t.GetChild (i).gameObject);
+		}
 
+		for (int i=0; i < lgo.Count; ++i) {
+			GameObject.Destroy (lgo [i]);
+		}
+
+		go.transform.SetParent (t);
+
+		// Change Text Content
+		Transform tt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor").Find ("CharactersBubble").Find ("Text");
+		Debug.Log(tt);
+		Text txt = tt.gameObject.GetComponent<Text>();
+		Debug.Log (txt);
+		//Text txt = GM.NarrationDisplay.transform.FindChild ("CharactersTextAnchor/Text").gameObject.GetComponent<Text>();
+		txt.text = speech;
+	}
+
+	public void Spawn(object o){
+		object[] oo = o as object[];
+		string threat = oo [0] as string;
+		BoardSquare square = oo [1] as BoardSquare;
+
+		// TODO, change directory to Characters/Enemies
+		GameObject go = GameObject.Instantiate (Resources.Load ("Prefabs/Pieces/" + threat)) as GameObject;
+
+
+		go.transform.SetParent(GM.ThreatSpawnDisplay.transform, false); // TODO add ref to ThreaSpawn
+		GameEnemy enemy = go.GetComponent<GameEnemy> ();
+		GM.GameBoard.Enemies.Add (go.GetComponent<GameEnemy> ());
+
+		enemy.MoveTo (square);
+		/*RectTransform rect = go.GetComponent<RectTransform>();
+		rect.position = new Vector3(square.Center.x, square.Center.y, 0);
+		*/
+
+		SetMapActive (true);
+		GM.DoNext ();
+
+		/*
+		 * public void MoveTo(BoardSquare s){
+		if (s != null) {
+			if(CurrentSquare != null){
+				CurrentSquare.Players.Remove(this);
+			}
+			CurrentSquare = s;
+			s.Players.Add (this);
+		} else {
+			
+		}
+		}*/
 	}
 }
 
@@ -338,7 +452,7 @@ public class TurnManager : FSM
 		GM.DM.SetNarrationActive (true);
 		GM.DM.SetTurnActive (false);
 		GM.DM.SetPlayerActive (false);
-		GM.DM.SetRandomSliderDisplayActive (false);
+		//GM.DM.SetRandomSliderDisplayActive (false);
 	}
 
 	public void update ()
@@ -401,6 +515,11 @@ public class NextTurnState : FSMState
 		List<GamePlayer> players = TM.GM.EM.Scenario.Players;
 		for (int i = 0; i < players.Count; ++i) {
 			players[i].Refresh ();
+			Debug.Log(players[i].Name + ".MaxLiveliness : " + players[i].MaxLiveliness);
+			Debug.Log(players[i].Name + ".Liveliness : " + players[i].Liveliness);
+			Debug.Log(players[i].Name + ".UsedLiveliness : " + players[i].GetUsedLiveliness());
+			Debug.Log(players[i].Name + ".Damage : " + players[i].Damage);
+			Debug.Log(players[i].Name + ".Craftiness : " + players[i].Craftiness);
 		}
 
 		Debug.Log ("Turn " + TM.NbTurns.ToString());
@@ -485,6 +604,14 @@ public class PlayerBeginTurnState : FSMState
 
 		Debug.Log (GM.EM.Scenario.GetCurrentPlayer().Name);
 
+		//TODO Layout
+		GM.DM.SetMapActive(false);
+		GM.GameBoard.MoveButton.SetActive(false);
+		GM.GameBoard.CancelButton.SetActive(false);
+		GM.DM.SetPlayerActive(true);
+		GM.DM.SetTurnActive(true);
+		//GM.DM.ReloadActionPrompter();
+
 		Done = false;
 	}
 
@@ -535,7 +662,9 @@ public class PlayerBeginTurnState : FSMState
 public class PlayerTurnState : FSMState
 {
 	public bool Done;
-	public TurnManager TM;
+	private TurnManager TM;
+	private GameManager GM;
+
 	private Animator PlayerCursorSpriteAnimation;
 
 	private static Dictionary<string, GameAction> ActionList;
@@ -543,6 +672,7 @@ public class PlayerTurnState : FSMState
 	public PlayerTurnState(TurnManager tm) : base("PlayerTurn")
 	{
 		TM = tm;
+		GM = TM.GM;
 		PlayerCursorSpriteAnimation = GameObject.Find ("PlayerCursorAnchor").GetComponent<Animator> ();
 	}
 
@@ -556,19 +686,62 @@ public class PlayerTurnState : FSMState
 
 	public override void Do()
 	{
-		/*if (!ActionManager.Busy) {
-			Debug.Log ("PlayerTurn");
+		if(GM.GameBoard.PhaseHasChanged){
+			GM.GameBoard.PhaseHasChanged = false;
+			GamePlayer p;
+			switch (GM.GameBoard.Phase) {
+			case Board.BoardPhase.Unactive:
 
-			Done = true; // TODO
-		} else {
-			if(ChooseExpression.Once > 0)
-			{
-				ActionManager.Busy = false;
-				ChooseExpression.Test ();
-				--ChooseExpression.Once;
+				GM.DM.SetMapActive(false);
+
+				GM.GameBoard.MoveButton.SetActive(false);
+				GM.GameBoard.CancelButton.SetActive(false);
+				GM.DM.SetPlayerActive(true);
+				//GM.DM.SetTurnActive(true);
+				GM.DM.ReloadActionPrompter();
+				break;
+			case Board.BoardPhase.PlayerMoving:
+				// Uncolorize board
+				Color col = new Color (1F, 1F, 1F, 0.0f);
+				for(int i = 0; i < GM.GameBoard.squares.Length; ++i)
+				{
+					GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+				}
+
+				// Colorize Reach in blue
+				p = GM.EM.Scenario.GetCurrentPlayer ();
+				if(p.Reach != null){
+					for(int i=0; i < p.Reach.Count; i++){
+						p.Reach[i].SetMaterial(p.Reach[i].matExit, new Color(0,0,0,0));
+					}
+				}
+				Color blue = new Color (0F, 0F, 1F, 0.35f);
+				p.Reach = GM.GameBoard.Reach(p.CurrentSquare, p.Liveliness);
+
+				if(p.Reach != null){
+					for(int i=0; i < p.Reach.Count; i++){
+						p.Reach[i].SetMaterial(p.Reach[i].matEnter, blue);
+					}
+				}
+
+				GM.DM.SetMapActive(true);
+				GM.GameBoard.CancelButton.SetActive(false);
+				GM.GameBoard.NextButton.SetActive(false);
+				break;
+			case Board.BoardPhase.PlayerHasSelectedSquare:
+
+				GM.GameBoard.MoveButton.SetActive(true);
+				GM.GameBoard.CancelButton.SetActive(true);
+				GM.GameBoard.NextButton.SetActive(false);
+				break;
 			}
-		}*/
+			// TODO Extensions
+			// ...
+		}else if(GM.GameBoard.Phase ==  Board.BoardPhase.Unactive){
+
+		}
 	}
+
 	public override void DoBeforeLeaving ()
 	{
 		PlayerCursorSpriteAnimation.SetBool("PlayerTurn", false);
@@ -664,7 +837,7 @@ public class TurnEventState : FSMState
 			GM.DM.SetPlayerActive (false);
 			GM.DM.SetNarrationActive (true);
 			GM.DM.SetTurnActive (true);
-			GM.DM.SetRandomSliderDisplayActive (false);
+			//GM.DM.SetRandomSliderDisplayActive (false);
 		}
 	}
 
@@ -691,7 +864,7 @@ public class TurnEventState : FSMState
 			GM.DM.SetPlayerActive (true);
 			GM.DM.SetNarrationActive (false);
 			GM.DM.SetTurnActive (true);
-			GM.DM.SetRandomSliderDisplayActive (false);
+			//GM.DM.SetRandomSliderDisplayActive (false);
 		}
 	}
 
@@ -705,27 +878,151 @@ public class EnemyTurnState : FSMState
 {
 	private GameManager GM;
 	public List<GameEnemy> Enemies;
+
+	private int enemyIterator;
+	private bool Done = false;
+	private bool willAttack = false;
+	private bool waitingForSlider = false;
+
 	public EnemyTurnState(GameManager gm) : base("EnemyTurn")
 	{
 		GM = gm;
-		Enemies = new List<GameEnemy>();
+		Enemies = GM.GameBoard.Enemies;//new List<GameEnemy>();
 	}
 
 	public override void DoBeforeEntering()
 	{
 		Debug.Log ("Enter TurnEnemyState");
+
+		enemyIterator = 0;
+		willAttack = false;
+		//Done = false;
+
 		if (Enemies.Count > 0) {
 			GM.DM.SetMapActive (true);
 			GM.DM.SetPlayerActive (true);
 			GM.DM.SetNarrationActive (false);
 			GM.DM.SetTurnActive (true);
-			GM.DM.SetRandomSliderDisplayActive (false);
+			//GM.DM.SetRandomSliderDisplayActive (false);
+
+			GM.GameBoard.MoveButton.SetActive(false);
+			GM.GameBoard.CancelButton.SetActive(false);
+			GM.GameBoard.NextButton.SetActive(true);
+
+			
+			GM.GameBoard.Phase = Board.BoardPhase.EnemyMoving;
+		} else {
+			++enemyIterator;
+			//Done = true;
 		}
 	}
 	
 	public override void Do()
 	{
-		
+		if (Enemies.Count == 0) {
+			++enemyIterator;
+			return;
+		}
+
+		if(GM.GameBoard.PhaseHasChanged || GM.Next){
+			if(GM.GameBoard.PhaseHasChanged){
+				enemyIterator = 0;
+			}/* else {
+				++enemyIterator;
+				Debug.Log("Next button clicked : " + enemyIterator);
+			}*/
+			GM.GameBoard.PhaseHasChanged = false;
+
+
+			switch(GM.GameBoard.Phase){
+			case Board.BoardPhase.EnemyMoving:
+
+				// TODO Pause before phase change?
+				if (GM.Next)
+				{
+					GM.GameBoard.Phase = willAttack?
+						Board.BoardPhase.EnemyAttacking :
+							Board.BoardPhase.Unactive;
+					return;
+				}
+
+				Debug.Log ("Enemies Moving");
+				// Cat turn - moving
+				GM.DM.SetMapActive (true);
+				GM.DM.SetPlayerActive (false);
+				GM.DM.SetNarrationActive (false);
+				GM.DM.SetTurnActive (true);
+				//
+				GM.GameBoard.CancelButton.SetActive(false);
+				GM.GameBoard.MoveButton.SetActive(false);
+				GM.GameBoard.NextButton.SetActive(true);
+
+				// Uncolorize board
+				Color col = new Color (1F, 1F, 1F, 0.0f);
+				for(int i = 0; i < GM.GameBoard.squares.Length; ++i)
+				{
+					GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+				}
+
+				// Move each enemy
+				for (int i = 0; i < Enemies.Count; ++i)
+				{
+					Enemies[i].Move();
+					if (Enemies[i].CurrentSquare.IsThreatened (Enemies[i]))
+					{
+						willAttack = true;
+					}
+				}
+
+			break;
+			case Board.BoardPhase.EnemyAttacking:
+
+				if (GM.Next)
+				{
+					enemyIterator++;
+					if(enemyIterator >= GM.GameBoard.Enemies.Count)
+					{
+						GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+						return;
+					}
+				}
+
+				Debug.Log ("Enemies Attacking : #" + enemyIterator); 
+				GameEnemy enemy = Enemies[enemyIterator];
+
+				// Cat turn - attacking
+				GM.DM.SetMapActive (true);
+				GM.DM.SetPlayerActive (false);
+				GM.DM.SetNarrationActive (false);
+				GM.DM.SetTurnActive (true);
+				//
+				GM.GameBoard.CancelButton.SetActive(false);
+				GM.GameBoard.MoveButton.SetActive(false);
+				GM.GameBoard.NextButton.SetActive(true);
+				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(true);
+
+				Debug.Log("Enemy #" + enemyIterator + " on square #" + (enemy.CurrentSquare.Id + 1));
+
+				//TODO Factorize to SeekAndDestroy()
+				if (enemy.CanFight()) {
+					Debug.Log("Fight!");
+					enemy.GetFightTarget();
+					enemy.Fight();
+				}
+
+				break;
+			//case Board.BoardPhase.Unactive:
+			default:
+
+				Debug.Log("Board set to Unactive");
+				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(false);
+				enemyIterator = Enemies.Count; // go to Next State immediately
+
+				break;
+			}
+
+			//++enemyIterator;
+		}
 	}
 
 	public override void DoBeforeLeaving()
@@ -734,7 +1031,7 @@ public class EnemyTurnState : FSMState
 	
 	public override bool IsDone()
 	{
-		return Enemies.Count == 0; // TODO
+		return enemyIterator >= GM.GameBoard.Enemies.Count;
 	}
 
 }

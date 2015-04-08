@@ -10,18 +10,22 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 	public int Id;
 
 	public Vector2[] vertices2D;
+	public Vector2 Center;
+
+	public Board GameBoard;
+	public GameManager GM;
+
 	public Material matEnter;
 	public Material matExit;
 
 	public ResourceFindingRate[] resourceFindingRates;
 
-	MeshRenderer mrenderer;
+	public MeshRenderer mrenderer;
 
 	public List<BoardSquare> Neighbours = new List<BoardSquare> ();
 	public List<GamePlayer> Players = new List<GamePlayer> ();
 	public List<GameEnemy> Enemies = new List<GameEnemy> ();
 
-	public GameManager GM;
 
 	/*
 	Character[] 					_personnages;
@@ -31,7 +35,7 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 	PolygonCollider2D			Collider2D;
 	LineRenderer				Border;
 
-	public void Start ()
+	public void Awake ()
 	{	
 		// Use the triangulator to get indices for creating triangles
 		Triangulator tr = new Triangulator(vertices2D);
@@ -39,7 +43,7 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		
 		// Create the Vector3 vertices
 		Vector3[] vertices = new Vector3[vertices2D.Length];
-		for (int i=0; i<vertices.Length; i++) {
+		for (int i = 0; i<vertices.Length; i++) {
 			vertices[i] = new Vector3(vertices2D[i].x, vertices2D[i].y, 0);
 		}
 		
@@ -60,8 +64,13 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		//MeshRenderer mrenderer
 		mrenderer = gameObject.AddComponent<MeshRenderer>();
 		//mrenderer.material.color = Color.red;
-		matExit = new Material (Shader.Find ("Diffuse"));
-		matEnter = new Material (Shader.Find ("Self-Illumin/Diffuse"));
+
+		Debug.Log("Material create");
+		matExit = new Material (Shader.Find ("Transparent/Diffuse"));
+		matExit.color = new Color (1f, 1f, 1f, 0.1f);
+		matEnter = new Material (Shader.Find ("Transparent/Diffuse"));//"Self-Illumin/Diffuse"));
+		matEnter.color = new Color (1f, 1f, 1f, 0.5f);
+
 		mrenderer.material = matExit;
 
 
@@ -144,45 +153,76 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 
 	}
 
+	public void SetMaterial(Material mat, Color color)
+	{
+		mrenderer.material = mat;
+		mrenderer.material.color = color;
+	}
+
 	public void OnMouseEnter()
 	{
 		//mrenderer.material = matEnter;
 		//mrenderer.material.color = new Color(0F, 1F, 0F);
 
-		Color green = new Color (0F, 1F, 0F);
+		// TODO Display informations about this square
 
-		for(int i=0; i<Neighbours.Count; i++){
-			Neighbours[i].mrenderer.material = Neighbours[i].matEnter;
-			Neighbours[i].mrenderer.material.color = green;
-		}
 	}
 	public void OnMouseExit()
 	{
 		//mrenderer.material = matExit;
 		//mrenderer.material.color -= new Color(0, 1F, 0);
 
-		for(int i=0; i<Neighbours.Count; i++){
-			Neighbours[i].mrenderer.material = Neighbours[i].matExit;
-		}
+		//for(int i=0; i<Neighbours.Count; i++){
+		//	Neighbours[i].mrenderer.material = Neighbours[i].matExit;
+		//}
+
+		/*List<BoardSquare> l = GameBoard.Reach (this, GM.EM.Scenario.GetCurrentPlayer ().Liveliness);
+		for (int i=0; i < l.Count; i++) {
+			l [i].mrenderer.material = l [i].matExit;
+		}*/
+		
 	}
 	public void OnMouseUpAsButton()
 	{
-		Resource rsr = digUpResource ();
-		if (rsr != null) {
-			Debug.Log (rsr.test);
-			//TODO
+		GamePlayer p;
+		if(GameBoard.Phase == Board.BoardPhase.PlayerMoving || GameBoard.Phase == Board.BoardPhase.PlayerHasSelectedSquare) {
+			p = GM.EM.Scenario.GetCurrentPlayer ();
+			if(p.Reach != null && p.Reach.Contains(this) && p.CurrentSquare != this) // Click on a Reachable square different of the current one
+			{
+				//TODO factorize and put in board or DM;
+				// Uncolorize all //previous path
+				/*if(p.Path != null){
+					for(int i = 0; i < p.Path.Count; ++i)
+					{
+						p.Path[i].SetMaterial(matExit, new Color (1F, 1F, 1F, 0.0f));
+					}
+				}*/
+				Color col = new Color (1F, 1F, 1F, 0.0f);
+				for(int i = 0; i < GameBoard.squares.Length; ++i)
+				{
+					GameBoard.squares[i].SetMaterial(matExit, col);
+				}
 
+				// Colorize Reach in blue
+				Color blue = new Color (0F, 0F, 1F, 0.35f);
+				for(int i=0; i < p.Reach.Count; i++){
+					p.Reach[i].SetMaterial(p.Reach[i].matEnter, blue);
+				}
 
-			GenerateResources.PopResource(rsr.test, Input.mousePosition.x, Input.mousePosition.y);
+				Debug.Log ("Square Id is "+ this.Id.ToString());
+				GameBoard.AStar(p.CurrentSquare, this, out p.Path);
 
-			/*Text t = GameObject.Find("BoardCenterText").GetComponentInChildren<Text>();
-			t.text = rsr.test;
-			if(alt){
-				t.color = Color.red;
-			}else{
-				t.color = Color.blue;
+				if(p.Path != null){
+					int i = p.Path.Count-1;
+					p.Path[i].SetMaterial(p.Path[i].matEnter, new Color(1,0.5f,0,0.3f));
+					while(i > 0){
+						--i;
+						p.Path[i].SetMaterial(p.Path[i].matEnter, new Color (0F, 1F, 0F, 0.25f));
+					}
+					GameBoard.SelectedSquare = this;
+					GameBoard.Phase = Board.BoardPhase.PlayerHasSelectedSquare;
+				}
 			}
-			alt = !alt;*/
 		}
 	}
 
@@ -215,37 +255,31 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 	public void SetId (int id)
 	{
 		Id = id;
-		//tag = "square#"+ id.ToString ();
-		//gameObject.name = "square#"+ gameObject.GetInstanceID().ToString ();
 	}
 
-	public /*override*/ bool			loadFromFile (string fileName)
+	// TODO extend this with aligment
+	// TODO only count if seen (eg Tirette)
+	public bool IsThreatened (GameEnemy ge){
+		return Players.Count > 0;
+	}
+	public List<GamePlayer> ThreatList(GameEnemy ge)
 	{
-		// Fill this instance
-		return true;
+		// TODO Extend
+		return Players;
 	}
-
-	public /*override*/ bool 			save (string fileName)
+	public bool IsThreatened (GamePlayer gp){
+		return Enemies.Count > 0;	
+	}
+	public List<GameEnemy> ThreatList(GamePlayer gp)
 	{
-		return true;
+		// TODO Extend
+		//List<GameEnemy> enemies = new List<GameEnemy> ();
+		/*for (int i = 0; i < Enemies.Count; ++i) {
+			
+		}*/
+		return Enemies;
 	}
 }
-
-public class BoardSquareLink //: BoardGameItem
-{
-	BoardSquare						_destination;
-	bool	 						_accessible;
-	/*public override bool			loadFromFile(string fileName)
-{
-	// Fill this instance
-	return true;
-}
-public override bool 			save(string fileName)
-{
-	return true;
-}*/
-}
-
 	
 [System.Serializable]
 public class ResourceFindingRate
