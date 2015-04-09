@@ -11,8 +11,9 @@ public class GenerateNumbers : MonoBehaviour, IDragHandler
 {
     private List<GameObject> listNumberGO;
     private List<int> listNumber;
-    private bool isAnimationStarted = false, isAnimationEnded = false;
-    private float animationStartTime;
+    public bool isAnimationStarted = false, isAnimationEnded = false;
+
+	private float animationStartTime;
 
     public float defilementSpeed = 6f, animationDuration = 1.2f, sigma = 1.2f;
 	public float Height;

@@ -505,8 +505,8 @@ RectTransform:
   m_RootOrder: 7
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 158, y: -39}
-  m_SizeDelta: {x: 600, y: 445}
+  m_AnchoredPosition: {x: 55.2999992, y: -39}
+  m_SizeDelta: {x: 400, y: 445}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &125214350
 MonoBehaviour:
@@ -1234,6 +1234,45 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
+--- !u!1 &364638233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 364638236}
+  - 222: {fileID: 364638235}
+  m_Layer: 0
+  m_Name: EnemyList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!222 &364638235
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 364638233}
+--- !u!224 &364638236
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 364638233}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1574399798}
+  m_RootOrder: 2
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 700}
+  m_Pivot: {x: .5, y: .5}
 --- !u!1 &378793393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,8 +1301,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1661634537}
-  m_RootOrder: 8
+  m_Father: {fileID: 2017947849}
+  m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 408, y: -33.3999939}
@@ -1280,6 +1319,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52633ae9b7afdbc44a06a3749258ae6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAnimationStarted: 0
+  isAnimationEnded: 0
   defilementSpeed: 6
   animationDuration: 1.20000005
   sigma: 1.20000005
@@ -4546,6 +4587,7 @@ RectTransform:
   m_Children:
   - {fileID: 625643291}
   - {fileID: 319972262}
+  - {fileID: 364638236}
   m_Father: {fileID: 2017947849}
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
@@ -4913,7 +4955,7 @@ RectTransform:
   - {fileID: 341165457}
   - {fileID: 1736686769}
   m_Father: {fileID: 1661634537}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -5008,7 +5050,6 @@ RectTransform:
   - {fileID: 1550134723}
   - {fileID: 38964529}
   - {fileID: 125214349}
-  - {fileID: 378793394}
   - {fileID: 1640423308}
   m_Father: {fileID: 2017947849}
   m_RootOrder: 0
@@ -5993,6 +6034,7 @@ RectTransform:
   - {fileID: 1574399798}
   - {fileID: 1465206696}
   - {fileID: 1171441220}
+  - {fileID: 378793394}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -74,10 +75,6 @@ public class GamePlayer : MonoBehaviour
 
 		if (Liveliness > 2){
 			FightReach = GM.GameBoard.Reach(CurrentSquare, Range);
-			Debug.Log(CurrentSquare);
-			Debug.Log(Range);
-			Debug.Log(FightReach);
-			Debug.Log(FightReach.Count);
 
 			TargetableSquares.Clear();
 			TargetableEnemies.Clear();
@@ -154,11 +151,57 @@ public class GamePlayer : MonoBehaviour
 	public bool CanFight(){
 		return true;
 	}
+	// TODO fight is when the player tries to hurt his target... not before selecting
+	// create a 
+	public void GetFightTarget(){
+		GM.DM.HideActionPrompter();
+		
+		for (int i = 0; i < TargetableEnemies.Count; ++i){
+			GameEnemy enemy = TargetableEnemies[i];
+			
+			// Instantiate a clickable button 
+			GameObject buttonInstance = GameObject.Instantiate (Resources.Load<GameObject> ("Prefabs/GUI/EnemySelectionButton")) as GameObject;
+			buttonInstance.GetComponentInChildren<Text>().text = TargetableEnemies[i].Name + " - Menace : " + enemy.Threat + " - Vie : " + enemy.Life + " - Case : " + (enemy.CurrentSquare.Id + 1);
+			GameObject enemyListPanel = GM.PlayerDisplay.transform.Find("EnemyList").gameObject;
+			
+			RectTransform rect = buttonInstance.GetComponent<RectTransform>();
+			rect.position = new Vector3(rect.position.x, rect.position.y + i * 100, 0);
+			
+			buttonInstance.transform.SetParent(enemyListPanel.transform);
+			
+			// onclick, select this, remove all buttons in enemylist and go to attack phase
+			Button button = buttonInstance.GetComponent<Button>();
+			button.interactable = true;
+			button.onClick.AddListener(() => {
+				TargetEnemy = enemy;
+				Liveliness -= 2;
+
+				GM.GameBoard.Phase = Board.BoardPhase.PlayerAttacking;
+
+				GM.DM.ClearEnemyList();
+			});
+		}
+	}
 	public void Fight(){
-		Liveliness -= 2;
-		//TODO
-		// ...
-		//
+		Debug.Log ("Target is : " + TargetEnemy);
+		if (TargetEnemy == null) {
+			return;
+		}
+		
+		int dice = 0;
+		if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded) {
+			dice = GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().Value();
+		} else {
+			Debug.LogError ("Player Fight has been called while Slider animation was running");
+		}
+		
+		if (TargetEnemy.Threat <= Craftiness + dice) { // + BONUS Craftiness
+			int dmg = Craftiness + dice - TargetEnemy.Threat;
+			Debug.Log (Name + "hurts " + TargetEnemy.Name + " [" + dmg + "damage(s)]");
+			TargetEnemy.Hurt (dmg); // TODO + BONUS Damage
+		} else {
+			Debug.Log (Name + " misses its attack");
+		}
 	}
 
 	public void Hurt(){

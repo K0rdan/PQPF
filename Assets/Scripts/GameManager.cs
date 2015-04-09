@@ -212,8 +212,8 @@ public class GameManager : MonoBehaviour
 	}
 	public void Fight()
 	{
-		EM.Scenario.GetCurrentPlayer ().Fight ();
-		DM.ReloadActionPrompter();
+		EM.Scenario.GetCurrentPlayer ().GetFightTarget();
+		//DM.ReloadActionPrompter();
 	}
 	public void Skill() // TODO Skills?
 	{
@@ -297,6 +297,34 @@ public class DisplayManager
 			 */
 		
 		Debug.Log ("Prompter reloaded");
+	}
+
+	//TODO change loop content
+	public void HideActionPrompter(){
+		Transform actionPrompterTransform = GameObject.Find ("ActionPrompter").transform;
+		List<GameObject> lgo = new List<GameObject>();
+		
+		for (int i = 0; i < actionPrompterTransform.childCount; ++i) {
+			//lgo.Add(
+			Transform t = actionPrompterTransform.GetChild(i);
+			Vector3 tempPos = t.localPosition;//gameObject);
+			tempPos.x = 1000;
+			t.localPosition = tempPos;
+		}
+	}
+
+	public void ClearEnemyList(){
+		Transform enemyListTransform = GM.PlayerDisplay.transform.Find ("EnemyList");
+		List<GameObject> lgo = new List<GameObject>();
+		
+		for (int i = 0; i < enemyListTransform.childCount; ++i) {
+			lgo.Add(enemyListTransform.GetChild(i).gameObject);
+		}
+
+		for (int i = 0; i < lgo.Count; ++i) {
+			GameObject.Destroy(lgo[i]);
+		}
+
 	}
 
 	public void SetMapActive(bool b)
@@ -686,59 +714,79 @@ public class PlayerTurnState : FSMState
 
 	public override void Do()
 	{
-		if(GM.GameBoard.PhaseHasChanged){
+		if (GM.GameBoard.PhaseHasChanged || GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded) {
 			GM.GameBoard.PhaseHasChanged = false;
 			GamePlayer p;
 			switch (GM.GameBoard.Phase) {
 			case Board.BoardPhase.Unactive:
 
-				GM.DM.SetMapActive(false);
+				GM.DM.SetMapActive (false);
 
-				GM.GameBoard.MoveButton.SetActive(false);
-				GM.GameBoard.CancelButton.SetActive(false);
-				GM.DM.SetPlayerActive(true);
-				//GM.DM.SetTurnActive(true);
-				GM.DM.ReloadActionPrompter();
+				GM.GameBoard.MoveButton.SetActive (false);
+				GM.GameBoard.CancelButton.SetActive (false);
+				GM.DM.SetPlayerActive (true);
+				GM.DM.SetTurnActive (true);
+				GM.DM.ReloadActionPrompter ();
 				break;
 			case Board.BoardPhase.PlayerMoving:
 				// Uncolorize board
 				Color col = new Color (1F, 1F, 1F, 0.0f);
-				for(int i = 0; i < GM.GameBoard.squares.Length; ++i)
-				{
-					GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+				for (int i = 0; i < GM.GameBoard.squares.Length; ++i) {
+					GM.GameBoard.squares [i].SetMaterial (GM.GameBoard.squares [i].matExit, col);
 				}
 
 				// Colorize Reach in blue
 				p = GM.EM.Scenario.GetCurrentPlayer ();
-				if(p.Reach != null){
-					for(int i=0; i < p.Reach.Count; i++){
-						p.Reach[i].SetMaterial(p.Reach[i].matExit, new Color(0,0,0,0));
+				if (p.Reach != null) {
+					for (int i=0; i < p.Reach.Count; i++) {
+						p.Reach [i].SetMaterial (p.Reach [i].matExit, new Color (0, 0, 0, 0));
 					}
 				}
 				Color blue = new Color (0F, 0F, 1F, 0.35f);
-				p.Reach = GM.GameBoard.Reach(p.CurrentSquare, p.Liveliness);
+				p.Reach = GM.GameBoard.Reach (p.CurrentSquare, p.Liveliness);
 
-				if(p.Reach != null){
-					for(int i=0; i < p.Reach.Count; i++){
-						p.Reach[i].SetMaterial(p.Reach[i].matEnter, blue);
+				if (p.Reach != null) {
+					for (int i=0; i < p.Reach.Count; i++) {
+						p.Reach [i].SetMaterial (p.Reach [i].matEnter, blue);
 					}
 				}
 
-				GM.DM.SetMapActive(true);
-				GM.GameBoard.CancelButton.SetActive(false);
-				GM.GameBoard.NextButton.SetActive(false);
+				GM.DM.SetMapActive (true);
+				GM.GameBoard.CancelButton.SetActive (false);
+				GM.GameBoard.NextButton.SetActive (false);
 				break;
 			case Board.BoardPhase.PlayerHasSelectedSquare:
 
-				GM.GameBoard.MoveButton.SetActive(true);
-				GM.GameBoard.CancelButton.SetActive(true);
-				GM.GameBoard.NextButton.SetActive(false);
+				GM.GameBoard.MoveButton.SetActive (true);
+				GM.GameBoard.CancelButton.SetActive (true);
+				GM.GameBoard.NextButton.SetActive (false);
+				break;
+			/*
+			case Board.BoardPhase.PlayerSelectTarget:
+
+
+				break;*/
+
+			case Board.BoardPhase.PlayerAttacking:
+
+				GM.GameBoard.RandomSlider.SetActive (true);
+				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationStarted = false;
+				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded = false;
+				// TODO put these previous two lines in setactive() (?)
+
+				if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded) {
+					p = GM.EM.Scenario.GetCurrentPlayer ();
+					p.Fight ();
+
+					GM.GameBoard.RandomSlider.SetActive (false);
+					GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationStarted = false;
+					GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded = false;
+
+					GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+				}
+
 				break;
 			}
-			// TODO Extensions
-			// ...
-		}else if(GM.GameBoard.Phase ==  Board.BoardPhase.Unactive){
-
 		}
 	}
 
@@ -751,7 +799,6 @@ public class PlayerTurnState : FSMState
 
 	public override bool IsDone ()
 	{
-		//return ActionList.Count == 0;//Done;
 		return TM.GM.Next;
 	}
 
@@ -896,7 +943,7 @@ public class EnemyTurnState : FSMState
 
 		enemyIterator = 0;
 		willAttack = false;
-		//Done = false;
+		Done = false;
 
 		if (Enemies.Count > 0) {
 			GM.DM.SetMapActive (true);
@@ -912,8 +959,8 @@ public class EnemyTurnState : FSMState
 			
 			GM.GameBoard.Phase = Board.BoardPhase.EnemyMoving;
 		} else {
-			++enemyIterator;
-			//Done = true;
+			//++enemyIterator;
+			Done = true;
 		}
 	}
 	
@@ -924,7 +971,7 @@ public class EnemyTurnState : FSMState
 			return;
 		}
 
-		if(GM.GameBoard.PhaseHasChanged || GM.Next){
+		if(GM.GameBoard.PhaseHasChanged || GM.Next || GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded){
 			if(GM.GameBoard.PhaseHasChanged){
 				enemyIterator = 0;
 			}/* else {
@@ -976,6 +1023,13 @@ public class EnemyTurnState : FSMState
 
 			break;
 			case Board.BoardPhase.EnemyAttacking:
+				Debug.Log ("Enemies Attacking - Iterator : #" + enemyIterator); 
+				Debug.Log ("Enemies Attacking - Waintingforslider : #" + waitingForSlider); 
+				Debug.Log ("Enemies Attacking - Slider animation : #" + GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded);
+
+				if (waitingForSlider && !GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded){
+					return;
+				}
 
 				if (GM.Next)
 				{
@@ -999,15 +1053,38 @@ public class EnemyTurnState : FSMState
 				GM.GameBoard.CancelButton.SetActive(false);
 				GM.GameBoard.MoveButton.SetActive(false);
 				GM.GameBoard.NextButton.SetActive(true);
-				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(true);
 
 				Debug.Log("Enemy #" + enemyIterator + " on square #" + (enemy.CurrentSquare.Id + 1));
 
 				//TODO Factorize to SeekAndDestroy()
 				if (enemy.CanFight()) {
-					Debug.Log("Fight!");
-					enemy.GetFightTarget();
-					enemy.Fight();
+					if (waitingForSlider && GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded){
+						Debug.Log("Fight!");
+						enemy.GetFightTarget();
+						enemy.Fight();
+
+
+						// Reset random slider
+						GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationStarted = false;
+						GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded = false;
+
+						++enemyIterator;
+						if(enemyIterator >= GM.GameBoard.Enemies.Count)
+						{
+							waitingForSlider = false;
+						
+							GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+							return;
+						} else{
+							waitingForSlider = true;
+						}
+
+						return;
+					}
+
+					waitingForSlider = true;
+					GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(true);
+					GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationStarted = false;
 				}
 
 				break;
@@ -1017,6 +1094,10 @@ public class EnemyTurnState : FSMState
 				Debug.Log("Board set to Unactive");
 				GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(false);
 				enemyIterator = Enemies.Count; // go to Next State immediately
+
+				if(GM.Next){
+					Done = true;
+				}
 
 				break;
 			}
@@ -1031,7 +1112,7 @@ public class EnemyTurnState : FSMState
 	
 	public override bool IsDone()
 	{
-		return enemyIterator >= GM.GameBoard.Enemies.Count;
+		return Done;// GM.GameBoard.Phase == Board.BoardPhase.Unactive;
 	}
 
 }

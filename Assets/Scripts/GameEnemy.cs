@@ -172,14 +172,20 @@ public class GameEnemy : MonoBehaviour
 		return true;
 	}
 
+	// TODO not a bool?
 	public bool Fight(){
 		Debug.Log ("Target is : " + TargetPlayer);
 		if (TargetPlayer == null) {
 			return true; // Done
 		}
 
-		// TODO wait for DICE Slider here
-		int dice = UnityEngine.Random.Range (1, 6);
+		int dice = 0;
+		if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().isAnimationEnded) {
+			dice = GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers> ().Value();
+		} else {
+			Debug.LogError ("Enemy Fight has been called while Slider animation was running");
+		}
+
 		if (Threat > TargetPlayer.Craftiness + dice) {
 			Debug.Log ("Cat hurts " + TargetPlayer.Name);
 			TargetPlayer.Hurt ();
@@ -220,9 +226,9 @@ public class GameEnemy : MonoBehaviour
 		}
 	}
 	
-	public void Hurt(){
+	public void Hurt(int damage){
 		Debug.Log ("Cat is hurt");
-		--Life;
+		Life -= damage;
 	}
 
 	public void Die(){

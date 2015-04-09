@@ -18,14 +18,14 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: {x: -725, y: 582.5, z: 0}
-        inSlope: {x: -450, y: 0, z: 0}
-        outSlope: {x: -450, y: 0, z: 0}
+        inSlope: {x: -900, y: 0, z: 0}
+        outSlope: {x: -900, y: 0, z: 0}
         tangentMode: 0
-      - time: .333333343
+      - time: .166666672
         value: {x: -875, y: 582.5, z: 0}
-        inSlope: {x: -450, y: 0, z: 0}
-        outSlope: {x: -450, y: 0, z: 0}
-        tangentMode: 0
+        inSlope: {x: -900, y: 0, z: 0}
+        outSlope: {x: -900, y: 0, z: 0}
+        tangentMode: 216804264
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: PlayerCursorSprite
@@ -49,7 +49,7 @@ AnimationClip:
   m_AnimationClipSettings:
     serializedVersion: 2
     m_StartTime: 0
-    m_StopTime: .333333343
+    m_StopTime: .166666672
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -69,13 +69,13 @@ AnimationClip:
       m_Curve:
       - time: 0
         value: -725
-        inSlope: -450
-        outSlope: -450
+        inSlope: -900
+        outSlope: -900
         tangentMode: 10
-      - time: .333333343
+      - time: .166666672
         value: -875
-        inSlope: -450
-        outSlope: -450
+        inSlope: -900
+        outSlope: -900
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -91,7 +91,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .333333343
+      - time: .166666672
         value: 582.5
         inSlope: 0
         outSlope: 0
@@ -110,7 +110,7 @@ AnimationClip:
         inSlope: 0
         outSlope: 0
         tangentMode: 10
-      - time: .333333343
+      - time: .166666672
         value: 0
         inSlope: 0
         outSlope: 0
