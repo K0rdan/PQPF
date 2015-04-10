@@ -118,8 +118,10 @@ public class GameEnemy : MonoBehaviour
 		ComputePath();
 		if(Path != null)
 		{
-			Color green = new Color(0, 1, 0, 0.25f);
-			Color red = new Color(1, 0.5f, 0, 0.3f);
+			//Color green = new Color(0, 1, 0, 0.25f);
+			Color red = new Color(1, 0, 0);
+			//Color red = new Color(1, 0.5f, 0, 0.3f);
+			Color orange = new Color(1, 0.5f, 0);
 
 			Path[0].SetMaterial(Path[0].matEnter, red);
 			int i = 1;
@@ -131,7 +133,7 @@ public class GameEnemy : MonoBehaviour
 				// Colorize movement path
 				if (i < Path.Count - 1 && !CurrentSquare.IsThreatened (this))
 				{
-					Path[i].SetMaterial(Path[i].matEnter, green);
+					Path[i].SetMaterial(Path[i].matEnter, orange);
 				} else {
 					Path[i].SetMaterial(Path[i].matEnter, red);
 				}
@@ -162,7 +164,7 @@ public class GameEnemy : MonoBehaviour
 			s.Enemies.Add (this);
 
 			RectTransform rect = gameObject.GetComponent<RectTransform>();
-			rect.position = new Vector3(s.Center.x, s.Center.y, 0);
+			rect.position = new Vector3(s.Center.x, s.Center.y, -7);
 		} else {
 			
 		}
@@ -229,11 +231,19 @@ public class GameEnemy : MonoBehaviour
 	public void Hurt(int damage){
 		Debug.Log ("Cat is hurt");
 		Life -= damage;
+		if (Life <= 0) {
+			Life = 0;
+			Die ();
+		}
 	}
 
 	public void Die(){
 		Debug.Log ("Cat Dies");
+		// TODO Reward
+		// ...
+		//
 		CurrentSquare.Enemies.Remove (this);
 		GM.GameBoard.Enemies.Remove (this);
+		Destroy(gameObject);
 	}
 }

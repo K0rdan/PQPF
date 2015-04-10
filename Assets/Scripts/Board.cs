@@ -19,7 +19,7 @@ public class Board : MonoBehaviour, IEventSystemHandler
 	public enum BoardPhase {
 		PlayerMoving, 				// OK
 		PlayerHasSelectedSquare, 	// OK
-		PlayerSelectTarget,
+		PlayerFleeing,
 		PlayerAttacking,
 		EnemyMoving,
 		EnemyAttacking,

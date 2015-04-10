@@ -66,9 +66,9 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		//mrenderer.material.color = Color.red;
 
 		Debug.Log("Material create");
-		matExit = new Material (Shader.Find ("Transparent/Diffuse"));
+		matExit = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));//"Transparent/Diffuse"));
 		matExit.color = new Color (1f, 1f, 1f, 0.1f);
-		matEnter = new Material (Shader.Find ("Transparent/Diffuse"));//"Self-Illumin/Diffuse"));
+		matEnter = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));//"Transparent/Diffuse"));//"Self-Illumin/Diffuse"));
 		matEnter.color = new Color (1f, 1f, 1f, 0.5f);
 
 		mrenderer.material = matExit;
@@ -203,21 +203,22 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 					GameBoard.squares[i].SetMaterial(matExit, col);
 				}
 
-				// Colorize Reach in blue
-				Color blue = new Color (0F, 0F, 1F, 0.35f);
+				// Colorize Reach in green
+				Color green = new Color (0.19F, 0.78F, 0.45F);
 				for(int i=0; i < p.Reach.Count; i++){
-					p.Reach[i].SetMaterial(p.Reach[i].matEnter, blue);
+					p.Reach[i].SetMaterial(p.Reach[i].matEnter, green);
 				}
 
 				Debug.Log ("Square Id is "+ this.Id.ToString());
 				GameBoard.AStar(p.CurrentSquare, this, out p.Path);
 
+				Color orange = new Color (1, 0.5f, 0);
 				if(p.Path != null){
 					int i = p.Path.Count-1;
-					p.Path[i].SetMaterial(p.Path[i].matEnter, new Color(1,0.5f,0,0.3f));
+					p.Path[i].SetMaterial(p.Path[i].matEnter, new Color (0.19f, 0.45f, 0.78f));
 					while(i > 0){
 						--i;
-						p.Path[i].SetMaterial(p.Path[i].matEnter, new Color (0F, 1F, 0F, 0.25f));
+						p.Path[i].SetMaterial(p.Path[i].matEnter, orange);
 					}
 					GameBoard.SelectedSquare = this;
 					GameBoard.Phase = Board.BoardPhase.PlayerHasSelectedSquare;

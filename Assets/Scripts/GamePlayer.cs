@@ -26,6 +26,10 @@ public class GamePlayer : MonoBehaviour
 	public List<BoardSquare> Reach;
 	public List<BoardSquare> Path;
 
+	public bool Fleeing = false;
+	public bool HasFailedToFlee = false;
+	public int FleeIterator = 0;
+
 	public List<BoardSquare> FightReach;
 	public List<BoardSquare> TargetableSquares = new List<BoardSquare>();
 	public List<GameEnemy> TargetableEnemies = new List<GameEnemy>();
@@ -44,6 +48,9 @@ public class GamePlayer : MonoBehaviour
 		HealRest = 0;
 		Liveliness = MaxLiveliness - Damage;
 		DigUpCount = 0;
+		Fleeing = false;
+		FleeIterator = 0;
+		HasFailedToFlee = false;
 
 		if (!IsActive ()) {
 			GM.DoNext();
@@ -68,12 +75,11 @@ public class GamePlayer : MonoBehaviour
 			ls.Add("Fouille");
 		}
 
-		if (Liveliness > 0) {
+		if (Liveliness > 0 & !HasFailedToFlee) {
 			ls.Add ("Déplacement");
 		}
 
-
-		if (Liveliness > 2){
+		if (Liveliness >= 2){
 			FightReach = GM.GameBoard.Reach(CurrentSquare, Range);
 
 			TargetableSquares.Clear();
@@ -130,11 +136,29 @@ public class GamePlayer : MonoBehaviour
 		// UI
 
 		// TODO Resolve Path
-		Liveliness -= (Path.Count-1);
-		Debug.Log(Liveliness);
-		DigUpCount = 0; // Only if new square  is different
-		MoveTo (GM.GameBoard.SelectedSquare);
+		int i = 1;
+		while (i < Path.Count)
+		{
+			// TODO Extension : square state, ablaze
+			if (!CurrentSquare.IsThreatened (this) || Fleeing)
+			{
+				Fleeing = false; // Fleeing once per square
+				FleeIterator = 0;
+				MoveTo(Path[i]);
+				--Liveliness;
+				DigUpCount = 0;
+			} else {
+				// The current square is threatened
+				GM.GameBoard.Phase = Board.BoardPhase.PlayerFleeing;
+				Path.RemoveRange(0, i - 1); // The remaining path will be remembered 
+				Debug.Log("Remaining path count : " + Path.Count);
 
+				return;
+			}
+			++i;
+		}
+
+		GM.DM.ReloadActionPrompter ();
 	}
 	public void MoveTo(BoardSquare s){
 		if (s != null) {
@@ -211,10 +235,15 @@ public class GamePlayer : MonoBehaviour
 			--Liveliness;
 		}
 		++Damage;
+
+		if (Damage >= MaxLiveliness) {
+			Die ();
+		}
 	}
 
 	public void Die(){
 		CurrentSquare.Players.Remove (this);
+		GM.EM.Scenario.Players.Remove (this); // TODO be healable instead?
 	}
 	public void Heal(int life){
 		//TODO Respawn on this square
