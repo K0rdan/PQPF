@@ -2042,7 +2042,7 @@ GameObject:
   - 114: {fileID: 680247166}
   m_Layer: 5
   m_Name: "D\xE9placement"
-  m_TagString: Untagged
+  m_TagString: Move_BTN
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3136,7 +3136,7 @@ GameObject:
   - 114: {fileID: 961534632}
   m_Layer: 5
   m_Name: PlayerProfile
-  m_TagString: CharacterSheet
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5761,6 +5761,7 @@ MonoBehaviour:
   NarrationDisplay: {fileID: 1465206695}
   TurnDisplay: {fileID: 1171441219}
   ThreatSpawnDisplay: {fileID: 335640014}
+  mvt_btn: {fileID: 680247166}
   PlayerProfileDisplay: {fileID: 961534630}
   ActionPrompterDisplay: {fileID: 2100236704}
   DM:

@@ -37,10 +37,10 @@ public class MoveButtonHandler : MonoBehaviour
             gm.Move();
         }
         // TODO call flee function of GM
-        //else 
-        //{
-        //    gm.Flee();
-        //}
+        else
+        {
+            gm.Flee();
+        }
     }
 
     
