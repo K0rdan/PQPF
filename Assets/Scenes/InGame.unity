@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: f2e35a2ec13e41e408ed8bf58b88ccfb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 502bc3b92ff299e4887369e448114bad, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -380,12 +380,12 @@ MonoBehaviour:
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 8
-    m_MaxSize: 55
+    m_MaxSize: 29
     m_Alignment: 3
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: .899999976
+    m_LineSpacing: 1
   m_Text: " mqh smfh qmsdgh fmqh fgmjqh fghqm dfghqd hfgm\xF9qh fmghqmdfj gjmqh fgmjqh
     fgq fmghqm fgmqh fgjhq fmghqmf gmjq hfgjmhqm jfghmjqh fgjmhq mjfghjmq hfgjmhq
     fmjgh qmfjgh m"
@@ -2039,6 +2039,7 @@ GameObject:
   - 222: {fileID: 680247165}
   - 114: {fileID: 680247164}
   - 114: {fileID: 680247163}
+  - 114: {fileID: 680247166}
   m_Layer: 5
   m_Name: "D\xE9placement"
   m_TagString: Untagged
@@ -2102,8 +2103,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1929897198}
-        m_MethodName: Move
+      - m_Target: {fileID: 680247166}
+        m_MethodName: EnableButtonAction
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2143,6 +2144,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 680247161}
+--- !u!114 &680247166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 680247161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ab9724d96b750d47bd438789121e5cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deplacement: {fileID: 21300000, guid: d898bc83547659e448628a2dac57981e, type: 3}
+  fuite: {fileID: 21300000, guid: 1b96c75a74d61054289137db34c8dddd, type: 3}
 --- !u!1 &718814014
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,7 +3486,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 870.5, y: -548.5}
+  m_AnchoredPosition: {x: 819, y: -500}
   m_SizeDelta: {x: 179, y: 103}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1046152659
@@ -4045,8 +4059,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 460, y: 9}
-  m_SizeDelta: {x: -983, y: -177}
+  m_AnchoredPosition: {x: 457, y: 0}
+  m_SizeDelta: {x: -1090, y: -400}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1316230633
 MonoBehaviour:
@@ -4067,13 +4081,17 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 55
+    m_MaxSize: 29
     m_Alignment: 3
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: .680000007
-  m_Text: Bienvenue
+    m_LineSpacing: 1
+  m_Text: "Bienvenue dans le monde impitoyable de Pour Quelques Poign\xE9es de Ferraille
+    !\\nAu cours de cette premi\xE8re aventure Vous incarnerez un habitant d\u2019une
+    d\xE9charge abandonn\xE9e par l\u2019homme, dont les animaux ont repris le contr\xF4le
+    et o\xF9 ils vivent sous le joug f\xE9roce des chats, et de leur terrifiant chef,
+    Fidel Chastro !"
 --- !u!222 &1316230634
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4447,7 +4465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1465206696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5390,7 +5408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Sprite: {fileID: 21300000, guid: 502bc3b92ff299e4887369e448114bad, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83d1b1aa552243041af6088f51ec8b31, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
