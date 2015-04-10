@@ -1,0 +1,161 @@
+fileFormatVersion: 2
+guid: 0cec0fbfe58f8724e808bb0c54bf3380
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: numero_tour__0
+    21300002: numero_tour__1
+    21300004: numero_tour__2
+    21300006: numero_tour__3
+    21300008: numero_tour__4
+    21300010: numero_tour__5
+    21300012: numero_tour__6
+    21300014: numero_tour__7
+    21300016: numero_tour__8
+    21300018: numero_tour__9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -3
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: numero_tour__0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 412
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__1
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 412
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 312
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__3
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 312
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 212
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__5
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 212
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 112
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__7
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 112
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 12
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: numero_tour__9
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 12
+        width: 196
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

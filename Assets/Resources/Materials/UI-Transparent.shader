@@ -3,11 +3,11 @@
 // - no lightmap support
 // - no per-material color
 
-Shader "Unlit/Transparent-Colored" {
+Shader "UI/Transparent-Colored" {
 Properties
 {
 	_MainTex ("Base (RGB) Trans (A)", 2D) = "white" {}
-	_Color ("Tint", Color) = (1.0, 1.0, 1.0, 1.0)
+	_Color ("Tint", Color) = (1.0, 1.0, 1.0, 0.3)
 }
 
 SubShader {
@@ -15,9 +15,7 @@ SubShader {
 	LOD 100
 	
 	ZWrite Off
-	//Blend SrcAlpha OneMinusSrcAlpha
-	Blend Zero SrcColor
-	//Blend DstColor Zero
+	Blend SrcAlpha OneMinusSrcAlpha
 	
 	Pass {  
 		CGPROGRAM

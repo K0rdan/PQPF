@@ -18,12 +18,16 @@ public class ActivePlayerStatsManager : MonoBehaviour
 
     public void UpdateState()
     {
-        Debug.Log("PLAYER CRAFTINESS :: " + gm.EM.Scenario.GetCurrentPlayer().Craftiness);
-        Debug.Log("PLAYER Liveliness :: " + gm.EM.Scenario.GetCurrentPlayer().Liveliness);
-        Debug.Log("PLAYER UsedLiveliness :: " + gm.EM.Scenario.GetCurrentPlayer().GetUsedLiveliness());
         for (int i = 0; i < gm.EM.Scenario.GetCurrentPlayer().Craftiness; i++)
         {
             astuce_list[i].SetActive(true);
+        }
+        if (astuce_list.Length > gm.EM.Scenario.GetCurrentPlayer().Craftiness)
+        {
+            for (int i = gm.EM.Scenario.GetCurrentPlayer().Craftiness; i < astuce_list.Length; i++)
+            {
+                astuce_list[i].SetActive(false);
+            }
         }
         for (int i = 0; i < gm.EM.Scenario.GetCurrentPlayer().MaxLiveliness; i++)
         {
@@ -39,6 +43,13 @@ public class ActivePlayerStatsManager : MonoBehaviour
                 {
                     vivacity_list[i].GetComponent<Image>().sprite = vivacity_states[2];
                 }
+        }
+        if (vivacity_list.Length > gm.EM.Scenario.GetCurrentPlayer().MaxLiveliness)
+        {
+            for (int i = gm.EM.Scenario.GetCurrentPlayer().MaxLiveliness; i < vivacity_list.Length; i++)
+            {
+                vivacity_list[i].SetActive(false);
+            }
         }
     }
 

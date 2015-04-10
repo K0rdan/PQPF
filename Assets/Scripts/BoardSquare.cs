@@ -65,10 +65,9 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		mrenderer = gameObject.AddComponent<MeshRenderer>();
 		//mrenderer.material.color = Color.red;
 
-		Debug.Log("Material create");
-		matExit = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));//"Transparent/Diffuse"));
+		matExit = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));
 		matExit.color = new Color (1f, 1f, 1f, 0.1f);
-		matEnter = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));//"Transparent/Diffuse"));//"Self-Illumin/Diffuse"));
+		matEnter = new Material (Shader.Find ("UI/Multiply"));//"Unlit/Transparent-Colored"));//"Transparent/Diffuse"));
 		matEnter.color = new Color (1f, 1f, 1f, 0.5f);
 
 		mrenderer.material = matExit;
@@ -113,38 +112,6 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 				altBeginEnd = -1;
 			}
 		}
-
-	/*	
-	//GameObject o = (GameObject) Instantiate (gameObject);
-		Border = gameObject.AddComponent<LineRenderer> ();
-		Border.useWorldSpace = true;
-			Border.material = new Material (Shader.Find ("Diffuse"));
-			//Border.material.SetFloat("_Outline", 0.01F);
-			//Border.material.SetColor("_OutlineColor", Color.red);
-			Border.SetWidth(0.05f, 0.05f);
-			Border.SetVertexCount (vertices2D2.Length+1);
-
-			for (int i=0; i<vertices2D2.Length; i++) {
-				Border.SetPosition (i, tf.TransformVector(vertices2D2 [i] + new Vector2(-4.0f,2.5f)));
-			}
-			Border.SetPosition (vertices2D2.Length, tf.TransformVector(vertices2D2 [0]  + new Vector2(-4.0f,2.5f)));
-			for (int i=vertices2D2.Length-1; i>-1; i--) {
-				Border.SetPosition (i, tf.TransformVector(vertices2D2 [i] + new Vector2(-4.0f,2.5f)));
-			}
-			Border.SetPosition (vertices2D2.Length, tf.TransformVector(vertices2D2 [0] + new Vector2(-4.0f,2.5f)));
-		*/
-
-			/*
-			float s2 = 1.4666f;
-			for (int i=0; i<vertices2D2.Length; i++) {
-				Border.SetPosition (i, new Vector3 ((vertices2D2 [i].x - 4.0f) / s2, (vertices2D2 [i].y + 2.5f) / s2, 1f));
-			}
-			Border.SetPosition (vertices2D2.Length, new Vector3 ((vertices2D2 [0].x - 4.0f) / s2, (vertices2D2 [0].y + 2.5f) / s2, 1f));
-			for (int i=vertices2D2.Length-1; i>-1; i--) {
-				Border.SetPosition (i, new Vector3 ((vertices2D2 [i].x - 4.0f) / s2, (vertices2D2 [i].y + 2.5f) / s2, 1f));
-			}
-			Border.SetPosition (vertices2D2.Length, new Vector3 ((vertices2D2 [0].x - 4.0f) / s2, (vertices2D2 [0].y + 2.5f) / s2, 1f));
-			*/
 
 	}
 
