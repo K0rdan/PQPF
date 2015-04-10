@@ -75,7 +75,13 @@ public class GamePlayer : MonoBehaviour
 			ls.Add("Fouille");
 		}
 
-		if (Liveliness > 0 & !HasFailedToFlee) {
+		/*if (CurrentSquare.IsThreatened (this)) {
+			if(!HasFailedToFlee)
+			{
+				ls.Add ("Fuite");
+			}
+		} else */
+		if (Liveliness > 0 && !HasFailedToFlee) {
 			ls.Add ("Déplacement");
 		}
 
@@ -147,19 +153,24 @@ public class GamePlayer : MonoBehaviour
 				MoveTo(Path[i]);
 				--Liveliness;
 				DigUpCount = 0;
-			} else {
+
+				// TODO Extension Square passing (eg. through an ablaze square, lose 1 life)
+				// ...
+				///
+			}/* else {
 				// The current square is threatened
 				GM.GameBoard.Phase = Board.BoardPhase.PlayerFleeing;
 				Path.RemoveRange(0, i - 1); // The remaining path will be remembered 
 				Debug.Log("Remaining path count : " + Path.Count);
 
 				return;
-			}
+			}*/
 			++i;
 		}
 
 		GM.DM.ReloadActionPrompter ();
 	}
+
 	public void MoveTo(BoardSquare s){
 		if (s != null) {
 			if(CurrentSquare != null){

@@ -27,11 +27,6 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 	public List<GameEnemy> Enemies = new List<GameEnemy> ();
 
 
-	/*
-	Character[] 					_personnages;
-	BoardSquareLink[]				_neighbours;
-	Property[] 						_effect;
-	*/
 	PolygonCollider2D			Collider2D;
 	LineRenderer				Border;
 
@@ -126,28 +121,14 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		mrenderer.material.color = color;
 	}
 
+
 	public void OnMouseEnter()
 	{
-		//mrenderer.material = matEnter;
-		//mrenderer.material.color = new Color(0F, 1F, 0F);
-
 		// TODO Display informations about this square
 
 	}
 	public void OnMouseExit()
 	{
-		//mrenderer.material = matExit;
-		//mrenderer.material.color -= new Color(0, 1F, 0);
-
-		//for(int i=0; i<Neighbours.Count; i++){
-		//	Neighbours[i].mrenderer.material = Neighbours[i].matExit;
-		//}
-
-		/*List<BoardSquare> l = GameBoard.Reach (this, GM.EM.Scenario.GetCurrentPlayer ().Liveliness);
-		for (int i=0; i < l.Count; i++) {
-			l [i].mrenderer.material = l [i].matExit;
-		}*/
-		
 	}
 	public void OnMouseUpAsButton()
 	{
@@ -172,21 +153,31 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 
 				// Colorize Reach in green
 				Color green = new Color (0.19F, 0.78F, 0.45F);
-				for(int i=0; i < p.Reach.Count; i++){
+				for(int i = 0; i < p.Reach.Count; i++){
 					p.Reach[i].SetMaterial(p.Reach[i].matEnter, green);
 				}
 
 				Debug.Log ("Square Id is "+ this.Id.ToString());
 				GameBoard.AStar(p.CurrentSquare, this, out p.Path);
 
+				// Colorize path
 				Color orange = new Color (1, 0.5f, 0);
+				Color blue = new Color (0.19f, 0.45f, 0.78f);
 				if(p.Path != null){
-					int i = p.Path.Count-1;
-					p.Path[i].SetMaterial(p.Path[i].matEnter, new Color (0.19f, 0.45f, 0.78f));
-					while(i > 0){
-						--i;
+					int i = 0;//p.Path.Count-1;
+					while(i < p.Path.Count){
+						// Stop if square is threatened
+						if (p.Path[i].IsThreatened(p) && !(p.Fleeing && i == 0)) {
+							p.Path[i].SetMaterial(p.Path[i].matEnter, new Color(1,0,0));
+							GameBoard.SelectedSquare = p.Path[i];
+							GameBoard.Phase = Board.BoardPhase.PlayerHasSelectedSquare;
+							return;
+						}
 						p.Path[i].SetMaterial(p.Path[i].matEnter, orange);
+						++i;
 					}
+
+					SetMaterial(matEnter, blue);
 					GameBoard.SelectedSquare = this;
 					GameBoard.Phase = Board.BoardPhase.PlayerHasSelectedSquare;
 				}
@@ -236,7 +227,7 @@ public class BoardSquare : MonoBehaviour// BoardGameItem
 		return Players;
 	}
 	public bool IsThreatened (GamePlayer gp){
-		return Enemies.Count > 0;	
+		return Enemies.Count > 0;
 	}
 	public List<GameEnemy> ThreatList(GamePlayer gp)
 	{

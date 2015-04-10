@@ -10,7 +10,6 @@ using System.Collections.Generic;
 //using System.Xml.Serialization;
 using System.IO;
 
-
 //[XmlRoot("Board")]
 public class Board : MonoBehaviour, IEventSystemHandler
 {
@@ -23,6 +22,7 @@ public class Board : MonoBehaviour, IEventSystemHandler
 		PlayerAttacking,
 		EnemyMoving,
 		EnemyAttacking,
+		WaitNext,
 		Unactive					// ?OK?
 	};
 	private BoardPhase phase = BoardPhase.Unactive;
@@ -655,7 +655,7 @@ public class Board : MonoBehaviour, IEventSystemHandler
 
 
 	//Pathfinding
-	public void AStar(BoardSquare start, BoardSquare end, out List<BoardSquare> path)
+	public void AStar(BoardSquare start, BoardSquare end, out List<BoardSquare> path, bool tryToAvoidEnemies = true)
 	{
 		List<int> closedset = new List<int>();
 		List<int> openset = new List<int>();
@@ -674,7 +674,7 @@ public class Board : MonoBehaviour, IEventSystemHandler
 			float minCost = 200000;
 			for(int i = 0; i < openset.Count; ++i)
 			{
-				float md = ManhattanDist(end, squares[openset[i]]);
+				float md = ManhattanDist(end, squares[openset[i]]) + ((tryToAvoidEnemies && squares[openset[i]].IsThreatened(GM.EM.Scenario.GetCurrentPlayer()))? 35000.0f : 0.0f);
 				if (costs[openset[i]] < minCost - md){
 					minCost = costs[openset[i]] + md;
 					imin = i;
@@ -710,7 +710,7 @@ public class Board : MonoBehaviour, IEventSystemHandler
 					continue;
 				}
 
-				float estimateCost = costs[n] + 100;
+				float estimateCost = costs[n] + 1000;
 				if(!openset.Contains(n2) || estimateCost < costs[n2])
 				{
 					previous[n2] = n;
