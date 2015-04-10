@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 using System;
@@ -276,7 +276,7 @@ public class DisplayManager
 		GameObject container = GameObject.Find ("ActionPrompter");
 		List<GameObject> lgo = new List<GameObject>();
 		
-		for (int i = 0; i < container.transform.childCount; ++i) {
+		/*for (int i = 0; i < container.transform.childCount; ++i) {
 			GameObject go = container.transform.GetChild(i).gameObject;
 			Vector3 pos = go.transform.localPosition;
 
@@ -288,7 +288,7 @@ public class DisplayManager
 			}
 			go.transform.localPosition = pos;
 
-		}
+		}*/
 
 			/*Button b = go.GetComponent<Button>();
 			b.interactable = true;
@@ -296,7 +296,13 @@ public class DisplayManager
 			string s = entry.Key; // Closure issue : store external value (entry.Key) in internal variable (s)
 			b.onClick.AddListener(() => {ActionManager.DoAction(s);});
 			 */
-		
+
+		GameObject go = GameObject.FindGameObjectWithTag ("CharacterSheet");
+		if(go != null)
+		{
+			go.SendMessage("UpdateState");
+		}
+
 		Debug.Log ("Prompter reloaded");
 	}
 
