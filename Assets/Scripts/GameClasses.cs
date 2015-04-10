@@ -184,6 +184,7 @@ public class GameScenario
 		playerGo.transform.SetParent(pts.transform, false);
 
 		GamePlayer player = playerGo.GetComponent<GamePlayer> ();
+		player.DefaultSpritePosition = pos;
 
 		Players.Add (player);
 

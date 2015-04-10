@@ -50,6 +50,9 @@ MonoBehaviour:
   CurrentSquare: {fileID: 0}
   Reach: []
   Path: []
+  Fleeing: 0
+  HasFailedToFlee: 0
+  FleeIterator: 0
   FightReach: []
   TargetableSquares: []
   TargetableEnemies: []
@@ -87,8 +90,8 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingLayerID: 3610325407
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: fa05452d5e285714aa0a56058887e937, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000

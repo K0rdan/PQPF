@@ -73,6 +73,7 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
+    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &22277156
 GameObject:
@@ -710,14 +711,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -773,14 +774,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -836,14 +837,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1014,14 +1015,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1183,14 +1184,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 2
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1590,14 +1591,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 2
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1653,14 +1654,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 2
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1777,14 +1778,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1889,14 +1890,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -1952,14 +1953,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2016,14 +2017,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
   - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
-    rate: 25
+    rate: 1
   - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
-    rate: 25
+    rate: 1
   - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
-    rate: 25
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2269,14 +2270,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2505,14 +2506,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2568,14 +2569,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 2
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2631,14 +2632,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 2
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -2694,14 +2695,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3050,14 +3051,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3113,14 +3114,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3358,14 +3359,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 2
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3662,14 +3663,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3815,14 +3816,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -3947,14 +3948,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 2
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4149,14 +4150,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4212,14 +4213,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4376,14 +4377,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4439,14 +4440,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4599,14 +4600,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4876,14 +4877,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 2
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -4939,14 +4940,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5349,14 +5350,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 2
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5473,14 +5474,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 2
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5640,14 +5641,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5703,14 +5704,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 2
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 1
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5906,14 +5907,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 2
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 2
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []
@@ -5947,9 +5948,8 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Priority: 3
-  ignoreReversedGraphics: 1
-  blockingObjects: 0
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -6115,14 +6115,14 @@ MonoBehaviour:
   matEnter: {fileID: 10754, guid: 0000000000000000e000000000000000, type: 3}
   matExit: {fileID: 10301, guid: 0000000000000000f000000000000000, type: 3}
   resourceFindingRates:
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 25
-  - resource: {fileID: 0}
-    rate: 50
+  - resource: {fileID: 11490822, guid: b0a2ab8f750c3df498c2e14b51a264fb, type: 2}
+    rate: 1
+  - resource: {fileID: 11408392, guid: 49e33d6fd046fde4fa58889b6f400a2b, type: 2}
+    rate: 1
+  - resource: {fileID: 11403394, guid: 175debe35cb76404680311c9bf95cee0, type: 2}
+    rate: 13
+  - resource: {fileID: 11443194, guid: 92c31a4916c652b4e90c48dd48ee5394, type: 2}
+    rate: 1
   mrenderer: {fileID: 0}
   Neighbours: []
   Players: []

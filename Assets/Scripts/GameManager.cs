@@ -356,11 +356,13 @@ public class DisplayManager
     {
         GM.MapDisplay.SetActive(b);
         // Undisplay all other if activated
-        if (b)
-        {
-            SetPlayerActive(false);
-            SetNarrationActive(false);
-        }
+        if (b) {
+			SetPlayerActive (false);
+			SetNarrationActive (false);
+		} else {
+			GamePlayer p = GM.EM.Scenario.GetCurrentPlayer();
+			p.gameObject.transform.localPosition = p.DefaultSpritePosition;
+		}
     }
 
     public void SetPlayerActive(bool b)
@@ -783,143 +785,150 @@ public class PlayerTurnState : FSMState
 
             switch (GM.GameBoard.Phase)
             {
-                case Board.BoardPhase.WaitNext:
-                    GM.GameBoard.NextButton.SetActive(true);
+            case Board.BoardPhase.WaitNext:
+                GM.GameBoard.NextButton.SetActive(true);
 
-                    if (GM.Next)
+                if (GM.Next)
+                {
+                    GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+                }
+
+                break;
+
+            case Board.BoardPhase.Unactive:
+
+                GM.DM.ReloadActionPrompter();
+                // TODO Setup Player screen
+                //...
+                ///
+
+                GM.DM.SetMapActive(false);
+
+                GM.GameBoard.MoveButton.SetActive(false);
+                GM.GameBoard.CancelButton.SetActive(false);
+                GM.DM.SetPlayerActive(true);
+                GM.DM.SetTurnActive(true);
+
+                break;
+
+            case Board.BoardPhase.PlayerMoving:
+                // Uncolorize board
+                Color col = new Color(1F, 1F, 1F, 0.0f);
+                for (int i = 0; i < GM.GameBoard.squares.Length; ++i)
+                {
+                    GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+                }
+
+                // Colorize Reach in green
+                p = GM.EM.Scenario.GetCurrentPlayer();
+                if (p.Reach != null)
+                {
+                    for (int i = 0; i < p.Reach.Count; i++)
                     {
-                        GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+                        p.Reach[i].SetMaterial(p.Reach[i].matExit, new Color(0, 0, 0, 0));
                     }
+                }
+                Color green = new Color(0.19f, 0.78f, 0.45f);
+                p.Reach = GM.GameBoard.Reach(p.CurrentSquare, p.Liveliness);
 
-                    break;
-
-                case Board.BoardPhase.Unactive:
-
-                    GM.DM.ReloadActionPrompter();
-                    // TODO Setup Player screen
-                    //...
-                    ///
-
-                    GM.DM.SetMapActive(false);
-
-                    GM.GameBoard.MoveButton.SetActive(false);
-                    GM.GameBoard.CancelButton.SetActive(false);
-                    GM.DM.SetPlayerActive(true);
-                    GM.DM.SetTurnActive(true);
-
-                    break;
-
-                case Board.BoardPhase.PlayerMoving:
-                    // Uncolorize board
-                    Color col = new Color(1F, 1F, 1F, 0.0f);
-                    for (int i = 0; i < GM.GameBoard.squares.Length; ++i)
+                if (p.Reach != null)
+                {
+                    for (int i = 0; i < p.Reach.Count; i++)
                     {
-                        GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+                        p.Reach[i].SetMaterial(p.Reach[i].matEnter, green);
                     }
+                }
 
-                    // Colorize Reach in green
+                GM.DM.SetMapActive(true);
+                GM.GameBoard.CancelButton.SetActive(false);
+                GM.GameBoard.NextButton.SetActive(false);
+
+
+				// Put the player's pawn on the square
+				Vector3 tempPos = p.gameObject.transform.localPosition;
+				tempPos.x = p.CurrentSquare.Center.x;
+				tempPos.y = p.CurrentSquare.Center.y + 40; //offset
+				p.gameObject.transform.localPosition = tempPos;
+
+                break;
+            case Board.BoardPhase.PlayerHasSelectedSquare:
+
+                GM.GameBoard.MoveButton.SetActive(true);
+                GM.GameBoard.CancelButton.SetActive(true);
+                GM.GameBoard.NextButton.SetActive(false);
+
+                break;
+
+            case Board.BoardPhase.PlayerFleeing:
+
+                if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
+                {
                     p = GM.EM.Scenario.GetCurrentPlayer();
-                    if (p.Reach != null)
+
+                    // TODO Setup fight/flee scene
+                    // ...
+                    //
+
+                    int dice = GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Value();
+                    if (p.Craftiness + dice < p.CurrentSquare.Enemies[p.FleeIterator].Threat)
                     {
-                        for (int i = 0; i < p.Reach.Count; i++)
-                        {
-                            p.Reach[i].SetMaterial(p.Reach[i].matExit, new Color(0, 0, 0, 0));
-                        }
-                    }
-                    Color green = new Color(0.19f, 0.78f, 0.45f);
-                    p.Reach = GM.GameBoard.Reach(p.CurrentSquare, p.Liveliness);
+                        // Player is caught by the Enemy threat
+                        p.HasFailedToFlee = true;
+                        p.Fleeing = false;
+                        p.Hurt();
 
-                    if (p.Reach != null)
-                    {
-                        for (int i = 0; i < p.Reach.Count; i++)
-                        {
-                            p.Reach[i].SetMaterial(p.Reach[i].matEnter, green);
-                        }
-                    }
-
-                    GM.DM.SetMapActive(true);
-                    GM.GameBoard.CancelButton.SetActive(false);
-                    GM.GameBoard.NextButton.SetActive(false);
-
-                    break;
-                case Board.BoardPhase.PlayerHasSelectedSquare:
-
-                    GM.GameBoard.MoveButton.SetActive(true);
-                    GM.GameBoard.CancelButton.SetActive(true);
-                    GM.GameBoard.NextButton.SetActive(false);
-
-                    break;
-
-                case Board.BoardPhase.PlayerFleeing:
-
-                    if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
-                    {
-                        p = GM.EM.Scenario.GetCurrentPlayer();
-
-                        // TODO Setup fight/flee scene
-                        // ...
-                        //
-
-                        int dice = GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Value();
-                        if (p.Craftiness + dice < p.CurrentSquare.Enemies[p.FleeIterator].Threat)
-                        {
-                            // Player is caught by the Enemy threat
-                            p.HasFailedToFlee = true;
-                            p.Fleeing = false;
-                            p.Hurt();
-
-                            // Pause
-                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
-
-                            GM.DM.SetRandomSliderActive(false);
-
-                            return;
-                        }
-
-                        ++(p.FleeIterator);
-                        if (p.FleeIterator < p.CurrentSquare.Enemies.Count)
-                        {
-                            Debug.Log("Fleeing again from another threat");
-                        }
-                        else
-                        {
-                            p.Fleeing = true;
-                            //p.Move(); // Finish movement
-
-                            // Pause to move
-                            //GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
-                            // 
-                            GM.GameBoard.Phase = Board.BoardPhase.PlayerMoving;
-
-                            GM.DM.SetRandomSliderActive(false);
-
-                            return;
-                        }
-                    }
-
-                    GM.DM.SetRandomSliderActive(true);
-
-                    break;
-
-                case Board.BoardPhase.PlayerAttacking:
-                    Debug.Log("The player is attacking");
-                    // TODO put these previous two lines in setactive() (?)
-
-                    if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
-                    {
-                        Debug.Log("The animation has ended");
-                        p = GM.EM.Scenario.GetCurrentPlayer();
-                        p.Fight();
+                        // Pause
+                        GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
 
                         GM.DM.SetRandomSliderActive(false);
 
-                        GM.GameBoard.Phase = Board.BoardPhase.Unactive;
                         return;
                     }
 
-                    GM.DM.SetRandomSliderActive(true);
+                    ++(p.FleeIterator);
+                    if (p.FleeIterator < p.CurrentSquare.Enemies.Count)
+                    {
+                        Debug.Log("Fleeing again from another threat");
+                    }
+                    else
+                    {
+                        p.Fleeing = true;
+                        //p.Move(); // Finish movement
 
-                    break;
+                        // Pause to move
+                        //GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                        // 
+                        GM.GameBoard.Phase = Board.BoardPhase.PlayerMoving;
+
+                        GM.DM.SetRandomSliderActive(false);
+
+                        return;
+                    }
+                }
+
+                GM.DM.SetRandomSliderActive(true);
+
+                break;
+
+            case Board.BoardPhase.PlayerAttacking:
+                Debug.Log("The player is attacking");
+                // TODO put these previous two lines in setactive() (?)
+
+                if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
+                {
+                    Debug.Log("The animation has ended");
+                    p = GM.EM.Scenario.GetCurrentPlayer();
+                    p.Fight();
+
+                    GM.DM.SetRandomSliderActive(false);
+
+                    GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+                    return;
+                }
+
+                GM.DM.SetRandomSliderActive(true);
+
+                break;
             }
         }
     }

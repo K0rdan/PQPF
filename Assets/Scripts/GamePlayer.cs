@@ -35,6 +35,16 @@ public class GamePlayer : MonoBehaviour
 	public List<GameEnemy> TargetableEnemies = new List<GameEnemy>();
 	public GameEnemy TargetEnemy;
 
+	private Vector3 defaultSpritePosition;
+	public Vector3 DefaultSpritePosition {
+		get{
+			return defaultSpritePosition;
+		}
+		set{
+			defaultSpritePosition = value;
+		}
+	}
+
 	public void Awake()
 	{
 		GM = GameObject.Find("GameManager").GetComponent<GameManager> ();
