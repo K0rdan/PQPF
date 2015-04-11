@@ -349,7 +349,8 @@ public class DisplayManager
 
     public void SetMapActive(bool b)
     {
-        GM.MapDisplay.SetActive(b);
+		Debug.Log ("Set M : " + b);
+		GM.MapDisplay.SetActive(b);
         // Undisplay all other if activated
         if (b) {
 			SetPlayerActive (false);
@@ -362,18 +363,24 @@ public class DisplayManager
 
     public void SetPlayerActive(bool b)
     {
-        if (b)
+		Debug.Log ("Set P : " + b);
+		GM.PlayerDisplay.SetActive(b);
+		if (b)
         {
             GM.DM.ReloadActionPrompter();
             SetMapActive(false);
             SetNarrationActive(false);
         }
-        GM.PlayerDisplay.SetActive(b);
     }
 
     public void SetNarrationActive(bool b)
     {
-        GM.NarrationDisplay.SetActive(b);
+		Debug.Log ("Set N : " + b);
+		GM.NarrationDisplay.SetActive(b);
+		if (b) {
+			SetMapActive(false);
+			SetPlayerActive(false);
+		}
     }
 
     public void SetTurnActive(bool b)
@@ -535,11 +542,8 @@ public class TurnManager : FSM
         DoBeforeEntering();
 
         // Intro
-        GM.DM.SetMapActive(false);
         GM.DM.SetNarrationActive(true);
         GM.DM.SetTurnActive(false);
-        GM.DM.SetPlayerActive(false);
-        //GM.DM.SetRandomSliderDisplayActive (false);
     }
 
     public void update()
@@ -685,7 +689,19 @@ public class PlayerBeginTurnState : FSMState
     public override void DoBeforeEntering()
     {
         Debug.Log("Enter PBT");
-        if (PlayerCursorAnchor == null)
+		Debug.Log(GM.EM.Scenario.GetCurrentPlayer().Name);
+
+		//TODO Layout
+		GM.GameBoard.MoveButton.SetActive(false);
+		GM.GameBoard.CancelButton.SetActive(false);
+		
+		GM.DM.SetPlayerActive(true);
+		GM.DM.SetTurnActive(true);
+		
+		GM.DM.ReloadActionPrompter();
+
+
+		if (PlayerCursorAnchor == null)
         {
             PlayerCursorAnchor = GameObject.Find("PlayerCursorAnchor");
         }
@@ -693,16 +709,6 @@ public class PlayerBeginTurnState : FSMState
         {
             PlayerCursorSpriteAnimation = PlayerCursorAnchor.GetComponent<Animator>();
         }
-
-        Debug.Log(GM.EM.Scenario.GetCurrentPlayer().Name);
-
-        //TODO Layout
-        GM.DM.SetMapActive(false);
-        GM.GameBoard.MoveButton.SetActive(false);
-        GM.GameBoard.CancelButton.SetActive(false);
-        GM.DM.SetPlayerActive(true);
-        GM.DM.SetTurnActive(true);
-        GM.DM.ReloadActionPrompter();
 
         Done = false;
     }
@@ -807,12 +813,10 @@ public class PlayerTurnState : FSMState
                 // TODO Setup Player screen
                 //...
                 ///
+				GM.DM.SetPlayerActive(true);
 
-                GM.DM.SetMapActive(false);
-
-                GM.GameBoard.MoveButton.SetActive(false);
+				GM.GameBoard.MoveButton.SetActive(false);
                 GM.GameBoard.CancelButton.SetActive(false);
-                GM.DM.SetPlayerActive(true);
                 GM.DM.SetTurnActive(true);
 
                 break;
@@ -918,7 +922,6 @@ public class PlayerTurnState : FSMState
 
             case Board.BoardPhase.PlayerAttacking:
                 Debug.Log("The player is attacking");
-                // TODO put these previous two lines in setactive() (?)
 
                 if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
                 {
@@ -943,7 +946,6 @@ public class PlayerTurnState : FSMState
     {
         PlayerCursorSpriteAnimation.SetBool("PlayerTurn", false);
         Done = false;
-
     }
 
     public override bool IsDone()
@@ -1031,8 +1033,6 @@ public class TurnEventState : FSMState
         if (Events.Count > 0)
         {
             hasChanged = true;
-            GM.DM.SetMapActive(false);
-            GM.DM.SetPlayerActive(false);
             GM.DM.SetNarrationActive(true);
             GM.DM.SetTurnActive(true);
             //GM.DM.SetRandomSliderDisplayActive (false);
@@ -1060,9 +1060,7 @@ public class TurnEventState : FSMState
         if (hasChanged)
         {
             hasChanged = false;
-            GM.DM.SetMapActive(false);
-            GM.DM.SetPlayerActive(true);
-            GM.DM.SetNarrationActive(false);
+            //GM.DM.SetPlayerActive(true);
             GM.DM.SetTurnActive(true);
             //GM.DM.SetRandomSliderDisplayActive (false);
         }
@@ -1101,16 +1099,13 @@ public class EnemyTurnState : FSMState
 
         if (Enemies.Count > 0)
         {
-            GM.DM.SetMapActive(true);
-            GM.DM.SetPlayerActive(true);
-            GM.DM.SetNarrationActive(false);
+            //GM.DM.SetMapActive(true);
+            //GM.DM.SetPlayerActive(true);
             GM.DM.SetTurnActive(true);
-            //GM.DM.SetRandomSliderDisplayActive (false);
-
+            
             GM.GameBoard.MoveButton.SetActive(false);
             GM.GameBoard.CancelButton.SetActive(false);
             GM.GameBoard.NextButton.SetActive(true);
-
 
             GM.GameBoard.Phase = Board.BoardPhase.EnemyMoving;
         }
@@ -1134,10 +1129,7 @@ public class EnemyTurnState : FSMState
             if (GM.GameBoard.PhaseHasChanged)
             {
                 enemyIterator = 0;
-            }/* else {
-				++enemyIterator;
-				Debug.Log("Next button clicked : " + enemyIterator);
-			}*/
+            }
             GM.GameBoard.PhaseHasChanged = false;
 
 
@@ -1157,8 +1149,6 @@ public class EnemyTurnState : FSMState
                 Debug.Log("Enemies Moving");
                 // Cat turn - moving
                 GM.DM.SetMapActive(true);
-                GM.DM.SetPlayerActive(false);
-                GM.DM.SetNarrationActive(false);
                 GM.DM.SetTurnActive(true);
                 //
                 GM.GameBoard.CancelButton.SetActive(false);
@@ -1257,7 +1247,7 @@ public class EnemyTurnState : FSMState
             default:
 
                 Debug.Log("Board set to Unactive");
-                GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(false);
+                GM.DM.SetRandomSliderActive(false);
                 enemyIterator = Enemies.Count; // go to Next State immediately
 
                 if (GM.Next)
