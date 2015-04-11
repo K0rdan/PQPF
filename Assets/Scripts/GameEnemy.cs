@@ -70,7 +70,7 @@ public class GameEnemy : MonoBehaviour
 			while(i >= 0) // Reverse so we can get the weakest in terms of MaxLiveliness
 			{
 				List<BoardSquare> lbs;
-				GM.GameBoard.AStar(CurrentSquare, players[i].CurrentSquare, out lbs);
+				GM.GameBoard.AStar(CurrentSquare, players[i].CurrentSquare, out lbs, false);
 
 				if(lbs != null)
 				{
@@ -92,15 +92,15 @@ public class GameEnemy : MonoBehaviour
 			}
 			break;
 		case BehaviourParadigm.FixedTarget:
-			GM.GameBoard.AStar(CurrentSquare, Target, out Path);
+			GM.GameBoard.AStar(CurrentSquare, Target, out Path, false);
 			break;
 		case BehaviourParadigm.PlayerTarget:
 			//TODO
-			//GM.GameBoard.AStar(CurrentSquare, (ObjectiveArgument), Path);
+			//GM.GameBoard.AStar(CurrentSquare, (ObjectiveArgument), Path, false);
 			break;
 		case BehaviourParadigm.EnemyTarget:
 			//TODO
-			//GM.GameBoard.AStar(CurrentSquare, (ObjectiveArgument), Path);
+			//GM.GameBoard.AStar(CurrentSquare, (ObjectiveArgument), Path, false);
 			break;
 
 			//TODO other paradigms
@@ -108,13 +108,6 @@ public class GameEnemy : MonoBehaviour
 	}
 
 	public void Move(){
-		// UI
-		/*if (CurrentSquare.IsThreatened (this)) {
-			// Fight
-			//selectTarget
-			SeekAndDestroy ();
-		} else {
-		*/	
 		ComputePath();
 		if(Path != null)
 		{
@@ -125,7 +118,7 @@ public class GameEnemy : MonoBehaviour
 
 			Path[0].SetMaterial(Path[0].matEnter, red);
 			int i = 1;
-			while(i < Speed && !CurrentSquare.IsThreatened (this))
+			while(i <= Speed && !CurrentSquare.IsThreatened (this))
 			{
 				Debug.Log ("Enemy moving to #" + (Path[i].Id+1));
 				MoveTo(Path[i]);
@@ -140,16 +133,7 @@ public class GameEnemy : MonoBehaviour
 
 				++i;
 			}
-
-
-			/*if(CurrentSquare.IsThreatened (this))
-			{
-				// Fight
-				//selectTarget
-				SeekAndDestroy ();
-			}*/
 		}
-		//}
 	}
 
 	public void MoveTo(BoardSquare s){

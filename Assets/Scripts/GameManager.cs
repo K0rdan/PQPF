@@ -1137,130 +1137,129 @@ public class EnemyTurnState : FSMState
 
             switch (GM.GameBoard.Phase)
             {
-                case Board.BoardPhase.EnemyMoving:
+            case Board.BoardPhase.EnemyMoving:
 
-                    // TODO Pause before phase change?
-                    if (GM.Next)
+                // TODO Pause before phase change?
+                if (GM.Next)
+                {
+                    GM.GameBoard.Phase = willAttack ?
+                        Board.BoardPhase.EnemyAttacking :
+                            Board.BoardPhase.Unactive;
+                    return;
+                }
+
+                Debug.Log("Enemies Moving");
+                // Cat turn - moving
+                GM.DM.SetMapActive(true);
+                GM.DM.SetPlayerActive(false);
+                GM.DM.SetNarrationActive(false);
+                GM.DM.SetTurnActive(true);
+                //
+                GM.GameBoard.CancelButton.SetActive(false);
+                GM.GameBoard.MoveButton.SetActive(false);
+                GM.GameBoard.NextButton.SetActive(true);
+
+                // Uncolorize board
+                Color col = new Color(1F, 1F, 1F);
+                for (int i = 0; i < GM.GameBoard.squares.Length; ++i)
+                {
+                    GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
+                }
+
+                // Move each enemy
+                for (int i = 0; i < Enemies.Count; ++i)
+                {
+                    Enemies[i].Move();
+                    if (Enemies[i].CurrentSquare.IsThreatened(Enemies[i]))
                     {
-                        GM.GameBoard.Phase = willAttack ?
-                            Board.BoardPhase.EnemyAttacking :
-                                Board.BoardPhase.Unactive;
-                        return;
+                        willAttack = true;
                     }
+                }
 
-                    Debug.Log("Enemies Moving");
-                    // Cat turn - moving
-                    GM.DM.SetMapActive(true);
-                    GM.DM.SetPlayerActive(false);
-                    GM.DM.SetNarrationActive(false);
-                    GM.DM.SetTurnActive(true);
-                    //
-                    GM.GameBoard.CancelButton.SetActive(false);
-                    GM.GameBoard.MoveButton.SetActive(false);
-                    GM.GameBoard.NextButton.SetActive(true);
+                break;
+            case Board.BoardPhase.EnemyAttacking:
+                Debug.Log("Enemies Attacking - Iterator : #" + enemyIterator);
+                Debug.Log("Enemies Attacking - Waitingforslider : #" + waitingForSlider);
+                Debug.Log("Enemies Attacking - Slider animation : #" + GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded);
 
-                    // Uncolorize board
-                    Color col = new Color(1F, 1F, 1F);
-                    for (int i = 0; i < GM.GameBoard.squares.Length; ++i)
-                    {
-                        GM.GameBoard.squares[i].SetMaterial(GM.GameBoard.squares[i].matExit, col);
-                    }
+                if (waitingForSlider)
+				{ 
+					// Block if waiting for slider and the slider has not been slided
+					if(!GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
+                	{
+                    	return;
+                	}
 
-                    // Move each enemy
-                    for (int i = 0; i < Enemies.Count; ++i)
-                    {
-                        Enemies[i].Move();
-                        if (Enemies[i].CurrentSquare.IsThreatened(Enemies[i]))
-                        {
-                            willAttack = true;
-                        }
-                    }
+					GameEnemy enemy = Enemies[enemyIterator];
+					// Find the first enemy attacking
+					while (enemyIterator < GM.GameBoard.Enemies.Count 
+					       && !Enemies[enemyIterator].CurrentSquare.IsThreatened(Enemies[enemyIterator]) 
+					       || !Enemies[enemyIterator].CanFight())
+					{
+						// Next enemy
+						++enemyIterator;
+						if (enemyIterator >= GM.GameBoard.Enemies.Count)
+						{
+							waitingForSlider = false;
+							
+							//TODO pause with waitnext phase
+							GM.GameBoard.NextButton.SetActive(true);
+							GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+							
+							return;
+						}
 
-                    break;
-                case Board.BoardPhase.EnemyAttacking:
-                    Debug.Log("Enemies Attacking - Iterator : #" + enemyIterator);
-                    Debug.Log("Enemies Attacking - Waintingforslider : #" + waitingForSlider);
-                    Debug.Log("Enemies Attacking - Slider animation : #" + GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded);
+						enemy = Enemies[enemyIterator];
+					}
 
-                    if (waitingForSlider && !GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
-                    {
-                        return;
-                    }
+					Debug.Log("Enemy #" + enemyIterator + " on square #" + (enemy.CurrentSquare.Id + 1));
+                	Debug.Log("Fight!");
+	                enemy.GetFightTarget();
+	                enemy.Fight();
 
-                    if (GM.Next)
-                    {
-                        enemyIterator++;
-                        if (enemyIterator >= GM.GameBoard.Enemies.Count)
-                        {
-                            GM.GameBoard.Phase = Board.BoardPhase.Unactive;
-                            return;
-                        }
-                    }
+					// Next enemy
+					++enemyIterator;
+					if (enemyIterator >= GM.GameBoard.Enemies.Count)
+					{
+						waitingForSlider = false;
+						
+						//TODO pause with waitnext phase
+						GM.GameBoard.NextButton.SetActive(true);
+						GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+					} else {
+						// Reset random slider
+						GM.DM.SetRandomSliderActive(true);
+					}
 
-                    Debug.Log("Enemies Attacking : #" + enemyIterator);
-                    GameEnemy enemy = Enemies[enemyIterator];
+					return;
+				}
 
-                    // Cat turn - attacking
-                    GM.DM.SetMapActive(true);
-                    GM.DM.SetPlayerActive(false);
-                    GM.DM.SetNarrationActive(false);
-                    GM.DM.SetTurnActive(true);
-                    //
-                    GM.GameBoard.CancelButton.SetActive(false);
-                    GM.GameBoard.MoveButton.SetActive(false);
-                    GM.GameBoard.NextButton.SetActive(true);
+				// TODO Factorize in "display fight screen" 
+				// Cat turn - attacking
+				GM.DM.SetMapActive(true);
+				GM.DM.SetTurnActive(true);
+				//
+				GM.GameBoard.CancelButton.SetActive(false);
+				GM.GameBoard.MoveButton.SetActive(false);
+				GM.GameBoard.NextButton.SetActive(false);
 
-                    Debug.Log("Enemy #" + enemyIterator + " on square #" + (enemy.CurrentSquare.Id + 1));
+				GM.DM.SetRandomSliderActive(true);
+				waitingForSlider = true;
 
-                    //TODO Factorize to SeekAndDestroy()
-                    if (enemy.CanFight())
-                    {
-                        if (waitingForSlider && GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
-                        {
-                            Debug.Log("Fight!");
-                            enemy.GetFightTarget();
-                            enemy.Fight();
+				break;
+				//case Board.BoardPhase.Unactive:
+            default:
 
+                Debug.Log("Board set to Unactive");
+                GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(false);
+                enemyIterator = Enemies.Count; // go to Next State immediately
 
-                            // Reset random slider
-                            GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationStarted = false;
-                            GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded = false;
+                if (GM.Next)
+                {
+                    Done = true;
+                }
 
-                            ++enemyIterator;
-                            if (enemyIterator >= GM.GameBoard.Enemies.Count)
-                            {
-                                waitingForSlider = false;
-
-                                GM.GameBoard.Phase = Board.BoardPhase.Unactive;
-                                return;
-                            }
-                            else
-                            {
-                                waitingForSlider = true;
-                            }
-
-                            return;
-                        }
-
-                        waitingForSlider = true;
-                        GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(true);
-                        GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationStarted = false;
-                    }
-
-                    break;
-                //case Board.BoardPhase.Unactive:
-                default:
-
-                    Debug.Log("Board set to Unactive");
-                    GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Activate(false);
-                    enemyIterator = Enemies.Count; // go to Next State immediately
-
-                    if (GM.Next)
-                    {
-                        Done = true;
-                    }
-
-                    break;
+                break;
             }
 
             //++enemyIterator;
