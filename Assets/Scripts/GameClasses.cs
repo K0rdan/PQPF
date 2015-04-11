@@ -79,7 +79,7 @@ public class GameScenario
         	"Hey vous 4, approchez vous !\n" +
         	"Je suis Eddy La Pipe, pas de temps à perdre dans de longues discussions, dites-vous juste qu’ici je suis votre seul ami !\n" +
         	"J’ai un double des clés des cellules, et je connais un chemin pour sortir d’ici discrètement, mais une fois dehors je ne pourrais plus rien pour vous…\n" +
-        	"Pas de panique, un autre de mes amis pourra vous reccueillir… A condition que vous arriviez avec de quoi payer votre séjour, si vous voyez ce que je veux dire !";
+        	"Pas de panique, un autre de mes amis pourra vous recueillir… A condition que vous arriviez avec de quoi payer votre séjour, si vous voyez ce que je veux dire !";
 		o[2] = "4";
 		intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
@@ -101,7 +101,7 @@ public class GameScenario
 		gs2.CreateEvent (dm.Narration, o.Clone ());
 		o [0] = "Narrator";
 		o [1] = "Placez des Jetons Chats sur les cases 27 et 4 du plateau et déplacez les de 2 cases vers les joueurs les plus proches";
-		o [2] = "-1";
+		o [2] = "";
 		gs2.CreateEvent (dm.Narration, o.Clone ());
 		object[] oo = {"Chat", dm.GM.GameBoard.squares[4-1]};
 		gs2.CreateEvent (dm.Spawn, oo.Clone ());
@@ -117,7 +117,7 @@ public class GameScenario
 		gs3.CreateEvent (dm.Narration, o.Clone ());
 		o [0] = "Narrator";
 		o [1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches";
-		o [2] = "-1";
+		o [2] = "";
 		gs3.CreateEvent (dm.Narration, o.Clone ());
 
 		////// Scene container
@@ -281,7 +281,7 @@ public class GameScenario
 	}
 
 	public GamePlayer InstantiatePlayer (string name) {
-		GameObject pts = GameObject.Find("PlayerTurnSpriteAnchor");
+		GameObject pts = GameObject.Find("PlayersSpriteAnchor");
 		GameObject playerGo = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Characters/Players/" + name)) as GameObject;
 
 		Vector3 pos = playerGo.transform.localPosition;

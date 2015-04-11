@@ -11,7 +11,7 @@ public class JzzSoundManager : MonoBehaviour
 	 * 3 : FX
 	*/
 	public const int bgChannel = 0;
-	public const int screenSound = 1;
+	public const int screenSoundChannel = 1;
 	public const int narrationChannel = 2;
 	public const int fxChannel = 3;
 

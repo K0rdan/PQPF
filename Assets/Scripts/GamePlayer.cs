@@ -207,7 +207,7 @@ public class GamePlayer : MonoBehaviour
 			// Instantiate a clickable button 
 			GameObject buttonInstance = GameObject.Instantiate (Resources.Load<GameObject> ("Prefabs/GUI/EnemySelectionButton")) as GameObject;
 			buttonInstance.GetComponentInChildren<Text>().text = TargetableEnemies[i].Name + " - Menace : " + enemy.Threat + " - Vie : " + enemy.Life + " - Case : " + (enemy.CurrentSquare.Id + 1);
-			GameObject enemyListPanel = GM.PlayerDisplay.transform.Find("EnemyList").gameObject;
+			GameObject enemyListPanel = GM.PlayerProfileScreen.transform.Find("EnemyList").gameObject;
 			
 			RectTransform rect = buttonInstance.GetComponent<RectTransform>();
 			rect.position = new Vector3(rect.position.x, rect.position.y + i * 100, 0);
