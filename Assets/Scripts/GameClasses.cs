@@ -46,18 +46,18 @@ public class GameScenario
 			"Jazz",
 			"Bienvenue dans le monde impitoyable de Pour Quelques Poignées de Ferraille !\n" +
 			"Au cours de cette première aventure Vous incarnerez un habitant d’une décharge abandonnée par l’homme, dont les animaux ont repris le contrôle et où ils vivent sous le joug féroce des chats, et de leur terrifiant chef, Fidel Chastro !",
-			""
+			"0"
 		};
         intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Fidel";
         o[1] = "Terrifiant oui ! Ici c’est moi le chef, et vous avez pas interêt à me chercher des noises !\n" +
         	"Comme vous le voyiez, cette carte sous vos yeux représente notre bonne vieille décharge : du Terrier au Cimetière Mécanique, en passant par L’Anneau ou le lac d’Etoffe, moi et mes chats on contrôle tout ! Alors tenez vous à carreau !";
-		o[2] = "";
+		o[2] = "1";
 		intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Jazz";
         o[1] = "Pas commode n’est-ce pas ? Heureusement les choses sont sur le point de changer, mais pour ça il va d’abord falloir vivre pas mal d’aventures avec nous !\n" +
 			"Vous êtes prêts ? Alors allons-y !";
-		o[2] = "";
+		o[2] = "2";
 		intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Afin de démarrer cette première aventure, saisissez vous chacun d’une fiche personnage, et de sa figurine associée, puis placez la sur une des cases de la Grande Muraille (1, 2 ou 3).\n" +
@@ -69,18 +69,18 @@ public class GameScenario
         o[0] = "Narrator";
         o[1] = "LA GRANDE EVASION : Un scénario d’initiation pour Quelques Poignées de Ferraille.\n\n" +
         	"Alors que vous participiez chacun de votre côté à la Grande Braderie organisée par les Corbeaux, un stand particulier attire votre attention. Une taupe du nom de Favio Estocar y fait la promotion de ses Fioles d’Ether : une lampée suffira à vous rendre aussi fort qu’un Boeuf, promet-il en s’epoumonant auprès des passants.\n" +
-        	"Mais soudain, c’est l’esclandre : un rat débarque à toute berzingue, renversant l’étal de marchandises sous les yeux desespérés de Favio, poursuivi par une troupe de chat bien décidé à attraper le responsable de tout ce vacarme.\n" +
+        	"Mais soudain, c’est l’esclandre : un rat débarque à toute berzingue, renversant l’étal de marchandises sous les yeux desespérés de Favio, le rat est poursuivi par une troupe de chat bien décidé à attraper le responsable de tout ce vacarme.\n" +
         	"A bout de force, le rat s’effondre sous vos yeux et vous interpelle d’une voix affaiblie : “Les chats préparent un coup terrible. Prévenez Eddy, dites-lui que j’ai échoué…”\n\n" +
         	"Les chats se saisissent alors du fauteur de trouble, et, accusés de complicité, vous êtes expédiés manu militari en Prison, malgré toutes vos tentatives de justification…";
-		o[2] = "";
+		o[2] = "3";
 		intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Eddy";
         o[1] = "Pssst…\n" +
         	"Hey vous 4, approchez vous !\n" +
         	"Je suis Eddy La Pipe, pas de temps à perdre dans de longues discussions, dites-vous juste qu’ici je suis votre seul ami !\n" +
-        	"J’ai un double des clés des cellules, et je connais un chemin pour sortir d’ici discrètement, mais une fois dehors je pourrais plus rien pour vous…\n" +
+        	"J’ai un double des clés des cellules, et je connais un chemin pour sortir d’ici discrètement, mais une fois dehors je ne pourrais plus rien pour vous…\n" +
         	"Pas de panique, un autre de mes amis pourra vous reccueillir… A condition que vous arriviez avec de quoi payer votre séjour, si vous voyez ce que je veux dire !";
-		o[2] = "";
+		o[2] = "4";
 		intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Vous êtes désormais libre et avez un but à atteindre en coopérant. Récoltez ensemble 2 ressources de chaque type disponible : 2 Bouffes, 2 Ferrailles, 2 Plastiques et 2 Verres. Vous pourrez obtenir ces dernières en fouillant les cases du plateau de jeu. Puis une fois ces ressources en votre possession, foncez en case °7 : si vous y parvenez avant le tour 10, c’est la victoire !";

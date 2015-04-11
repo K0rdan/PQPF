@@ -445,7 +445,7 @@ public class DisplayManager
 		if (sound != "") {
 			int soundId = int.Parse (sound);
 			if (soundId >= 0){
-				JzzSoundManager sm = JzzSoundManager.GetSingleton ();
+				JzzSoundManager sm = JzzSoundManager.instance;
 				sm.PlayClip (soundId, JzzSoundManager.narrationChannel, false);
 			}
 		}
