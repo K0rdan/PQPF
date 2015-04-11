@@ -211,7 +211,7 @@ public class GameScenario
 		o [2] = -1;
 		gs11.CreateEvent (dm.Narration, o.Clone ());
 		o [0] = "Narrator";
-		o [1] = "Vous avez perdu ! C’est triste mais ne vous démoralisez pas : maintenant que vous connaissez mieux le jeu, réessayez !";
+		o [1] = "Vous avez perdu ! C’est triste mais ne vous démoralisez pas : maintenant que vous connaissez mieux le jeu, réessayez !”;
 		o [2] = -1;
 		gs11.CreateEvent (dm.Narration, o.Clone ());
 		// TODO add gameover
