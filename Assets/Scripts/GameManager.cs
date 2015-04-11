@@ -406,10 +406,10 @@ public class DisplayManager
         }
         eventDoOnce = true;
 
-		object[] oo = o as object[];
-		string speaker = oo[0] as string;
-		string speech = oo[1] as string;
-		int soundId = oo[2] as int;
+        string[] s = o as string[];
+        string speaker = s[0];
+        string speech = s[1];
+		string sound = s[2];
 
 		// 
         Transform t = GM.NarrationDisplay.transform.FindChild("CharactersSpriteAnchor");
@@ -435,10 +435,12 @@ public class DisplayManager
         }
 
 		// Sound
-		if (soundId < 0) {
-			//int soundId = int.Parse (sound);
-			JzzSoundManager sm = JzzSoundManager.GetSingleton ();
-			sm.PlayClip (soundId, JzzSoundManager.narrationChannel, false);
+		if (sound != "") {
+			int soundId = int.Parse (sound);
+			if (soundId >= 0){
+				JzzSoundManager sm = JzzSoundManager.GetSingleton ();
+				sm.PlayClip (soundId, JzzSoundManager.narrationChannel, false);
+			}
 		}
     }
 
