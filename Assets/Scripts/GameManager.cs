@@ -108,11 +108,6 @@ public class GameManager : MonoBehaviour
 		//Debug.Log (physicaloidjava);
 #endif
 
-
-
-
-
-
         TM.Start();
         //gameBoard.registerEventHandlers (TurnManager);
 
@@ -411,17 +406,19 @@ public class DisplayManager
         }
         eventDoOnce = true;
 
-        string[] s = o as string[];
-        string speaker = s[0];
-        string speech = s[1];
+		object[] oo = o as object[];
+		string speaker = oo[0] as string;
+		string speech = oo[1] as string;
+		int soundId = oo[2] as int;
 
-
+		// 
         Transform t = GM.NarrationDisplay.transform.FindChild("CharactersSpriteAnchor");
         for (int i = 0; i < t.childCount; ++i)
         {
             GameObject.Destroy(t.GetChild(i).gameObject);
         }
 
+		// Change text
         if (speaker == "Narrator")
         {
             GM.NarrationDisplay.transform.FindChild("CharactersTextAnchor").Find("CharactersBubble").SendMessage("SetBgForScenario", "Narration");
@@ -436,6 +433,13 @@ public class DisplayManager
             GameObject go = GameObject.Instantiate(Resources.Load<GameObject>("Prefabs/Characters/" + speaker)) as GameObject;
             go.transform.SetParent(t);
         }
+
+		// Sound
+		if (soundId < 0) {
+			//int soundId = int.Parse (sound);
+			JzzSoundManager sm = JzzSoundManager.GetSingleton ();
+			sm.PlayClip (soundId, JzzSoundManager.narrationChannel, false);
+		}
     }
 
     public void Spawn(object o)
