@@ -1,0 +1,557 @@
+fileFormatVersion: 2
+guid: 99daf7ce4c4961e4bb5f8cd6559706dc
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: fidel_parle_tete_0
+    21300002: fidel_parle_tete_1
+    21300004: fidel_parle_tete_2
+    21300006: fidel_parle_tete_3
+    21300008: fidel_parle_tete_4
+    21300010: fidel_parle_tete_5
+    21300012: fidel_parle_tete_6
+    21300014: fidel_parle_tete_7
+    21300016: fidel_parle_tete_8
+    21300018: fidel_parle_tete_9
+    21300020: fidel_parle_tete_10
+    21300022: fidel_parle_tete_11
+    21300024: fidel_parle_tete_12
+    21300026: fidel_parle_tete_13
+    21300028: fidel_parle_tete_14
+    21300030: fidel_parle_tete_15
+    21300032: fidel_parle_tete_16
+    21300034: fidel_parle_tete_17
+    21300036: fidel_parle_tete_18
+    21300038: fidel_parle_tete_19
+    21300040: fidel_parle_tete_20
+    21300042: fidel_parle_tete_21
+    21300044: fidel_parle_tete_22
+    21300046: fidel_parle_tete_23
+    21300048: fidel_parle_tete_24
+    21300050: fidel_parle_tete_25
+    21300052: fidel_parle_tete_26
+    21300054: fidel_parle_tete_27
+    21300056: fidel_parle_tete_28
+    21300058: fidel_parle_tete_29
+    21300060: fidel_parle_tete_30
+    21300062: fidel_parle_tete_31
+    21300064: fidel_parle_tete_32
+    21300066: fidel_parle_tete_33
+    21300068: fidel_parle_tete_34
+    21300070: fidel_parle_tete_35
+    21300072: fidel_parle_tete_36
+    21300074: fidel_parle_tete_37
+    21300076: fidel_parle_tete_38
+    21300078: fidel_parle_tete_39
+    21300080: fidel_parle_tete_40
+    21300082: fidel_parle_tete_41
+    21300084: fidel_parle_tete_42
+    21300086: fidel_parle_tete_43
+    21300088: fidel_parle_tete_44
+    21300090: fidel_parle_tete_45
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 4096
+    textureFormat: -3
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: fidel_parle_tete_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_1
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_2
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_3
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_4
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_5
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_6
+      rect:
+        serializedVersion: 2
+        x: 2298
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_7
+      rect:
+        serializedVersion: 2
+        x: 2681
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_8
+      rect:
+        serializedVersion: 2
+        x: 3064
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_9
+      rect:
+        serializedVersion: 2
+        x: 3447
+        y: 3827
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_11
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_12
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_13
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_14
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_15
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_16
+      rect:
+        serializedVersion: 2
+        x: 2298
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_17
+      rect:
+        serializedVersion: 2
+        x: 2681
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_18
+      rect:
+        serializedVersion: 2
+        x: 3064
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_19
+      rect:
+        serializedVersion: 2
+        x: 3447
+        y: 3558
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_21
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_22
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_23
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_24
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_25
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_26
+      rect:
+        serializedVersion: 2
+        x: 2298
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_27
+      rect:
+        serializedVersion: 2
+        x: 2681
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_28
+      rect:
+        serializedVersion: 2
+        x: 3064
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_29
+      rect:
+        serializedVersion: 2
+        x: 3447
+        y: 3289
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_30
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_31
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_32
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_33
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_34
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_35
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_36
+      rect:
+        serializedVersion: 2
+        x: 2298
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_37
+      rect:
+        serializedVersion: 2
+        x: 2681
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_38
+      rect:
+        serializedVersion: 2
+        x: 3064
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_39
+      rect:
+        serializedVersion: 2
+        x: 3447
+        y: 3020
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_41
+      rect:
+        serializedVersion: 2
+        x: 383
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_42
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_43
+      rect:
+        serializedVersion: 2
+        x: 1149
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_44
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: fidel_parle_tete_45
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 2751
+        width: 383
+        height: 269
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

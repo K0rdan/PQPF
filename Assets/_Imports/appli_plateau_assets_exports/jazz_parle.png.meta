@@ -1,0 +1,733 @@
+fileFormatVersion: 2
+guid: 7f4af34025a947144bd7e81c7b4fd413
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: jazz_parle_0
+    21300002: jazz_parle_1
+    21300004: jazz_parle_2
+    21300006: jazz_parle_3
+    21300008: jazz_parle_4
+    21300010: jazz_parle_5
+    21300012: jazz_parle_6
+    21300014: jazz_parle_7
+    21300016: jazz_parle_8
+    21300018: jazz_parle_9
+    21300020: jazz_parle_10
+    21300022: jazz_parle_11
+    21300024: jazz_parle_12
+    21300026: jazz_parle_13
+    21300028: jazz_parle_14
+    21300030: jazz_parle_15
+    21300032: jazz_parle_16
+    21300034: jazz_parle_17
+    21300036: jazz_parle_18
+    21300038: jazz_parle_19
+    21300040: jazz_parle_20
+    21300042: jazz_parle_21
+    21300044: jazz_parle_22
+    21300046: jazz_parle_23
+    21300048: jazz_parle_24
+    21300050: jazz_parle_25
+    21300052: jazz_parle_26
+    21300054: jazz_parle_27
+    21300056: jazz_parle_28
+    21300058: jazz_parle_29
+    21300060: jazz_parle_30
+    21300062: jazz_parle_31
+    21300064: jazz_parle_32
+    21300066: jazz_parle_33
+    21300068: jazz_parle_34
+    21300070: jazz_parle_35
+    21300072: jazz_parle_36
+    21300074: jazz_parle_37
+    21300076: jazz_parle_38
+    21300078: jazz_parle_39
+    21300080: jazz_parle_40
+    21300082: jazz_parle_41
+    21300084: jazz_parle_42
+    21300086: jazz_parle_43
+    21300088: jazz_parle_44
+    21300090: jazz_parle_45
+    21300092: jazz_parle_46
+    21300094: jazz_parle_47
+    21300096: jazz_parle_48
+    21300098: jazz_parle_49
+    21300100: jazz_parle_50
+    21300102: jazz_parle_51
+    21300104: jazz_parle_52
+    21300106: jazz_parle_53
+    21300108: jazz_parle_54
+    21300110: jazz_parle_55
+    21300112: jazz_parle_56
+    21300114: jazz_parle_57
+    21300116: jazz_parle_58
+    21300118: jazz_parle_59
+    21300120: jazz_parle_60
+    21300122: jazz_parle_61
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: 1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 4096
+    textureFormat: -3
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: jazz_parle_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_1
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_2
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_3
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_4
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_5
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_6
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_7
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_8
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 3792
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_10
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_11
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_12
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_13
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_14
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_15
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_16
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_17
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 3488
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_18
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_19
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_20
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_21
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_22
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_23
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_24
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_25
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_26
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 3184
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_27
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_28
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_29
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_30
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_31
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_32
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_33
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_34
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_35
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 2880
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_37
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_38
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_39
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_40
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_41
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_42
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_43
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_44
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 2576
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_46
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_47
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_48
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_49
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_50
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_51
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_52
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_53
+      rect:
+        serializedVersion: 2
+        x: 3368
+        y: 2272
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_54
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_55
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_56
+      rect:
+        serializedVersion: 2
+        x: 842
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_57
+      rect:
+        serializedVersion: 2
+        x: 1263
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_58
+      rect:
+        serializedVersion: 2
+        x: 1684
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_59
+      rect:
+        serializedVersion: 2
+        x: 2105
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_60
+      rect:
+        serializedVersion: 2
+        x: 2526
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: jazz_parle_61
+      rect:
+        serializedVersion: 2
+        x: 2947
+        y: 1968
+        width: 421
+        height: 304
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 

@@ -26,6 +26,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 417178}
   - 212: {fileID: 21217178}
+  - 95: {fileID: 9500000}
   m_Layer: 5
   m_Name: CharacterSprite
   m_TagString: Untagged
@@ -55,11 +56,26 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -284, y: 120, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalPosition: {x: -336, y: 32, z: 0}
+  m_LocalScale: {x: 148.8396, y: 148.8396, z: 1.24032998}
   m_Children: []
   m_Father: {fileID: 22417178}
   m_RootOrder: 0
+--- !u!95 &9500000
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117176}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ecf3b0a73a22a2c4782c49a3ac5c1462, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11417178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,7 +122,7 @@ SpriteRenderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 8831fab33db16d34780b210bb2e5a7e1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7f4af34025a947144bd7e81c7b4fd413, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!222 &22217178
 CanvasRenderer:

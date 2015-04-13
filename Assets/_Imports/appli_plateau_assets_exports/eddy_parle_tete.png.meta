@@ -1,0 +1,491 @@
+fileFormatVersion: 2
+guid: 23e76dc9f50700545a21686a7b9f7aff
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: eddy_parle_tete_0
+    21300002: eddy_parle_tete_1
+    21300004: eddy_parle_tete_2
+    21300006: eddy_parle_tete_3
+    21300008: eddy_parle_tete_4
+    21300010: eddy_parle_tete_5
+    21300012: eddy_parle_tete_6
+    21300014: eddy_parle_tete_7
+    21300016: eddy_parle_tete_8
+    21300018: eddy_parle_tete_9
+    21300020: eddy_parle_tete_10
+    21300022: eddy_parle_tete_11
+    21300024: eddy_parle_tete_12
+    21300026: eddy_parle_tete_13
+    21300028: eddy_parle_tete_14
+    21300030: eddy_parle_tete_15
+    21300032: eddy_parle_tete_16
+    21300034: eddy_parle_tete_17
+    21300036: eddy_parle_tete_18
+    21300038: eddy_parle_tete_19
+    21300040: eddy_parle_tete_20
+    21300042: eddy_parle_tete_21
+    21300044: eddy_parle_tete_22
+    21300046: eddy_parle_tete_23
+    21300048: eddy_parle_tete_24
+    21300050: eddy_parle_tete_25
+    21300052: eddy_parle_tete_26
+    21300054: eddy_parle_tete_27
+    21300056: eddy_parle_tete_28
+    21300058: eddy_parle_tete_29
+    21300060: eddy_parle_tete_30
+    21300062: eddy_parle_tete_31
+    21300064: eddy_parle_tete_32
+    21300066: eddy_parle_tete_33
+    21300068: eddy_parle_tete_34
+    21300070: eddy_parle_tete_35
+    21300072: eddy_parle_tete_36
+    21300074: eddy_parle_tete_37
+    21300076: eddy_parle_tete_38
+    21300078: eddy_parle_tete_39
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 1024
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 4096
+    textureFormat: -3
+    compressionQuality: 50
+  spriteSheet:
+    sprites:
+    - name: eddy_parle_tete_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_1
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_2
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_3
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_4
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_5
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_6
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_7
+      rect:
+        serializedVersion: 2
+        x: 2408
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_8
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_9
+      rect:
+        serializedVersion: 2
+        x: 3096
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_10
+      rect:
+        serializedVersion: 2
+        x: 3440
+        y: 3755
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_12
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_13
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_14
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_15
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_16
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_17
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_18
+      rect:
+        serializedVersion: 2
+        x: 2408
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_19
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_20
+      rect:
+        serializedVersion: 2
+        x: 3096
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_21
+      rect:
+        serializedVersion: 2
+        x: 3440
+        y: 3414
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_23
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_24
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_25
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_26
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_27
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_28
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_29
+      rect:
+        serializedVersion: 2
+        x: 2408
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_30
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_31
+      rect:
+        serializedVersion: 2
+        x: 3096
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_32
+      rect:
+        serializedVersion: 2
+        x: 3440
+        y: 3073
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_33
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_34
+      rect:
+        serializedVersion: 2
+        x: 344
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_35
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_36
+      rect:
+        serializedVersion: 2
+        x: 1032
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_37
+      rect:
+        serializedVersion: 2
+        x: 1376
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_38
+      rect:
+        serializedVersion: 2
+        x: 1720
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: eddy_parle_tete_39
+      rect:
+        serializedVersion: 2
+        x: 2064
+        y: 2732
+        width: 344
+        height: 341
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
