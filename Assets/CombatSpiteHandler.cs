@@ -15,16 +15,16 @@ public class CombatSpiteHandler : MonoBehaviour
         Clear();
         switch (id)
         {
-            case "volotom":
+            case "Pyromancien":
                 volotom.SetActive(true);
                 break;
-            case "niles":
+            case "Chasseur de Trésors":
                 niles.SetActive(true);
                 break;
-            case "souris":
+            case "Medic":
                 souris.SetActive(true);
                 break;
-            case "filou":
+            case "Filou":
                 filou.SetActive(true);
                 break;
             case "cat":

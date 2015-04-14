@@ -12,20 +12,24 @@ public class FightDisplayMan : MonoBehaviour
     public Text ref_cib_astuce;
     public GameObject imgHolder_atq;
     public GameObject imgHolder_cib;
+    public GameObject nextButton;
 
-
+    bool showFightResult;
 
     void Start()
     {
         //combatText.text = GenerateCombatText(5, 5, 4, 4, "ATK", true, "Tirette", "Le Chat", true);
         //combatText.text = GenerateCombatText(5, 3, 1, 0, "FLEE", false, "Le Chat", "Tirette");
+        showFightResult = false;
     }
 
-    public string GenerateCombatText(int astuce_atq, int astuce_cible, int val_de, int damage,
+    public void GenerateCombatText(int astuce_atq, int astuce_cible, int val_de, int damage,
         string mode, bool result,
         string atq_name, string cible_name,
         bool death = false)
     {
+
+
         string txt = "";
 
         #region Attaque
@@ -78,12 +82,21 @@ public class FightDisplayMan : MonoBehaviour
         }
         #endregion
 
-        return txt;
+
+        combatText.text = txt;
+        nextButton.SetActive(true);
     }
 
 
     public void UpdateStatus(int val_atq_astuce, int val_atq_vivacity, int val_cib_astuce, int val_cib_vivacity, string id_atk, string id_cib)
     {
+        if (!showFightResult)
+        {
+            nextButton.SetActive(false);
+            combatText.text = "";
+        }
+        showFightResult = !showFightResult;
+        
         ref_atq_astuce.text = val_atq_astuce.ToString();
         ref_atq_vivacity.text = val_atq_vivacity.ToString();
         ref_cib_astuce.text = val_cib_astuce.ToString();
