@@ -99,7 +99,7 @@ public class GameScenario
         GameScene gs2 = ga.CreateScene(2, "");
         o[0] = "Fidel";
         o[1] = "Alors là, ça va barder ! On ose me défier publiquement ? Qui s’y frotte s’y pique les mignons : mes lascars vont vous retrouver et vous remettre à votre place. Et croyez moi, vous ne serez pas prêt de revoir la lumière du jour !";
-        o[2] = "-1";
+        o[2] = "5";
         gs2.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Placez des Jetons Chats sur les cases 27 et 4 du plateau et déplacez les de 2 cases vers les joueurs les plus proches";
@@ -115,7 +115,7 @@ public class GameScenario
         GameScene gs3 = ga.CreateScene(3, "");
         o[0] = "Fidel";
         o[1] = "Allez, allez, on s’active mes chatons, retrouvez moi cette bande de racailles !";
-        o[2] = "-1";
+        o[2] = "6";
         gs3.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches";
@@ -126,11 +126,11 @@ public class GameScenario
         GameScene gs4 = ga.CreateScene(4, "");
         o[0] = "Fidel";
         o[1] = "Toujours rien ?! Magnez vous !";
-        o[2] = "-1";
+        o[2] = "7";
         gs4.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Placez des Jetons Chats sur les cases 27 et 4 du plateau. Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches";
-        o[2] = "-1";
+        o[2] = "";
         gs4.CreateEvent(dm.Narration, o.Clone());
 
         oo[0] = "Chat";
@@ -146,11 +146,11 @@ public class GameScenario
         GameScene gs5 = ga.CreateScene(5, "");
         o[0] = "Eddy";
         o[1] = "Les amis, j’ai une autre petite tâche pour vous ! J’ai entendu qu’un messager avec une missive très importante se dirige vers la Muraille. Je veux cette missive ! Débrouillez-vous pour me l’obtenir en plus des ressources demandées !";
-        o[2] = "-1";
+        o[2] = "8";
         gs5.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Une nouvelle quête vous a été confiée : déposez sur le plateau, le jeton Quête. Ce dernier se déplacera à chaque tour de jeu jusqu’à arriver en case 2 : vous devez l’intercepter avant qu’il y parviennent, sinon la partie se soldera par un echec !";
-        o[2] = "-1";
+        o[2] = "";
         gs5.CreateEvent(dm.Narration, o.Clone());
         //TODO add objective event
         // ...
@@ -158,7 +158,7 @@ public class GameScenario
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs5.CreateEvent(dm.Narration, o.Clone());
 
 
@@ -166,26 +166,26 @@ public class GameScenario
         GameScene gs6 = ga.CreateScene(6, "");
         o[0] = "Fidel";
         o[1] = "Trouvez-les moi ! Sinon c’est pâté de taupe crevée ce soir à la cantine !";
-        o[2] = "-1";
+        o[2] = "9";
         gs6.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs6.CreateEvent(dm.Narration, o.Clone());
 
         ////// Scene container
         GameScene gs7 = ga.CreateScene(7, "");
         o[0] = "Fidel";
         o[1] = "Bon puisque ça n’avance pas, je veux tout le monde sur le coup ! Ratissez-moi la décharge de fond en comble, et que ça saute !";
-        o[2] = "-1";
+        o[2] = "10";
         gs7.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "L’alarme maximale a été enclenchée : vous perdez 1 point de Vivacité maximale pour rester discret.\n" +
             "Placez des Jetons Chats sur les cases 23, 13, 9, 4.Trouvez-les moi ! Sinon c’est pâté de taupe crevée ce soir à la cantine !\n" +
             "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs7.CreateEvent(dm.Narration, o.Clone());
         // TODO add this fucking event howtodothis?!
         // ...
@@ -196,7 +196,7 @@ public class GameScenario
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs8.CreateEvent(dm.Narration, o.Clone());
 
         ////// Scene container
@@ -204,7 +204,7 @@ public class GameScenario
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs9.CreateEvent(dm.Narration, o.Clone());
 
         ////// Scene container
@@ -212,18 +212,18 @@ public class GameScenario
         o[0] = "Narrator";
         o[1] = "Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches.\n" +
             "Déplacez le messager de 2 cases vers la Muraille. (case 2)\n";
-        o[2] = "-1";
+        o[2] = "";
         gs10.CreateEvent(dm.Narration, o.Clone());
 
         ////// Scene container
         GameScene gs11 = ga.CreateScene(11, "GameOver");
         o[0] = "Fidel";
         o[1] = "Hahaha, vous êtes cernés ! Vous croupirez le restant de vos jours en Prison !";
-        o[2] = "-1";
+        o[2] = "11";
         gs11.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
         o[1] = "Vous avez perdu ! C’est triste mais ne vous démoralisez pas : maintenant que vous connaissez mieux le jeu, réessayez !";
-        o[2] = "-1";
+        o[2] = "";
         gs11.CreateEvent(dm.Narration, o.Clone());
         // TODO add gameover
         // ...
