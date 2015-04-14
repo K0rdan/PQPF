@@ -2634,7 +2634,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deplacement: {fileID: 21300000, guid: d898bc83547659e448628a2dac57981e, type: 3}
-  fuite: {fileID: 21300000, guid: 1b96c75a74d61054289137db34c8dddd, type: 3}
+  deplacement_h: {fileID: 21300000, guid: cc53fce1b641c174faf965e854fa4777, type: 3}
+  fuite: {fileID: 21300000, guid: a45f29840ccc2b8408fd13486600a2d0, type: 3}
+  fuite_h: {fileID: 21300000, guid: edd2c5337e09ded46a6ed67d075d7b6c, type: 3}
+  btnStates: {fileID: 680247163}
 --- !u!1 &686563400
 GameObject:
   m_ObjectHideFlags: 0
@@ -7000,15 +7003,15 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1640075448}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1661634537}
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1920, y: 1200}
+  m_AnchoredPosition: {x: 20, y: 28}
+  m_SizeDelta: {x: 2081, y: 1301}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1640075450
 MonoBehaviour:

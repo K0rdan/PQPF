@@ -85,7 +85,7 @@ public class GameScenario
         o[2] = "4";
         intro.CreateEvent(dm.Narration, o.Clone());
         o[0] = "Narrator";
-        o[1] = "Vous êtes désormais libre et avez un but à atteindre en coopérant. Récoltez ensemble 2 ressources de chaque type disponible : 2 Bouffes, 2 Ferrailles, 2 Plastiques et 2 Verres. Vous pourrez obtenir ces dernières en fouillant les cases du plateau de jeu. Puis une fois ces ressources en votre possession, foncez en case °7 : si vous y parvenez avant le tour 10, c’est la victoire !";
+        o[1] = "Vous êtes désormais libre et avez un but à atteindre en coopérant. Récoltez ensemble 2 ressources de chaque type disponible : 2 Boustifailles, 2 Ferrailles, 2 Plastiques et 2 Verres. Vous pourrez obtenir ces dernières en fouillant les cases du plateau de jeu. Puis une fois ces ressources en votre possession, foncez en case °7 : si vous y parvenez avant le tour 10, c’est la victoire !";
         o[2] = "";
         intro.CreateEvent(dm.Narration, o.Clone());
         //TODO add objective event
@@ -132,6 +132,15 @@ public class GameScenario
         o[1] = "Placez des Jetons Chats sur les cases 27 et 4 du plateau. Déplacez les Jetons Chats de 2 cases vers les joueurs les plus proches";
         o[2] = "-1";
         gs4.CreateEvent(dm.Narration, o.Clone());
+
+        oo[0] = "Chat";
+        oo[1] = dm.GM.GameBoard.squares[4 - 1];
+        gs4.CreateEvent(dm.Spawn, oo.Clone());
+
+  
+        oo[0] = "Chat";
+        oo[1] = dm.GM.GameBoard.squares[27 - 1];
+        gs4.CreateEvent(dm.Spawn, oo.Clone());
 
         ////// Scene container
         GameScene gs5 = ga.CreateScene(5, "");
