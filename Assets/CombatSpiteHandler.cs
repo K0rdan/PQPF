@@ -31,7 +31,7 @@ public class CombatSpiteHandler : MonoBehaviour
                 cat.SetActive(true);
                 break;
             default:
-                Debug.LogError("Unknown ID for Target Sprite Manager");
+                Debug.LogError("Unknown ID for Target Sprite Manager : " + id);
                 break;
         }
     }

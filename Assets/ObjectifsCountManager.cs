@@ -10,10 +10,10 @@ public class ObjectifsCountManager : MonoBehaviour
     public Text glassCount;
     public Text plasticCount;
 
-    public void UpdateObjectifCounts(int nbr_metal, int nbr_food, int nbr_glass, int nbr_plastic)
+    public void UpdateObjectifCounts(int nbr_food, int nbr_metal, int nbr_glass, int nbr_plastic)
     {
-        metalCount.text = nbr_metal.ToString();
         foodCount.text = nbr_food.ToString();
+        metalCount.text = nbr_metal.ToString();
         glassCount.text = nbr_glass.ToString();
         plasticCount.text = nbr_plastic.ToString();
     }

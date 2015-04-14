@@ -3609,7 +3609,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 847859323}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1929897198}
+        m_MethodName: DoNext
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &847859323
@@ -6253,7 +6265,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1465206696
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6813,7 +6825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1598592807
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7156,6 +7168,7 @@ MonoBehaviour:
   - {fileID: 1599166176}
   - {fileID: 341165458}
   - {fileID: 1736686770}
+  NextPhase: 7
   PhaseHasChanged: 0
   SelectedSquare: {fileID: 0}
   MoveButton: {fileID: 1550134722}
@@ -8089,6 +8102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Next: 0
+  NextPlayer: 0
   MapScreen: {fileID: 1661634533}
   PlayerProfileScreen: {fileID: 1574399797}
   NarrationScreen: {fileID: 1465206695}
@@ -8098,6 +8112,8 @@ MonoBehaviour:
   ThreatSpawnDisplay: {fileID: 335640014}
   PlayerProfileDisplay: {fileID: 961534630}
   ActionPrompterDisplay: {fileID: 2100236704}
+  DigUpResult: {fileID: 1598592806}
+  ObjectiveDisplayManager: {fileID: 869771857}
   mvt_btn: {fileID: 680247166}
   DM:
     GameCanvas: {fileID: 2017947845}
@@ -8735,7 +8751,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: b88d1bddb4d4a2a4e9c899484399029e, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: b88d1bddb4d4a2a4e9c899484399029e, type: 2}
       propertyPath: sigma
@@ -8771,7 +8787,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2134650038
 RectTransform:
   m_ObjectHideFlags: 0

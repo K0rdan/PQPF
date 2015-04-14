@@ -25,6 +25,8 @@ public class Board : MonoBehaviour, IEventSystemHandler
 		WaitNext,
 		Unactive					// ?OK?
 	};
+    public BoardPhase NextPhase = BoardPhase.Unactive;
+
 	private BoardPhase phase = BoardPhase.Unactive;
 	public bool PhaseHasChanged = false;
 	public BoardPhase Phase {

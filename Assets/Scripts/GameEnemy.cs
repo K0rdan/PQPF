@@ -199,7 +199,7 @@ public class GameEnemy : MonoBehaviour
             Debug.Log("Cat hurts " + TargetPlayer.Name);
             GM.FightScreen.GetComponent<FightDisplayMan>().GenerateCombatText(Threat, TargetPlayer.Liveliness, dice, 1, "ATK", true, "Le Chat", TargetPlayer.Name);
             GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(Threat, Life,
-                                TargetPlayer.Craftiness, TargetPlayer.Liveliness, "cat", TargetPlayer.Name);
+                                TargetPlayer.Craftiness, TargetPlayer.Liveliness, "cat", TargetPlayer.Name, true);
             TargetPlayer.Hurt();
         }
         else
@@ -207,7 +207,7 @@ public class GameEnemy : MonoBehaviour
             Debug.Log(TargetPlayer.Name + " evades Cat's attack");
             GM.FightScreen.GetComponent<FightDisplayMan>().GenerateCombatText(Threat, TargetPlayer.Liveliness, dice, 0, "ATK", false, "Le Chat", TargetPlayer.Name);
             GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(Threat, Life,
-                                TargetPlayer.Craftiness, TargetPlayer.Liveliness, "cat", TargetPlayer.Name);
+                                TargetPlayer.Craftiness, TargetPlayer.Liveliness, "cat", TargetPlayer.Name, true);
 
         }
         return false;
@@ -250,7 +250,7 @@ public class GameEnemy : MonoBehaviour
         }
     }
 
-    public void Hurt(int damage)
+    public bool Hurt(int damage)
     {
         Debug.Log("Cat is hurt");
         Life -= damage;
@@ -258,7 +258,10 @@ public class GameEnemy : MonoBehaviour
         {
             Life = 0;
             Die();
+            return true;
         }
+
+        return false;
     }
 
     public void Die()

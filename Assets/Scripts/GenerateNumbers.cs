@@ -73,7 +73,7 @@ public class GenerateNumbers : MonoBehaviour, IDragHandler
                             rect.position = new Vector3((rect.position.x + Width * 2f) + Width, rect.position.y, rect.position.z);
                     }
                 }
-                Debug.Log(listNumberGO[0].GetComponent<RectTransform>().position.x < Width ? listNumberGO[0].GetComponent<RectTransform>().position.x.ToString() : "False");
+                //Debug.Log(listNumberGO[0].GetComponent<RectTransform>().position.x < Width ? listNumberGO[0].GetComponent<RectTransform>().position.x.ToString() : "False");
             }
             else
             {

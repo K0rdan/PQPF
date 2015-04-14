@@ -14,13 +14,11 @@ public class FightDisplayMan : MonoBehaviour
     public GameObject imgHolder_cib;
     public GameObject nextButton;
 
-    bool showFightResult;
 
     void Start()
     {
         //combatText.text = GenerateCombatText(5, 5, 4, 4, "ATK", true, "Tirette", "Le Chat", true);
         //combatText.text = GenerateCombatText(5, 3, 1, 0, "FLEE", false, "Le Chat", "Tirette");
-        showFightResult = false;
     }
 
     public void GenerateCombatText(int astuce_atq, int astuce_cible, int val_de, int damage,
@@ -29,6 +27,7 @@ public class FightDisplayMan : MonoBehaviour
         bool death = false)
     {
 
+        Debug.Log("X");
 
         string txt = "";
 
@@ -88,14 +87,14 @@ public class FightDisplayMan : MonoBehaviour
     }
 
 
-    public void UpdateStatus(int val_atq_astuce, int val_atq_vivacity, int val_cib_astuce, int val_cib_vivacity, string id_atk, string id_cib)
+    public void UpdateStatus(int val_atq_astuce, int val_atq_vivacity, int val_cib_astuce, int val_cib_vivacity, string id_atk, string id_cib, bool isResultOfFight)
     {
-        if (!showFightResult)
+        Debug.Log("X2");
+        if (!isResultOfFight)
         {
             nextButton.SetActive(false);
             combatText.text = "";
         }
-        showFightResult = !showFightResult;
         
         ref_atq_astuce.text = val_atq_astuce.ToString();
         ref_atq_vivacity.text = val_atq_vivacity.ToString();
@@ -104,5 +103,6 @@ public class FightDisplayMan : MonoBehaviour
 
         imgHolder_atq.SendMessage("UpdateSate", id_atk); // ids are : volotom  -  niles  - souris  -  filou  -  cat 
         imgHolder_cib.SendMessage("UpdateSate", id_cib); // ids are : volotom  -  niles  - souris  -  filou  -  cat 
+
     }
 }

@@ -10,6 +10,7 @@ using System.IO.Ports;
 public class GameManager : MonoBehaviour
 {
     public bool Next = false;
+    public bool NextPlayer = false;
 
     public GameObject MapScreen;
     public GameObject PlayerProfileScreen;
@@ -21,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject ThreatSpawnDisplay;
     public GameObject PlayerProfileDisplay;
     public GameObject ActionPrompterDisplay;
+
+    public GameObject DigUpResult;
+    public GameObject ObjectiveDisplayManager;
 
     public MoveButtonHandler mvt_btn;
 
@@ -233,6 +237,7 @@ public class GameManager : MonoBehaviour
     public void Flee()
     {
         DM.GM.GameBoard.Phase = Board.BoardPhase.PlayerFleeing;
+        EM.Scenario.GetCurrentPlayer().FleeIterator = 0;
     }
     public void Fight()
     {
@@ -253,6 +258,8 @@ public class GameManager : MonoBehaviour
     {
         EM.Scenario.GetCurrentPlayer().Rest();
         DM.ReloadActionPrompter();
+
+        NextPlayer = true;
 
         DoNext();
     }
@@ -736,6 +743,9 @@ public class PlayerBeginTurnState : FSMState
         Debug.Log("Enter PBT");
         Debug.Log(GM.EM.Scenario.GetCurrentPlayer().Name);
 
+
+        GM.NextPlayer = false;
+
         //TODO Layout
         GM.GameBoard.MoveButton.SetActive(false);
         GM.GameBoard.CancelButton.SetActive(false);
@@ -835,7 +845,7 @@ public class PlayerTurnState : FSMState
 
     public override void Do()
     {
-        if (GM.GameBoard.PhaseHasChanged || GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
+        if (GM.GameBoard.PhaseHasChanged || GM.Next || GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
         {
             GM.GameBoard.PhaseHasChanged = false;
             GamePlayer p;
@@ -843,17 +853,23 @@ public class PlayerTurnState : FSMState
             switch (GM.GameBoard.Phase)
             {
                 case Board.BoardPhase.WaitNext:
-                    GM.GameBoard.NextButton.SetActive(true);
+
+                    GM.DM.SetRandomSliderActive(false);
+                    GM.GameBoard.NextButton.SetActive(true); // TODO
+
+                    Debug.Log("Wait NExt");
 
                     if (GM.Next)
                     {
-                        GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+                        Debug.Log("GM NEXT");
+                        GM.GameBoard.Phase = GM.GameBoard.NextPhase;
                     }
 
                     break;
 
                 case Board.BoardPhase.Unactive:
 
+                    Debug.Log("Player unactive");
                     GM.DM.ReloadActionPrompter();
                     // TODO Setup Player screen
                     //...
@@ -916,26 +932,29 @@ public class PlayerTurnState : FSMState
 
                 case Board.BoardPhase.PlayerFleeing:
 
+                    GameEnemy enemy;
+                    p = GM.EM.Scenario.GetCurrentPlayer();
+
                     if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
                     {
-                        p = GM.EM.Scenario.GetCurrentPlayer();
-
-                        // TODO Setup fight/flee scene
-                        // ...
-                        //
-
                         int dice = GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().Value();
                         if (p.Craftiness + dice < p.CurrentSquare.Enemies[p.FleeIterator].Threat)
                         {
                             // Player is caught by the Enemy threat
                             p.HasFailedToFlee = true;
                             p.Fleeing = false;
-                            p.Hurt();
+                            bool isDead = p.Hurt();
+
+                            enemy = p.CurrentSquare.Enemies[p.FleeIterator];
+                            GM.FightScreen.GetComponent<FightDisplayMan>().GenerateCombatText(enemy.Threat, p.Craftiness, dice, 1, "FLEE", false, "The Cat", p.Name, isDead);
+                            GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                                p.Craftiness, p.Liveliness, "cat", p.Name, false);
 
                             // Pause
                             GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.Unactive;
 
-                            GM.DM.SetRandomSliderActive(false);
+                            Debug.Log("Player hurt");
 
                             return;
                         }
@@ -944,47 +963,65 @@ public class PlayerTurnState : FSMState
                         if (p.FleeIterator < p.CurrentSquare.Enemies.Count)
                         {
                             Debug.Log("Fleeing again from another threat");
+
+                            enemy = p.CurrentSquare.Enemies[p.FleeIterator];
+
+                            GM.FightScreen.GetComponent<FightDisplayMan>().GenerateCombatText(enemy.Threat, p.Craftiness, dice, 1, "FLEE", true, "The Cat", p.Name);
+                            GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                                p.Craftiness, p.Liveliness, "cat", p.Name, true);
+
+                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.PlayerFleeing;
+
+                            Debug.Log("Player Fleeing");
                         }
                         else
                         {
                             p.Fleeing = true;
+                            enemy = p.CurrentSquare.Enemies[p.CurrentSquare.Enemies.Count - 1];
 
-                            // TODO Pause to move
-                            //GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
-                            //
-                            GM.GameBoard.Phase = Board.BoardPhase.PlayerMoving;
+                            GM.FightScreen.GetComponent<FightDisplayMan>().GenerateCombatText(enemy.Threat, p.Craftiness, dice, 1, "FLEE", true, "The Cat", p.Name);
+                            GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                                p.Craftiness, p.Liveliness, "cat", p.Name, true);
 
-                            GM.DM.SetRandomSliderActive(false);
+                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.PlayerMoving;
 
-                            return;
+                            Debug.Log("Player Moving");
                         }
+
+                        return;
                     }
 
+                    Debug.Log("Y");
+
                     GM.DM.SetFightScreenActive(true);
-                    //GM.DM.SetRandomSliderActive(true);
+                    enemy = p.CurrentSquare.Enemies[p.FleeIterator];
+                    GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                        p.Craftiness, p.Liveliness, "cat", p.Name, false);
 
                     break;
 
                 case Board.BoardPhase.PlayerAttacking:
                     Debug.Log("The player is attacking");
 
+                    p = GM.EM.Scenario.GetCurrentPlayer();
+
                     if (GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
                     {
                         Debug.Log("The animation has ended");
-                        p = GM.EM.Scenario.GetCurrentPlayer();
                         p.Fight();
-                        // TODO Get results...;
-                        // ... maybe in p.Fight?
 
                         GM.DM.SetRandomSliderActive(false);
 
-                        // TODO Then pause
-
-                        GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+                        GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                        GM.GameBoard.NextPhase = Board.BoardPhase.Unactive;
                         return;
                     }
 
                     GM.DM.SetFightScreenActive(true);
+                    enemy = p.TargetEnemy;
+                    GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(p.Craftiness, p.Liveliness, enemy.Threat, enemy.Life, p.Name, "cat", false);
                     //GM.DM.SetRandomSliderActive(true);
 
                     break;
@@ -1000,7 +1037,7 @@ public class PlayerTurnState : FSMState
 
     public override bool IsDone()
     {
-        return TM.GM.Next;
+        return TM.GM.NextPlayer;// TM.GM.Next;
     }
 
     /*
@@ -1126,7 +1163,7 @@ public class EnemyTurnState : FSMState
     private GameManager GM;
     public List<GameEnemy> Enemies;
 
-    private int enemyIterator;
+    private int enemyIterator = 0;
     private bool Done = false;
     private bool willAttack = false;
     private bool waitingForSlider = false;
@@ -1169,16 +1206,12 @@ public class EnemyTurnState : FSMState
     {
         if (Enemies.Count == 0)
         {
-            ++enemyIterator;
+            Done = true;
             return;
         }
 
         if (GM.GameBoard.PhaseHasChanged || GM.Next || GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded)
         {
-            if (GM.GameBoard.PhaseHasChanged)
-            {
-                enemyIterator = 0;
-            }
             GM.GameBoard.PhaseHasChanged = false;
 
 
@@ -1227,6 +1260,8 @@ public class EnemyTurnState : FSMState
                     Debug.Log("Enemies Attacking - Waitingforslider : #" + waitingForSlider);
                     Debug.Log("Enemies Attacking - Slider animation : #" + GM.GameBoard.RandomSlider.GetComponent<GenerateNumbers>().isAnimationEnded);
 
+                    GameEnemy enemy = Enemies[enemyIterator];
+
                     if (waitingForSlider)
                     {
                         // Block if waiting for slider and the slider has not been slided
@@ -1235,7 +1270,7 @@ public class EnemyTurnState : FSMState
                             return;
                         }
 
-                        GameEnemy enemy = Enemies[enemyIterator];
+                        /*GameEnemy enemy = Enemies[enemyIterator];
                         // Find the first enemy attacking
                         while (enemyIterator < GM.GameBoard.Enemies.Count
                                && !Enemies[enemyIterator].CurrentSquare.IsThreatened(Enemies[enemyIterator])
@@ -1258,15 +1293,14 @@ public class EnemyTurnState : FSMState
 
                            
                             
-                        }
-                        enemy.GetFightTarget();
-                        GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
-                            enemy.TargetPlayer.Craftiness, enemy.TargetPlayer.Liveliness, "cat", enemy.TargetPlayer.Name);
+                        }*/
 
                         Debug.Log("Enemy #" + enemyIterator + " on square #" + (enemy.CurrentSquare.Id + 1));
                         Debug.Log("Fight!");
 
                         enemy.Fight();
+                        //GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                        //enemy.TargetPlayer.Craftiness, enemy.TargetPlayer.Liveliness, "cat", enemy.TargetPlayer.Name);
                         // Next enemy
                         ++enemyIterator;
                         if (enemyIterator >= GM.GameBoard.Enemies.Count)
@@ -1274,21 +1308,26 @@ public class EnemyTurnState : FSMState
                             waitingForSlider = false;
 
                             //TODO pause with waitnext phase
-                            GM.GameBoard.NextButton.SetActive(true);
-                            GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+
+                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.Unactive;
                         }
                         else
                         {
+                            // wait for next Fight
                             // Reset random slider
-                            GM.DM.SetRandomSliderActive(true);
+                            //GM.DM.SetRandomSliderActive(true);
+                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.EnemyAttacking;
+                            waitingForSlider = false;
                         }
 
                         return;
                     }
 
-
+                    // Display fight screen
                     GM.DM.SetFightScreenActive(true);
-                    GameEnemy _enemy = Enemies[enemyIterator];
+
                     // Find the first enemy attacking
                     while (enemyIterator < GM.GameBoard.Enemies.Count
                            && !Enemies[enemyIterator].CurrentSquare.IsThreatened(Enemies[enemyIterator])
@@ -1301,33 +1340,51 @@ public class EnemyTurnState : FSMState
                             waitingForSlider = false;
 
                             //TODO pause with waitnext phase
-                            GM.GameBoard.NextButton.SetActive(true);
-                            GM.GameBoard.Phase = Board.BoardPhase.Unactive;
+
+                            GM.GameBoard.Phase = Board.BoardPhase.WaitNext;
+                            GM.GameBoard.NextPhase = Board.BoardPhase.Unactive;
 
                             return;
                         }
 
-                        _enemy = Enemies[enemyIterator];
-
-                       
+                        enemy = Enemies[enemyIterator];
                     }
-                    _enemy.GetFightTarget();
-                        GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(_enemy.Threat, _enemy.Life,
-                            _enemy.TargetPlayer.Craftiness, _enemy.TargetPlayer.Liveliness, "cat", _enemy.TargetPlayer.Name);
+
+                    enemy.GetFightTarget();
+                    GM.FightScreen.GetComponent<FightDisplayMan>().UpdateStatus(enemy.Threat, enemy.Life,
+                        enemy.TargetPlayer.Craftiness, enemy.TargetPlayer.Liveliness, "cat", enemy.TargetPlayer.Name, false);
 
                     waitingForSlider = true;
 
                     break;
-                //case Board.BoardPhase.Unactive:
-                default:
+                case Board.BoardPhase.Unactive:
 
                     Debug.Log("Board set to Unactive");
-                    GM.DM.SetRandomSliderActive(false);
+
+                    //GM.DM.SetPlayerProfileScreenActive(true);
+
+                    //if (GM.Next)
+                    //{
+                        Done = true;
+                    //}
+                    /*GM.DM.SetRandomSliderActive(false);
                     enemyIterator = Enemies.Count; // go to Next State immediately
 
                     if (GM.Next)
                     {
-                        Done = true;
+                    Done = true;
+                    }
+                    */
+                    break;
+
+                case Board.BoardPhase.WaitNext:
+
+                    GM.DM.SetRandomSliderActive(false);
+                    GM.GameBoard.NextButton.SetActive(true); // TODO
+
+                    if (GM.Next)
+                    {
+                        GM.GameBoard.Phase = GM.GameBoard.NextPhase;
                     }
 
                     break;

@@ -11,16 +11,16 @@ public class FouilleResultManager : MonoBehaviour {
     {
         switch (id)
         {
-            case "food":
+            case "Boustifaille":
                 imgHolder.sprite = sprites[0];
                 break;
-            case "metal":
+            case "Ferraille":
                 imgHolder.sprite = sprites[1];
                 break;
-            case "glass":
+            case "Verre":
                 imgHolder.sprite = sprites[2];
                 break;
-            case "plastic":
+            case "Plastique":
                 imgHolder.sprite = sprites[3];
                 break;
             default:
