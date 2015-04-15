@@ -69,61 +69,6 @@ public class GameManager : MonoBehaviour
 
         //AndroidJNI.NewByteArray (6);
 
-        //physicaloid = AndroidJNI.FindClass ("com.physicaloid.lib.Physicaloid");
-        //using (AndroidJavaClass pluginClass = new AndroidJavaClass("com.physicaloid.lib.Physicaloid"));
-        //AndroidJavaObject physicaloidClass = new AndroidJavaClass ("com.physicaloid.lib.Physicaloid");
-#if UNITY_ANDROID && !UNITY_EDITOR
-
-		AndroidJavaObject physicaloidObject = new AndroidJavaObject("com/physicaloid/lib/Physicaloid");
-		physicaloidObject.Call ("open");
-
-		//IntPtr physicaloidObject = AndroidJNI.AllocObject (physicaloid);
-		//IntPtr openMethod = AndroidJNI.GetMethodID (physicaloidObject, "open", "()");
-		
-		//jvalue[] args = new jvalue[0];
-		//bool b = AndroidJNI.CallBooleanMethod(physicaloidObject, openMethod, args);
-
-		bool b = true;
-		DM.SetMapActive (b);
-		if (b) {
-			/*AndroidJNIHelper.ConvertToJNIArray();
-			public boolean setBaudrate(int baudrate) throws RuntimeException{
-				synchronized (LOCK) {
-					if(mSerial == null) return false;
-					return mSerial.setBaudrate(baudrate);
-				}
-			}
-			
-			public int write(byte[] buf) throws RuntimeException {
-			    if(mSerial == null) return 0;
-			    return write(buf, buf.length);
-			}
-
-			public int read(byte[] buf) throws RuntimeException {
-				if(mSerial == null) return 0;
-				return read(buf, buf.length);
-			}
-			args[0].b = 1;
-			 */
-			physicaloidObject.Call("setBaudrate", 9400);
-
-			string str = "get";
-			byte[] bytes = new byte[str.Length * sizeof(char)];
-			System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-			physicaloidObject.Call("write", bytes);
-
-			byte[] buffer = {0,0,0,0,0,0};
-			physicaloidObject.Call("read", buffer);
-
-
-			Debug.Log ("Yay");
-			Debug.Log (buffer);
-		} else {
-			Debug.Log ("Nope");
-		}
-		Debug.Log (physicaloid);
-		//Debug.Log (physicaloidjava);
-#endif
 
         TM.Start();
         //gameBoard.registerEventHandlers (TurnManager);
@@ -184,20 +129,6 @@ public class GameManager : MonoBehaviour
 
 
         }*/
-    }
-
-
-    void OnGUI()
-    {
-        //GUILayout.Label("Press Enter To Start Game");
-        if (Event.current.Equals(Event.KeyboardEvent("return")))
-        {
-            /*Debug.Log (s);
-            Text t = GameObject.FindGameObjectsWithTag("Player")[0].GetComponentInChildren<Text>();
-            t.text = s;*/
-            Application.CaptureScreenshot("screenshot.png");
-            // TODO is s a caseCode?
-        }
     }
 
     #region "ActionPrompter methods"
